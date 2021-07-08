@@ -19,27 +19,27 @@
     <div class="rounded border-2 border-primary p-4">
         <div class="grid grid-flow-row grid-cols-4 gap-4">
             <div class="flex flex-col">
-                <span>Nº DE COMPONENTES - SMDC:</span>
                 <mat-form-field appearance="standard">
                     <input matInput>
+                    <mat-label>Nº DE COMPONENTES - SMDC:</mat-label>
                 </mat-form-field>
             </div>
             <div class="flex flex-col">
-                <span>SMDS:</span>
                 <mat-form-field appearance="standard">
                     <input matInput>
+                    <mat-label>SMDS:</mat-label>
                 </mat-form-field>
             </div>
             <div class="flex flex-col">
-                <span>THT:</span>
                 <mat-form-field appearance="standard">
                     <input matInput>
+                    <mat-label>THT:</mat-label>
                 </mat-form-field>
             </div>
             <div class="flex flex-col">
-                <span>MÁX LT:</span>
                 <mat-form-field appearance="standard">
                     <input matInput>
+                    <mat-label>MÁX LT:</mat-label>
                 </mat-form-field>
             </div>
         </div>
@@ -65,45 +65,42 @@
             <mat-label>OLA:</mat-label>
             <input matInput>
         </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>NORMA SURTEL:</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>NORMA CLIENTE:</mat-label>
+            <input matInput>
+        </mat-form-field>
 
-        <div class="flex flex-row items-center">
-            <span class="min-w-4">NORMA SURTEL:</span>
-            <mat-form-field appearance="standard">
-                <input matInput>
-            </mat-form-field>
-        </div>
-        <div class="flex flex-row items-center">
-            <span class="min-w-4">NORMA CLIENTE:</span>
-            <mat-form-field appearance="standard">
-                <input matInput>
-            </mat-form-field>
-        </div>
         <div class="flex flex-row">
             <div class="flex flex-row items-center w-full">
-                <span>PRODUCTO:</span>
-                <mat-form-field class="w-full px-2" appearance="standard">
+                <mat-form-field class="w-full pr-2" appearance="standard">
+                    <mat-label>PRODUCTO:</mat-label>
                     <input matInput>
                 </mat-form-field>
             </div>
             <div class="flex flex-row items-center w-full">
-                <span>CLIENTE:</span>
-                <mat-form-field class="w-full px-2" appearance="standard">
+                <mat-form-field class="w-full pl-2" appearance="standard">
+                    <mat-label>CLIENTE:</mat-label>
                     <input matInput>
                 </mat-form-field>
             </div>
         </div>
-        <div class="">
-            <span>DENOMINACIÓN:</span>
-            <mat-form-field appearance="standard">
-                <input matInput>
-            </mat-form-field>
-        </div>
-        <div class="">
-            <span>CÓDIGO:</span>
-            <mat-form-field appearance="standard">
-                <input matInput>
-            </mat-form-field>
-        </div>
+
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>DENOMINACIÓN:</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>CÓDIGO:</mat-label>
+            <input matInput>
+        </mat-form-field>
     </div>
 
 </form>
+
+<div class="w-full text-center p-4">
+    <button mat-flat-button color="primary" [disabled]="descriptionFormGroup.invalid" matStepperNext>Continuar</button>
+</div>
