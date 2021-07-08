@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DocumentsComponent } from './components/documents/documents.component';
 import { UploadComponent } from './components/upload/upload.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/upload', pathMatch: 'full' },
-  { path: '**', component: UploadComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'home',
+    component: DocumentsComponent
+  },
   {
     path: 'upload',
     component: UploadComponent
