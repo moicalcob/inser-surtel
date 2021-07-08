@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+    <img class="surtel-logo" src="assets/logos/logo-surtel-white.png">
+    <span class="example-spacer"></span>
+    <button mat-stroked-button class="add-button">
+        <mat-icon>add</mat-icon>
+    </button>
+</mat-toolbar>
+
+<button
+    class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-400">Hello</button>
+
+<div class="">
+    <input type="file" class="file-input" (change)="fileSelectionChanged($event)" #fileUpload>
+    <div class="file-upload">
+        {{fileName || "No file uploaded yet."}}
+        <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+        </button>
+    </div>
+</div>
