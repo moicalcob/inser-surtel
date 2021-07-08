@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <mat-stepper class="p-2 w-full flex items-center flex-col" [linear]="true" #stepper>
-    <mat-step [stepControl]="fileFormControl" class="w-full flex items-center flex-col" label="Fichero">
+    <!-- <mat-step [stepControl]="fileFormControl" class="w-full flex items-center flex-col" label="Fichero">
         <input [formControl]="fileFormControl" type="file" class="hidden" (change)="fileSelectionChanged($event)"
             #fileUpload>
         <div class="file-upload flex items-center">
@@ -38,7 +38,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-    </mat-step>
+    </mat-step> -->
     <mat-step [stepControl]="descriptionFormGroup" label="Datos ficha">
         <app-document-description-form [descriptionFormGroup]="descriptionFormGroup"></app-document-description-form>
     </mat-step>

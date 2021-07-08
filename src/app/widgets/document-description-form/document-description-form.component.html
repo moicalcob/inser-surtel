@@ -1,16 +1,109 @@
 <form>
-    <div class="grid grid-flow-row grid-rows-3 grid-cols-3 gap-4">
-        <mat-form-field appearance="standard">
-            <mat-label>Código módulo</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field appearance="standard">
-            <mat-label>Plano situación</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field appearance="standard">
-            <mat-label>Plano eléctrico</mat-label>
-            <input matInput>
-        </mat-form-field>
+    <div class="rounded border-2 border-primary p-4 mb-4">
+        <div class="grid grid-flow-row grid-cols-3 gap-4">
+            <mat-form-field appearance="standard">
+                <mat-label>CÓDIGO MÓDULO</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>PLANO SITUACIÓN</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>PLANO ELÉCTRICO</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </div>
     </div>
+
+    <div class="rounded border-2 border-primary p-4">
+        <div class="grid grid-flow-row grid-cols-4 gap-4">
+            <div class="flex flex-col">
+                <span>Nº DE COMPONENTES - SMDC:</span>
+                <mat-form-field appearance="standard">
+                    <input matInput>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col">
+                <span>SMDS:</span>
+                <mat-form-field appearance="standard">
+                    <input matInput>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col">
+                <span>THT:</span>
+                <mat-form-field appearance="standard">
+                    <input matInput>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col">
+                <span>MÁX LT:</span>
+                <mat-form-field appearance="standard">
+                    <input matInput>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- DATOS PCB -->
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>DATOS PCB:</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>SERIGRAFÍA:</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>REFLUJO:</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>ADHESIVO:</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>OLA:</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <div class="flex flex-row items-center">
+            <span class="min-w-4">NORMA SURTEL:</span>
+            <mat-form-field appearance="standard">
+                <input matInput>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row items-center">
+            <span class="min-w-4">NORMA CLIENTE:</span>
+            <mat-form-field appearance="standard">
+                <input matInput>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-row">
+            <div class="flex flex-row items-center w-full">
+                <span>PRODUCTO:</span>
+                <mat-form-field class="w-full px-2" appearance="standard">
+                    <input matInput>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row items-center w-full">
+                <span>CLIENTE:</span>
+                <mat-form-field class="w-full px-2" appearance="standard">
+                    <input matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="">
+            <span>DENOMINACIÓN:</span>
+            <mat-form-field appearance="standard">
+                <input matInput>
+            </mat-form-field>
+        </div>
+        <div class="">
+            <span>CÓDIGO:</span>
+            <mat-form-field appearance="standard">
+                <input matInput>
+            </mat-form-field>
+        </div>
+    </div>
+
 </form>
