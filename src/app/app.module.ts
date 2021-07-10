@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 // ANGULAR MATERIAL MODULES
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,6 +22,10 @@ import { UploadComponent } from './components/upload/upload.component';
 import { DocumentsComponent } from './components/documents/documents.component';
 import { HeaderComponent } from './widgets/header/header.component';
 import { DocumentDescriptionFormComponent } from './widgets/document-description-form/document-description-form.component';
+import { IngresDocumentsService } from './services/ingres-documents.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { EditDocumentComponent } from './components/edit-document/edit-document.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,8 @@ import { DocumentDescriptionFormComponent } from './widgets/document-description
     UploadComponent,
     DocumentsComponent,
     HeaderComponent,
-    DocumentDescriptionFormComponent
+    DocumentDescriptionFormComponent,
+    EditDocumentComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +49,12 @@ import { DocumentDescriptionFormComponent } from './widgets/document-description
     MatTableModule,
     MatTooltipModule,
     MatStepperModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    HttpClientModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
-  providers: [],
+  providers: [IngresDocumentsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

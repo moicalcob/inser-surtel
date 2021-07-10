@@ -1,14 +1,56 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-documents',
-  templateUrl: './documents.component.html'
+  templateUrl: './documents.component.html',
+  styleUrls: ['./documents.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class DocumentsComponent implements OnInit {
+export class DocumentsComponent implements AfterViewInit {
 
-  constructor() { }
+  documents: any[] = [];
 
-  ngOnInit(): void {
+  displayedColumns: string[] = ['name', 'created_at', 'revisions', 'actions'];
+  dataSource = new MatTableDataSource(this.documents);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private ingresDocumentsService: IngresDocumentsService) {
+    this.getAllDocuments();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  async getAllDocuments() {
+    try {
+      this.documents = await this.ingresDocumentsService.getAllIngresDocuments();
+      this.reloadTableData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  reloadTableData() {
+    this.dataSource = new MatTableDataSource(this.documents);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
 }
