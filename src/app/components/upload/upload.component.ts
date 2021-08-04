@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -14,9 +15,28 @@ export class UploadComponent implements OnInit {
   dataSource = [];
 
   fileFormControl = new FormControl(null, [Validators.required])
-  descriptionFormGroup = new FormGroup({});
+  descriptionFormGroup = new FormGroup({
+    cod_modulo: new FormControl('', [Validators.required]),
+    plano_situacion: new FormControl('', [Validators.required]),
+    plano_electrico: new FormControl('', [Validators.required]),
+    num_componentes: new FormControl(0, [Validators.required]),
+    smds: new FormControl(0, [Validators.required]),
+    tht: new FormControl(0, [Validators.required]),
+    max_lt: new FormControl(0, [Validators.required]),
+    datos_pcb: new FormControl('', [Validators.required]),
+    serigrafia: new FormControl('', [Validators.required]),
+    reflujo: new FormControl('', [Validators.required]),
+    adhesivo: new FormControl('', [Validators.required]),
+    ola: new FormControl('', [Validators.required]),
+    norma_surtel: new FormControl('', [Validators.required]),
+    norma_cliente: new FormControl('', [Validators.required]),
+    producto: new FormControl('', [Validators.required]),
+    cliente: new FormControl('', [Validators.required]),
+    denominacion: new FormControl('', [Validators.required]),
+    codigo: new FormControl('', [Validators.required]),
+  });
 
-  constructor() { }
+  constructor(private ingresDocumentsService: IngresDocumentsService) { }
 
   ngOnInit(): void {
   }
@@ -53,10 +73,23 @@ export class UploadComponent implements OnInit {
           ingres_json.push(row_cleaned);
         });
 
-        console.log(ingres_json);
         this.dataSource = ingres_json;
       };
 
+    }
+  }
+
+  async submit() {
+    if (this.descriptionFormGroup.invalid) {
+      return;
+    }
+
+    try {
+      console.log(this.descriptionFormGroup.value)
+      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, 'Prueba final', this.dataSource);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
   }
 }
