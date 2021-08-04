@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'ls'
+                sh 'cd /home/ubuntu/docker && ls'
             }
         }
         stage('Test') { 
             steps {
-                sh 'ls'
+                sh 'cd /home/ubuntu/docker && ls'
             }
         }
         stage('Deploy') { 
             steps {
-                sh 'ls'
+                sh 'cd /home/ubuntu/docker && ls'
             }
         }
     }
