@@ -1,9 +1,17 @@
 pipeline {
-    agent { dockerfile true }
+    // agent { dockerfile true }
     stages {
-        stage('Test') {
+        // stage('Test') {
+        //     steps {
+        //         sh 'ls'
+        //     }
+        // }
+
+        stage('Run Script'){
             steps {
-                sh 'ls'
+                script {
+                    sh('ls')
+                }
             }
         }
     }
