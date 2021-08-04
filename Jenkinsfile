@@ -1,18 +1,8 @@
 pipeline {
-    // agent { dockerfile true }
-    stages {
-        // stage('Test') {
-        //     steps {
-        //         sh 'ls'
-        //     }
-        // }
-
-        stage('Run Script'){
-            steps {
-                script {
-                    sh('ls')
-                }
-            }
-        }
+    node {
+        stage "Create build output"
+        
+        // Make the output directory.
+        sh "ls"
     }
 }
