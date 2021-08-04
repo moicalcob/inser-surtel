@@ -2,7 +2,7 @@ pipeline {
     agent {
         node {
             label 'master'
-            customWorkspace '/home/ubuntu/docker'
+            customWorkspace '/home/ubuntu/docker/ingres'
         }
     }    
     stages {
