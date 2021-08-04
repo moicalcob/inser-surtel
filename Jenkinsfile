@@ -1,7 +1,6 @@
 pipeline {
     agent {
         node {
-        label 'raspi'
         customWorkspace '/home/ubuntu/docker'
         }
     }    
