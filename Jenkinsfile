@@ -6,6 +6,11 @@ pipeline {
         }
     }    
     stages {
+        stage('TEST'){
+            steps {
+                sh 'whoami'
+            }
+        }
         stage('Build') { 
             steps {
                 sh 'docker build . -t ingres-front'
