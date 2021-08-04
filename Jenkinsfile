@@ -1,8 +1,8 @@
 pipeline {
     agent {
         node {
-        label 'master'
-        customWorkspace '/home/ubuntu/docker'
+            label 'master'
+            customWorkspace '/home/ubuntu/docker'
         }
     }    
     stages {
