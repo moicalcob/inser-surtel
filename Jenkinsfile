@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'cd ingres-surtel'
-                sh 'ls'
+                sh 'docker build . -t ingres-front'
             }
         }
     }
