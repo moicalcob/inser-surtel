@@ -13,6 +13,9 @@ export class EditDocumentComponent {
   loaded = false;
 
   document;
+  documentId;
+  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL', 'COMENTARIOS'];
+  dataSource = [];
 
   descriptionFormGroup = new FormGroup({
     cod_modulo: new FormControl('', [Validators.required]),
@@ -44,8 +47,8 @@ export class EditDocumentComponent {
 
   async getDocument() {
     try {
-      const documentId = this.route.snapshot.params['document_id'];
-      this.document = await this.ingresDocumentsService.getIngresDocumentById(documentId);
+      this.documentId = this.route.snapshot.params['document_id'];
+      this.document = await this.ingresDocumentsService.getIngresDocumentById(this.documentId);
       this.initDocumentForm();
     } catch (error) {
       console.error(error);
@@ -73,8 +76,18 @@ export class EditDocumentComponent {
       denominacion: this.document.description.denominacion || '',
       codigo: this.document.description.codigo || ''
     })
-
+    this.dataSource = this.document.content;
     this.loaded = true;
+  }
+
+  async update_document() {
+    try {
+      const response = await this.ingresDocumentsService
+        .updateIngresDocument(this.descriptionFormGroup.value, this.document.content, this.documentId)
+      console.log(response)
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 }

@@ -13,6 +13,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,9 +24,10 @@ import { DocumentsComponent } from './components/documents/documents.component';
 import { HeaderComponent } from './widgets/header/header.component';
 import { DocumentDescriptionFormComponent } from './widgets/document-description-form/document-description-form.component';
 import { IngresDocumentsService } from './services/ingres-documents.service';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EditDocumentComponent } from './components/edit-document/edit-document.component';
+import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
 
 @NgModule({
   declarations: [
@@ -52,9 +54,11 @@ import { EditDocumentComponent } from './components/edit-document/edit-document.
     MatFormFieldModule,
     HttpClientModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTabsModule
   ],
-  providers: [IngresDocumentsService],
+  providers: [IngresDocumentsService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
