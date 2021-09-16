@@ -27,10 +27,11 @@ export class IngresDocumentsService {
     return this.httpClient.post(environment.API_URL + '/ingres-document', body).toPromise();
   }
 
-  public updateIngresDocument(description: DocumentDescription, content: any[], documentId: string): Promise<any> {
+  public updateIngresDocument(description: DocumentDescription, content: any[], documentId: string, reason: string): Promise<any> {
     const body = {
       description: description,
-      content: content
+      content: content,
+      reason: reason
     }
     return this.httpClient.put(environment.API_URL + '/ingres-document/' + documentId, body).toPromise();
   }

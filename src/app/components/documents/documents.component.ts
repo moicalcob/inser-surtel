@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { DownloadDocumentService } from 'src/app/services/download-document.service';
 
 @Component({
   selector: 'app-documents',
@@ -20,7 +21,7 @@ export class DocumentsComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private ingresDocumentsService: IngresDocumentsService) {
+  constructor(private ingresDocumentsService: IngresDocumentsService, private downloadDocumentService: DownloadDocumentService) {
     this.getAllDocuments();
   }
 
@@ -51,6 +52,10 @@ export class DocumentsComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  downloadDocument(document) {
+    this.downloadDocumentService.downloadAsPDF(document);
   }
 
 }

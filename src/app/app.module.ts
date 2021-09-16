@@ -14,7 +14,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +30,8 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
 import { MatSortModule } from '@angular/material/sort';
 import { EditDocumentComponent } from './components/edit-document/edit-document.component';
 import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
+import { DownloadDocumentService } from './services/download-document.service';
+import { ConfirmationDialogComponent } from './utils/components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,8 @@ import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
     DocumentsComponent,
     HeaderComponent,
     DocumentDescriptionFormComponent,
-    EditDocumentComponent
+    EditDocumentComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,9 +60,15 @@ import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
     HttpClientModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatListModule
   ],
-  providers: [IngresDocumentsService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }
+  providers: [
+    IngresDocumentsService,
+    { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl },
+    DownloadDocumentService
   ],
   bootstrap: [AppComponent]
 })

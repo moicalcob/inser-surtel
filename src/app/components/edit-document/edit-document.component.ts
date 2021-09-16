@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
+import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-edit-document',
@@ -40,7 +43,9 @@ export class EditDocumentComponent {
 
   constructor(
     private ingresDocumentsService: IngresDocumentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private _snackbar: MatSnackBar
   ) {
     this.getDocument();
   }
@@ -49,13 +54,37 @@ export class EditDocumentComponent {
     try {
       this.documentId = this.route.snapshot.params['document_id'];
       this.document = await this.ingresDocumentsService.getIngresDocumentById(this.documentId);
+      console.log(this.document)
       this.initDocumentForm();
     } catch (error) {
       console.error(error);
     }
   }
 
-  initDocumentForm() {
+  async update_document() {
+    try {
+      // Confirmation dialog
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+      });
+
+      const reason = await dialogRef.afterClosed().toPromise();
+
+      if (!reason) {
+        return;
+      }
+      const new_content = this.getNewContent()
+      const response = await this.ingresDocumentsService
+        .updateIngresDocument(this.descriptionFormGroup.value, new_content, this.documentId, reason)
+      if (response) {
+        this._snackbar.open('Revisión creada correctamente')
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  private initDocumentForm() {
     this.descriptionFormGroup.setValue({
       cod_modulo: this.document.description.cod_modulo || '',
       plano_situacion: this.document.description.plano_situacion || '',
@@ -76,18 +105,26 @@ export class EditDocumentComponent {
       denominacion: this.document.description.denominacion || '',
       codigo: this.document.description.codigo || ''
     })
-    this.dataSource = this.document.content;
+    this.generateContentFormArray(this.document.content);
     this.loaded = true;
   }
 
-  async update_document() {
-    try {
-      const response = await this.ingresDocumentsService
-        .updateIngresDocument(this.descriptionFormGroup.value, this.document.content, this.documentId)
-      console.log(response)
-    } catch (error) {
-      console.error(error);
-    }
+  private generateContentFormArray(content) {
+    this.dataSource = content.map(row => {
+      return {
+        ...row,
+        'COMENTARIOS': new FormControl(row['COMENTARIOS'] || null)
+      }
+    })
+  }
+
+  private getNewContent() {
+    return this.dataSource.map(row => {
+      return {
+        ...row,
+        'COMENTARIOS': row['COMENTARIOS'].value
+      }
+    })
   }
 
 }
