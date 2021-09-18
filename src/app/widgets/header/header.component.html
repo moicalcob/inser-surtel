@@ -8,9 +8,9 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="logout()" *ngIf="authService.isAdmin()">
+        <button mat-menu-item routerLink="/users" *ngIf="authService.isAdmin()">
             <mat-icon>people</mat-icon>
-            <span>Adminsitrar usuarios</span>
+            <span>Administrar usuarios</span>
         </button>
         <button mat-menu-item (click)="logout()">
             <mat-icon>logout</mat-icon>

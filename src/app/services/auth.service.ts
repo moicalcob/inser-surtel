@@ -20,21 +20,32 @@ export class AuthService {
   }
 
   public createUser(user: UserInterface): Promise<boolean> {
-    return this.httpClient.post<boolean>(environment.API_URL + '/auth/create', {
-      user: user
-    }).toPromise();
+    return this.httpClient.post<boolean>(environment.API_URL + '/auth/create', user).toPromise();
   }
 
-  public isLogged() {
+  public updateUser(user: UserInterface): Promise<boolean> {
+    return this.httpClient.put<boolean>(environment.API_URL + '/auth/user/' + user._id, user).toPromise();
+  }
+
+  public getUsers(): Promise<any[]> {
+    return this.httpClient.get<any[]>(environment.API_URL + '/auth/users').toPromise();
+  }
+
+  public getUser(user_id): Promise<any> {
+    return this.httpClient.get<any>(environment.API_URL + '/auth/user/' + user_id).toPromise();
+  }
+
+  public isLogged(): boolean {
     return localStorage.getItem('user') != null;
   }
 
-  public logout() {
+  public logout(): void {
     localStorage.removeItem('user');
     this.router.navigate(['/', 'login'])
   }
 
-  public isAdmin() {
+  // TODO: Check
+  public isAdmin(): boolean {
     return true;
   }
 }

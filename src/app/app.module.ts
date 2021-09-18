@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +35,8 @@ import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
 import { DownloadDocumentService } from './services/download-document.service';
 import { ConfirmationDialogComponent } from './utils/components/confirmation-dialog/confirmation-dialog.component';
 import { LoginComponent } from './components/login/login.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,8 @@ import { LoginComponent } from './components/login/login.component';
     EditDocumentComponent,
     ConfirmationDialogComponent,
     LoginComponent,
+    UsersComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,7 @@ import { LoginComponent } from './components/login/login.component';
     MatSnackBarModule,
     MatListModule,
     MatMenuModule,
+    MatSlideToggleModule,
   ],
   providers: [
     IngresDocumentsService,

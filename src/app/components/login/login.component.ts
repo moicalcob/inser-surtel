@@ -28,7 +28,9 @@ export class LoginComponent {
         this.router.navigate(['/', 'home']);
       }
     } catch (error) {
-      this.snackBar.open('Ha ocurrido un error')
+      this.snackBar.open('Ha ocurrido un error', null, {
+        duration: 2000
+      })
     }
   }
 
