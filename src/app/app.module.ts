@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { EditDocumentComponent } from './components/edit-document/edit-document.
 import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
 import { DownloadDocumentService } from './services/download-document.service';
 import { ConfirmationDialogComponent } from './utils/components/confirmation-dialog/confirmation-dialog.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { ConfirmationDialogComponent } from './utils/components/confirmation-dia
     DocumentDescriptionFormComponent,
     EditDocumentComponent,
     ConfirmationDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { ConfirmationDialogComponent } from './utils/components/confirmation-dia
     MatTabsModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule,
   ],
   providers: [
     IngresDocumentsService,
