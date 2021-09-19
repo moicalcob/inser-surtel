@@ -6,8 +6,12 @@
     cursor: pointer;
 }
 
-.spacer {
+.name {
     flex: 1 1 auto;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .menu-button {

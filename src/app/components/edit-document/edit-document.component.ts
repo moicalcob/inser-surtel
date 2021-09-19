@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatTable } from '@angular/material/table';
+import { AuthService } from 'src/app/services/auth.service';
+import { AddRowDialogComponent } from 'src/app/utils/components/add-row-dialog/add-row-dialog.component';
 
 @Component({
   selector: 'app-edit-document',
@@ -17,8 +21,9 @@ export class EditDocumentComponent {
 
   document;
   documentId;
-  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL', 'COMENTARIOS'];
+  displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL', 'COMENTARIOS', 'actions'];
   dataSource = [];
+  @ViewChild('table') table: MatTable<any>;
 
   descriptionFormGroup = new FormGroup({
     cod_modulo: new FormControl('', [Validators.required]),
@@ -45,7 +50,8 @@ export class EditDocumentComponent {
     private ingresDocumentsService: IngresDocumentsService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    public authService: AuthService
   ) {
     this.getDocument();
   }
@@ -54,7 +60,6 @@ export class EditDocumentComponent {
     try {
       this.documentId = this.route.snapshot.params['document_id'];
       this.document = await this.ingresDocumentsService.getIngresDocumentById(this.documentId);
-      console.log(this.document)
       this.initDocumentForm();
     } catch (error) {
       console.error(error);
@@ -77,7 +82,9 @@ export class EditDocumentComponent {
       const response = await this.ingresDocumentsService
         .updateIngresDocument(this.descriptionFormGroup.value, new_content, this.documentId, reason)
       if (response) {
-        this._snackbar.open('Revisión creada correctamente')
+        this._snackbar.open('Revisión creada correctamente', null, {
+          duration: 3000
+        })
       }
     } catch (error) {
       console.error(error);
@@ -124,6 +131,45 @@ export class EditDocumentComponent {
         ...row,
         'COMENTARIOS': row['COMENTARIOS'].value
       }
+    })
+  }
+
+  dropTable(event: CdkDragDrop<any[]>) {
+    const prevIndex = this.dataSource.findIndex((d) => d === event.item.data);
+    moveItemInArray(this.dataSource, prevIndex, event.currentIndex);
+    this.table.renderRows();
+  }
+
+  deleteRow(element) {
+    this.dataSource = this.dataSource.filter(row => row !== element);
+    this.table.renderRows();
+  }
+
+  async addRow() {
+    const dialogRef = this.dialog.open(AddRowDialogComponent, {
+      width: '450px',
+    });
+
+    let result = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      result = {
+        ...result,
+        'COMENTARIOS': new FormControl(result['COMENTARIOS'])
+      }
+      this.dataSource.push(result);
+      this.table.renderRows();
+    }
+  }
+
+  restoreRevision(revision) {
+    this.document.content = revision.content;
+    Object.keys(this.document.description).forEach(key => {
+      this.document.description[key] = revision.description[key];
+    })
+    this.initDocumentForm();
+    this.table.renderRows();
+    this._snackbar.open('Revisión restaurada correctamente', null, {
+      duration: 3000
     })
   }
 

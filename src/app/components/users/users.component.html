@@ -7,8 +7,11 @@
             </mat-icon>
             <div mat-line>{{user.username}}</div>
             <div mat-line>{{user.name}}</div>
-            <button [routerLink]="user._id">
+            <button matTooltip="Editar usuario" [routerLink]="user._id" class="mr-4">
                 <mat-icon>edit</mat-icon>
+            </button>
+            <button matTooltip="Borrar usuario" (click)="deleteUser(user._id)">
+                <mat-icon>delete</mat-icon>
             </button>
         </mat-list-item>
     </mat-list>

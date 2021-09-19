@@ -1,0 +1,29 @@
+<h1 mat-dialog-title class="text-center">Añadir línea</h1>
+<div mat-dialog-content>
+    <form [formGroup]="rowForm" class="flex flex-col items-center">
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="CODIGO">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Fase</mat-label>
+            <input matInput formControlName="FASE">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Denominación</mat-label>
+            <input matInput formControlName="DENOMINACION">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input class="focus:ring-0" matInput type="number" formControlName="C.TOTAL">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Comentarios</mat-label>
+            <textarea class="focus:ring-0" matInput formControlName="COMENTARIOS"></textarea>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions class="flex flex-row justify-around">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-button (click)="confirm()">Confirmar</button>
+</div>

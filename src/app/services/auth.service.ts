@@ -27,6 +27,10 @@ export class AuthService {
     return this.httpClient.put<boolean>(environment.API_URL + '/auth/user/' + user._id, user).toPromise();
   }
 
+  public deleteUser(user_id: string): Promise<boolean> {
+    return this.httpClient.delete<boolean>(environment.API_URL + '/auth/user/' + user_id).toPromise();
+  }
+
   public getUsers(): Promise<any[]> {
     return this.httpClient.get<any[]>(environment.API_URL + '/auth/users').toPromise();
   }
@@ -44,8 +48,15 @@ export class AuthService {
     this.router.navigate(['/', 'login'])
   }
 
-  // TODO: Check
   public isAdmin(): boolean {
-    return true;
+    return JSON.parse(localStorage.getItem('user'))?.admin_role;
+  }
+
+  public getToken(): string | null {
+    return JSON.parse(localStorage.getItem('user'))?.access_token;
+  }
+
+  public getUserName(): string {
+    return JSON.parse(localStorage.getItem('user'))?.name;
   }
 }

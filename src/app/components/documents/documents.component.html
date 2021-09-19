@@ -19,6 +19,11 @@
                 <td mat-cell *matCellDef="let element"> {{element?.created_at | date:'HH:mm dd/MM/yyyy'}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="last_modification">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Última modificación </th>
+                <td mat-cell *matCellDef="let element"> {{element?.last_modification | date:'HH:mm dd/MM/yyyy'}} </td>
+            </ng-container>
+
             <ng-container matColumnDef="revisions">
                 <th mat-header-cell class="revisions" *matHeaderCellDef mat-sort-header> Revisiones </th>
                 <td mat-cell class="text-center" *matCellDef="let element"> {{element?.revisions?.length}} </td>
@@ -28,7 +33,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-1"></th>
                 <td mat-cell *matCellDef="let element" class="w-1">
                     <div class="flex flex-row">
-                        <button class="p-0" mat-flat-button [routerLink]="'/document/' + element._id">
+                        <button *ngIf="authService.isAdmin()" class="p-0" mat-flat-button [routerLink]="'/document/' + element._id">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button class="p-0" mat-flat-button (click)="downloadDocument(element)">

@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
     <img class="surtel-logo" src="assets/logos/logo-surtel-white.png" routerLink="">
-    <span class="spacer"></span>
+    <span class="name">
+        ¡Bienvenido, {{getUser()}}!
+    </span>
     <button mat-stroked-button class="add-button" routerLink="/upload" matTooltip="Subir fichero">
         <mat-icon>add</mat-icon>
     </button>
