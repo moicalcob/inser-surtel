@@ -21,9 +21,10 @@ export class AuthInterceptorService implements HttpInterceptor {
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     if (error && error.status === 401) {
-                        this.snackbar.open('No tienes permisos para realizar esta acción', null, {
+                        this.snackbar.open('Sesión expirada', null, {
                             duration: 3000
                         })
+                        this.authService.logout();
                     }
                     const err = error.error.message || error.statusText;
                     return throwError(error);
