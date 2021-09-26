@@ -21,7 +21,7 @@ export class EditDocumentComponent {
 
   document;
   documentId;
-  displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL', 'COMENTARIOS', 'actions'];
+  displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION', 'REFERENCIA', 'CANTIDAD', 'COMENTARIOS', 'actions'];
   dataSource = [];
   @ViewChild('table') table: MatTable<any>;
 

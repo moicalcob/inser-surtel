@@ -149,7 +149,7 @@ export class DownloadDocumentService {
     doc.addPage();
 
     autoTable(doc, {
-      head: [['C.TOTAL', 'CODIGO', 'FASE', 'DENOMINACION', 'COMENTARIOS']],
+      head: [['CANTIDAD', 'CODIGO', 'FASE', 'REFERENCIA', 'DENOMINACION', 'COMENTARIOS']],
       body: this.get_table_body(document.content)
     });
 
@@ -173,9 +173,10 @@ export class DownloadDocumentService {
   private get_table_body(content) {
     return content.map(row => {
       const result = [];
-      result.push(row['C.TOTAL']);
+      result.push(row['CANTIDAD']);
       result.push(row['CODIGO']);
       result.push(row['FASE']);
+      result.push(row['REFERENCIA']);
       result.push(row['DENOMINACION']);
       result.push(row['COMENTARIOS'] || '');
       return result

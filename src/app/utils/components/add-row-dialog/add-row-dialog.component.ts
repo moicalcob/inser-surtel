@@ -12,7 +12,8 @@ export class AddRowDialogComponent {
     'CODIGO': new FormControl('', Validators.required),
     'FASE': new FormControl('', Validators.required),
     'DENOMINACION': new FormControl('', Validators.required),
-    'C.TOTAL': new FormControl(1, Validators.required),
+    'CANTIDAD': new FormControl(1, Validators.required),
+    'REFERENCIA': new FormControl('', Validators.required),
     'COMENTARIOS': new FormControl(''),
   })
 

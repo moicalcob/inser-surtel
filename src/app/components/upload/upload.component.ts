@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
 export class UploadComponent implements OnInit {
 
   fileName = "";
-  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL'];
+  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'REFERENCIA', 'CANTIDAD'];
   dataSource = [];
 
   fileFormControl = new FormControl(null, [Validators.required])

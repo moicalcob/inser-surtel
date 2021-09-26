@@ -28,10 +28,15 @@ export class LoginComponent {
         this.router.navigate(['/', 'home']);
       }
     } catch (error) {
-      console.error(error)
-      this.snackBar.open('Ha ocurrido un error', null, {
-        duration: 2000
-      })
+      if (error?.error?.statusCode === 401) {
+        this.snackBar.open('Comprueba las credenciales', null, {
+          duration: 2000
+        })
+      } else {
+        this.snackBar.open('Ha ocurrido un error', null, {
+          duration: 2000
+        })
+      }
     }
   }
 
