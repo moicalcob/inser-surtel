@@ -173,7 +173,7 @@ export class DownloadDocumentService {
   private get_table_body(content) {
     return content.map(row => {
       const result = [];
-      result.push(row['CANTIDAD']);
+      result.push(row['CANTIDAD'] + ' ' + row['UNIDAD']);
       result.push(row['CODIGO']);
       result.push(row['FASE']);
       result.push(row['REFERENCIA']);
