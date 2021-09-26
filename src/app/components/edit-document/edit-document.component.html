@@ -122,11 +122,6 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="CANTIDAD">
-                    <th mat-header-cell *matHeaderCellDef>Cantidad</th>
-                    <td mat-cell *matCellDef="let element"> {{element['CANTIDAD']}} </td>
-                </ng-container>
-
                 <ng-container matColumnDef="CODIGO">
                     <th mat-header-cell *matHeaderCellDef>Código</th>
                     <td mat-cell *matCellDef="let element"> {{element['CODIGO']}} </td>
@@ -145,6 +140,22 @@
                 <ng-container matColumnDef="REFERENCIA">
                     <th mat-header-cell *matHeaderCellDef>Referencia</th>
                     <td mat-cell *matCellDef="let element"> {{element['REFERENCIA']}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CANTIDAD">
+                    <th mat-header-cell *matHeaderCellDef class="col-center">Cantidad</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element['CANTIDAD']}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="UNIDAD">
+                    <th mat-header-cell *matHeaderCellDef class="unit-col col-center">Unidad</th>
+                    <td mat-cell *matCellDef="let element" class="unit-col">
+                        <mat-select [formControl]="element['UNIDAD']" class="text-center pr-2 w-full">
+                            <mat-option *ngFor="let unit of units" [value]="unit.value">
+                                {{unit.value}}
+                            </mat-option>
+                        </mat-select>
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="COMENTARIOS">

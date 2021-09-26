@@ -34,6 +34,7 @@ export class UploadComponent implements OnInit {
     cliente: new FormControl('', [Validators.required]),
     denominacion: new FormControl('', [Validators.required]),
     codigo: new FormControl('', [Validators.required]),
+    unidad: new FormControl('')
   });
 
   constructor(private ingresDocumentsService: IngresDocumentsService) { }
@@ -85,8 +86,13 @@ export class UploadComponent implements OnInit {
     }
 
     try {
-      console.log(this.descriptionFormGroup.value)
-      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, 'Prueba final', this.dataSource);
+      const content = this.dataSource.map(row => {
+        return {
+          ...row,
+          UNIDAD: this.descriptionFormGroup.get('unidad').value
+        }
+      })
+      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, 'Prueba final', content);
       console.log(response);
     } catch (error) {
       console.log(error);

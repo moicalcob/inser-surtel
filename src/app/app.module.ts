@@ -40,6 +40,7 @@ import { UsersComponent } from './components/users/users.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 import { AuthInterceptorService } from './auth.interceptor';
 import { AddRowDialogComponent } from './utils/components/add-row-dialog/add-row-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { AddRowDialogComponent } from './utils/components/add-row-dialog/add-row
     HttpClientModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
     MatTabsModule,
     MatDialogModule,
     MatSnackBarModule,

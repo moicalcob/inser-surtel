@@ -9,7 +9,20 @@ import { FormGroup } from '@angular/forms';
 export class DocumentDescriptionFormComponent implements OnInit {
 
   @Input() descriptionFormGroup: FormGroup;
-
+  
+  units = [
+    {
+      text: 'Unidades',
+      value: 'uds'
+    },
+    {
+      text: 'Mililítros',
+      value: 'ml'
+    },{
+      text: 'Gramos',
+      value: 'g'
+    }
+  ]
   constructor() { }
 
   ngOnInit(): void {

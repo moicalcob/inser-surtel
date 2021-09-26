@@ -14,8 +14,23 @@ export class AddRowDialogComponent {
     'DENOMINACION': new FormControl('', Validators.required),
     'CANTIDAD': new FormControl(1, Validators.required),
     'REFERENCIA': new FormControl('', Validators.required),
+    'UNIDAD': new FormControl('', Validators.required),
     'COMENTARIOS': new FormControl(''),
   })
+
+  units = [
+    {
+      text: 'Unidades',
+      value: 'uds'
+    },
+    {
+      text: 'Mililítros',
+      value: 'ml'
+    },{
+      text: 'Gramos',
+      value: 'g'
+    }
+  ]
 
   constructor(public dialogRef: MatDialogRef<AddRowDialogComponent>) { }
 
