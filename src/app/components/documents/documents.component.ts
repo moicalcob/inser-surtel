@@ -40,7 +40,7 @@ export class DocumentsComponent implements AfterViewInit {
       this.documents = await this.ingresDocumentsService.getAllIngresDocuments();
       this.reloadTableData();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -60,7 +60,7 @@ export class DocumentsComponent implements AfterViewInit {
   }
 
   downloadDocument(document) {
-    this.downloadDocumentService.downloadAsPDF(document);
+    this.downloadDocumentService.downloadAsPDF(document._id);
   }
 
 }

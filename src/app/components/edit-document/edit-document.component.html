@@ -170,8 +170,9 @@
     <mat-tab label="Revisiones">
         <div class="p-4">
             <mat-list class="mat-elevation-z8 w-full mt-4">
-                <mat-list-item *ngFor="let revision of document?.revisions">
+                <mat-list-item *ngFor="let revision of document?.revisions; let i = index">
                     <mat-icon mat-list-icon>folder</mat-icon>
+                    <span mat-line>Nº Revisión: {{i + 1}}</span>
                     <div mat-line>{{revision.reason}}</div>
                     <div mat-line>Fecha: {{revision.updated_at | date:'YYYY-MM-dd HH:mm'}}</div>
                     <div>Guardada por: {{revision.user.username}}</div>

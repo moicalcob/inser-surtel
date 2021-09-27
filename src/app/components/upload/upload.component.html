@@ -43,10 +43,16 @@
         <app-document-description-form [descriptionFormGroup]="descriptionFormGroup"></app-document-description-form>
     </mat-step>
     <mat-step label="Confirmar">
-        <p>¿Estás seguro de que quieres continuar?</p>
-        <div>
-            <button mat-button matStepperPrevious>Retroceder</button>
-            <button mat-button (click)="submit()">Confirmar</button>
+        <div class="p-4 mat-elevation-z8">
+            <p>Introduce el nombre del documento:</p>
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput [formControl]="nameForm">
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperPrevious>Retroceder</button>
+                <button mat-button (click)="submit()">Confirmar</button>
+            </div>
         </div>
     </mat-step>
 </mat-stepper>

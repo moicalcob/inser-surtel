@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
 import * as XLSX from 'xlsx';
 
@@ -15,6 +17,7 @@ export class UploadComponent implements OnInit {
   dataSource = [];
 
   fileFormControl = new FormControl(null, [Validators.required])
+  nameForm = new FormControl('', Validators.required)
   descriptionFormGroup = new FormGroup({
     cod_modulo: new FormControl('', [Validators.required]),
     plano_situacion: new FormControl('', [Validators.required]),
@@ -36,7 +39,11 @@ export class UploadComponent implements OnInit {
     codigo: new FormControl('', [Validators.required]),
   });
 
-  constructor(private ingresDocumentsService: IngresDocumentsService) { }
+  constructor(
+    private ingresDocumentsService: IngresDocumentsService,
+    private router: Router,
+    private snackbar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
   }
@@ -80,16 +87,19 @@ export class UploadComponent implements OnInit {
   }
 
   async submit() {
-    if (this.descriptionFormGroup.invalid) {
+    if (this.descriptionFormGroup.invalid || this.nameForm.invalid) {
       return;
     }
-
     try {
-      console.log(this.descriptionFormGroup.value)
-      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, 'Prueba final', this.dataSource);
-      console.log(response);
+      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, this.nameForm.value, this.dataSource);
+      if (response) {
+        this.snackbar.open('Documento creado correctamente', null, {
+          duration: 3000
+        })
+        this.router.navigate(['/', 'home'])
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }
