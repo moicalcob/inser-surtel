@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: db_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: prueba
+    ports:
+      - '27017-27019:27017-27019'
+    networks:
+      - ingres-network
+    volumes:
+      - mongodb_data:/data/db
+  
+  backend:
+    build: ./ingress-surtel-backend
+    container_name: backend
+    command: npm run start:prod
+    ports:
+        - 3000:3000
+    networks:
+        - ingres-network
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=mongodb://root:rootpassword@db_mongo:27017/ingres?authSource=admin
+    depends_on:
+      - "mongodb"
+
+  frontend:
+    build: ./ingres-surtel
+    ports:
+        - 80:80
+        - 443:443
+    networks:
+        - ingres-network
+    restart: unless-stopped
+    depends_on:
+      - "backend"
+
+volumes:
+  mongodb_data:
+
+networks:
+  ingres-network:
