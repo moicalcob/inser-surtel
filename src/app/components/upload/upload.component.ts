@@ -13,7 +13,7 @@ import * as XLSX from 'xlsx';
 export class UploadComponent implements OnInit {
 
   fileName = "";
-  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL'];
+  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'REFERENCIA', 'CANTIDAD'];
   dataSource = [];
 
   fileFormControl = new FormControl(null, [Validators.required])
@@ -37,6 +37,7 @@ export class UploadComponent implements OnInit {
     cliente: new FormControl('', [Validators.required]),
     denominacion: new FormControl('', [Validators.required]),
     codigo: new FormControl('', [Validators.required]),
+    unidad: new FormControl('')
   });
 
   constructor(
@@ -91,7 +92,13 @@ export class UploadComponent implements OnInit {
       return;
     }
     try {
-      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, this.nameForm.value, this.dataSource);
+      const content = this.dataSource.map(row => {
+        return {
+          ...row,
+          UNIDAD: this.descriptionFormGroup.get('unidad').value
+        }
+      })
+      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, this.nameForm.value, content);
       if (response) {
         this.snackbar.open('Documento creado correctamente', null, {
           duration: 3000

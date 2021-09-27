@@ -74,6 +74,15 @@
             <input matInput formControlName="norma_cliente">
         </mat-form-field>
 
+        <mat-form-field appearance="standard" class="w-full">
+            <mat-label>UNIDAD</mat-label>
+            <mat-select formControlName="unidad">
+                <mat-option *ngFor="let unit of units" [value]="unit.value">
+                    {{unit.text}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <div class="flex flex-row">
             <div class="flex flex-row items-center w-full">
                 <mat-form-field class="w-full pr-2" appearance="standard">

@@ -21,9 +21,24 @@ export class EditDocumentComponent {
 
   document;
   documentId;
-  displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION', 'C.TOTAL', 'COMENTARIOS', 'actions'];
+  displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION',
+   'REFERENCIA', 'CANTIDAD', 'UNIDAD', 'COMENTARIOS', 'actions'];
   dataSource = [];
   @ViewChild('table') table: MatTable<any>;
+
+  units = [
+    {
+      text: 'Unidades',
+      value: 'uds'
+    },
+    {
+      text: 'Mililítros',
+      value: 'ml'
+    },{
+      text: 'Gramos',
+      value: 'g'
+    }
+  ]
 
   descriptionFormGroup = new FormGroup({
     cod_modulo: new FormControl('', [Validators.required]),
@@ -120,6 +135,7 @@ export class EditDocumentComponent {
     this.dataSource = content.map(row => {
       return {
         ...row,
+        'UNIDAD': new FormControl(row['UNIDAD'] || null),
         'COMENTARIOS': new FormControl(row['COMENTARIOS'] || null)
       }
     })
@@ -129,6 +145,7 @@ export class EditDocumentComponent {
     return this.dataSource.map(row => {
       return {
         ...row,
+        'UNIDAD': row['UNIDAD'].value,
         'COMENTARIOS': row['COMENTARIOS'].value
       }
     })
@@ -154,6 +171,7 @@ export class EditDocumentComponent {
     if (result) {
       result = {
         ...result,
+        'UNIDAD': new FormControl(result['UNIDAD']),
         'COMENTARIOS': new FormControl(result['COMENTARIOS'])
       }
       this.dataSource.push(result);

@@ -14,8 +14,20 @@
             <input matInput formControlName="DENOMINACION">
         </mat-form-field>
         <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Referencia</mat-label>
+            <input class="focus:ring-0" matInput type="number" formControlName="REFERENCIA">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="outline">
             <mat-label>Cantidad</mat-label>
-            <input class="focus:ring-0" matInput type="number" formControlName="C.TOTAL">
+            <input class="focus:ring-0" matInput type="number" formControlName="CANTIDAD">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>UNIDAD</mat-label>
+            <mat-select formControlName="UNIDAD">
+                <mat-option *ngFor="let unit of units" [value]="unit.value">
+                    {{unit.text}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
         <mat-form-field class="w-full" appearance="outline">
             <mat-label>Comentarios</mat-label>

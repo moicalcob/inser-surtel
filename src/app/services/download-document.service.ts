@@ -177,9 +177,10 @@ export class DownloadDocumentService {
     return content.map((row, index) => {
       const result = [];
       result.push(index);
-      result.push(row['C.TOTAL']);
+      result.push(row['CANTIDAD'] + ' ' + row['UNIDAD']);
       result.push(row['CODIGO']);
       result.push(row['FASE']);
+      result.push(row['REFERENCIA']);
       result.push(row['DENOMINACION']);
       result.push(row['COMENTARIOS'] || '');
       return result
