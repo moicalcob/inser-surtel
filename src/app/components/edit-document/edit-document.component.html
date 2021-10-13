@@ -112,6 +112,9 @@
             <table #table *ngIf="dataSource?.length > 0" mat-table [dataSource]="dataSource"
                 class="mat-elevation-z8 w-full mt-4" cdkDropList [cdkDropListData]="dataSource"
                 (cdkDropListDropped)="dropTable($event)">
+                <ng-container matColumnDef="true">
+                    Hola
+                </ng-container>
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef>Nº línea</th>
                     <td mat-cell *matCellDef="let element; let i = index">
@@ -129,7 +132,10 @@
 
                 <ng-container matColumnDef="DENOMINACION">
                     <th mat-header-cell *matHeaderCellDef>Denominación</th>
-                    <td mat-cell *matCellDef="let element"> {{element['DENOMINACION']}} </td>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.type === 'component'">{{element['DENOMINACION']}}</span>
+                        <span *ngIf="element.type === 'text'">Línea de texto:</span>
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="FASE">
@@ -150,7 +156,8 @@
                 <ng-container matColumnDef="UNIDAD">
                     <th mat-header-cell *matHeaderCellDef class="unit-col col-center">Unidad</th>
                     <td mat-cell *matCellDef="let element" class="unit-col">
-                        <mat-select [formControl]="element['UNIDAD']" class="text-center pr-2 w-full">
+                        <mat-select *ngIf="element.type === 'component'" [formControl]="element['UNIDAD']"
+                            class="text-center pr-2 w-full">
                             <mat-option *ngFor="let unit of units" [value]="unit.value">
                                 {{unit.value}}
                             </mat-option>
@@ -161,7 +168,10 @@
                 <ng-container matColumnDef="COMENTARIOS">
                     <th mat-header-cell *matHeaderCellDef>Comentarios</th>
                     <td mat-cell *matCellDef="let element">
-                        <textarea class="mt-2" [formControl]="element['COMENTARIOS']"></textarea>
+                        <textarea *ngIf="element.type === 'component'" class="mt-2"
+                            [formControl]="element['COMENTARIOS']"></textarea>
+                        <textarea *ngIf="element.type === 'text'" class="mt-2"
+                            [formControl]="element['CONTENIDO']"></textarea>
                     </td>
                 </ng-container>
 
@@ -188,7 +198,7 @@
             <mat-list class="mat-elevation-z8 w-full mt-4" *ngIf="document?.revisions?.length > 0">
                 <mat-list-item *ngFor="let revision of document?.revisions; let i = index">
                     <mat-icon mat-list-icon>folder</mat-icon>
-                    <span mat-line>Nº Revisión: {{i + 1}}</span>
+                    <span mat-line>Nº Revisión: {{i + 51}}</span>
                     <div mat-line>{{revision.reason}}</div>
                     <div mat-line>Fecha: {{revision.updated_at | date:'YYYY-MM-dd HH:mm'}}</div>
                     <div>Guardada por: {{revision.user.username}}</div>

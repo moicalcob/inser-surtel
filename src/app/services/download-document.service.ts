@@ -152,13 +152,13 @@ export class DownloadDocumentService {
         head: [['', 'C.TOTAL', 'CODIGO', 'FASE', 'REFERENCIA', 'DENOMINACION', 'COMENTARIOS']],
         body: this.getTableBody(document.content),
         columnStyles: {
-          0: {cellWidth: 10},
-          1: {cellWidth: 20},
-          2: {cellWidth: 20},
-          3: {cellWidth: 20},
-          4: {cellWidth: 40},
-          5: {cellWidth: 40},
-          6: {cellWidth: 30},
+          0: { cellWidth: 10 },
+          1: { cellWidth: 20 },
+          2: { cellWidth: 20 },
+          3: { cellWidth: 20 },
+          4: { cellWidth: 40 },
+          5: { cellWidth: 40 },
+          6: { cellWidth: 30 },
         }
       });
 
@@ -171,7 +171,7 @@ export class DownloadDocumentService {
         let horizontalPos = pageWidth / 2;
         let verticalPos = pageHeight - 10;
         doc.setPage(j);
-        doc.text(`${j} of ${pages}`, horizontalPos, verticalPos, {
+        doc.text(`${j} de ${pages}`, horizontalPos, verticalPos, {
           align: 'center'
         });
       }
@@ -184,14 +184,23 @@ export class DownloadDocumentService {
 
   private getTableBody(content) {
     return content.map((row, index) => {
-      const result = [];
+      let result: any = [];
       result.push(index);
-      result.push(row['CANTIDAD'] + ' ' + row['UNIDAD']);
-      result.push(row['CODIGO']);
-      result.push(row['FASE']);
-      result.push(row['REFERENCIA']);
-      result.push(row['DENOMINACION']);
-      result.push(row['COMENTARIOS'] || '');
+      if (row['type'] === 'component') {
+        result.push(row['CANTIDAD'] + ' ' + row['UNIDAD']);
+        result.push(row['CODIGO']);
+        result.push(row['FASE']);
+        result.push(row['REFERENCIA']);
+        result.push(row['DENOMINACION']);
+        result.push(row['COMENTARIOS'] || '');
+      } else {
+        result.push({
+          content: row['CONTENIDO'], colSpan: 6, styles: {
+            halign: 'left',
+            textColor: [0, 0, 0],
+          }
+        })
+      }
       return result
     })
   }

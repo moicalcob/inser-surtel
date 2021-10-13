@@ -15,7 +15,7 @@ services:
       - mongodb_data:/data/db
   
   backend:
-    build: ./inser-surtel-backend
+    build: ../inser-surtel-backend
     container_name: backend
     command: npm run start:prod
     ports:
@@ -29,7 +29,7 @@ services:
       - "mongodb"
 
   frontend:
-    build: ./inser-surtel
+    build: .
     ports:
         - 80:80
         - 443:443

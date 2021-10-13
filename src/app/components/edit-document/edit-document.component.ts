@@ -137,7 +137,8 @@ export class EditDocumentComponent {
       return {
         ...row,
         'UNIDAD': new FormControl(row['UNIDAD'] || null),
-        'COMENTARIOS': new FormControl(row['COMENTARIOS'] || null)
+        'COMENTARIOS': new FormControl(row['COMENTARIOS'] || null),
+        'CONTENIDO': new FormControl(row['CONTENIDO'] || null)
       }
     })
   }
@@ -147,7 +148,8 @@ export class EditDocumentComponent {
       return {
         ...row,
         'UNIDAD': row['UNIDAD'].value,
-        'COMENTARIOS': row['COMENTARIOS'].value
+        'COMENTARIOS': row['COMENTARIOS'].value,
+        'CONTENIDO': row['CONTENIDO'].value,
       }
     })
   }
@@ -173,7 +175,8 @@ export class EditDocumentComponent {
       result = {
         ...result,
         'UNIDAD': new FormControl(result['UNIDAD']),
-        'COMENTARIOS': new FormControl(result['COMENTARIOS'])
+        'COMENTARIOS': new FormControl(result['COMENTARIOS']),
+        'CONTENIDO': new FormControl(result['CONTENIDO'])
       }
       this.dataSource.push(result);
       this.table.renderRows();

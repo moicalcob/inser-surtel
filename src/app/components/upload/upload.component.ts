@@ -95,7 +95,8 @@ export class UploadComponent implements OnInit {
       const content = this.dataSource.map(row => {
         return {
           ...row,
-          UNIDAD: this.descriptionFormGroup.get('unidad').value
+          UNIDAD: this.descriptionFormGroup.get('unidad').value,
+          type: 'component'
         }
       })
       const response = await this.inserDocumentsService.createInserDocument(this.descriptionFormGroup.value, this.nameForm.value, content);

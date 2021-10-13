@@ -1,6 +1,17 @@
 <h1 mat-dialog-title class="text-center">Añadir línea</h1>
 <div mat-dialog-content>
-    <form [formGroup]="rowForm" class="flex flex-col items-center">
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Tipo de línea</mat-label>
+        <mat-select [formControl]="rowType">
+            <mat-option [value]="'component'">
+                Componente
+            </mat-option>
+            <mat-option [value]="'text'">
+                Texto
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <form *ngIf="rowType.value === 'component'" [formGroup]="rowFormComponent" class="flex flex-col items-center">
         <mat-form-field class="w-full" appearance="outline">
             <mat-label>Código</mat-label>
             <input matInput formControlName="CODIGO">
@@ -32,6 +43,12 @@
         <mat-form-field class="w-full" appearance="outline">
             <mat-label>Comentarios</mat-label>
             <textarea class="focus:ring-0" matInput formControlName="COMENTARIOS"></textarea>
+        </mat-form-field>
+    </form>
+    <form *ngIf="rowType.value === 'text'" [formGroup]="rowFormText" class="flex flex-col items-center">
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Contenido</mat-label>
+            <textarea class="focus:ring-0" matInput formControlName="CONTENIDO"></textarea>
         </mat-form-field>
     </form>
 </div>

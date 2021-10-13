@@ -8,7 +8,9 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./add-row-dialog.component.scss']
 })
 export class AddRowDialogComponent {
-  rowForm = new FormGroup({
+  rowType = new FormControl('component');
+
+  rowFormComponent = new FormGroup({
     'CODIGO': new FormControl('', Validators.required),
     'FASE': new FormControl('', Validators.required),
     'DENOMINACION': new FormControl('', Validators.required),
@@ -16,6 +18,10 @@ export class AddRowDialogComponent {
     'REFERENCIA': new FormControl('', Validators.required),
     'UNIDAD': new FormControl('', Validators.required),
     'COMENTARIOS': new FormControl(''),
+  })
+
+  rowFormText = new FormGroup({
+    'CONTENIDO': new FormControl('', Validators.required),
   })
 
   units = [
@@ -26,7 +32,7 @@ export class AddRowDialogComponent {
     {
       text: 'Mililítros',
       value: 'ml'
-    },{
+    }, {
       text: 'Gramos',
       value: 'g'
     }
@@ -39,10 +45,14 @@ export class AddRowDialogComponent {
   }
 
   confirm(): void {
-    if (this.rowForm.invalid) {
-      this.rowForm.markAllAsTouched();
+    const form = this.rowType.value === 'component' ? this.rowFormComponent : this.rowFormText;
+    if (form.invalid) {
+      form.markAllAsTouched();
       return
     }
-    this.dialogRef.close(this.rowForm.value)
+    this.dialogRef.close({
+      ...form.value,
+      type: this.rowType.value
+    })
   }
 }
