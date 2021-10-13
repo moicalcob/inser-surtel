@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
+import { InserDocumentsService } from 'src/app/services/inser-documents.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
@@ -62,7 +62,7 @@ export class EditDocumentComponent {
   });
 
   constructor(
-    private ingresDocumentsService: IngresDocumentsService,
+    private inserDocumentsService: InserDocumentsService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private _snackbar: MatSnackBar,
@@ -74,7 +74,7 @@ export class EditDocumentComponent {
   async getDocument() {
     try {
       this.documentId = this.route.snapshot.params['document_id'];
-      this.document = await this.ingresDocumentsService.getIngresDocumentById(this.documentId);
+      this.document = await this.inserDocumentsService.getInserDocumentById(this.documentId);
       this.initDocumentForm();
     } catch (error) {
       console.error(error);
@@ -94,12 +94,13 @@ export class EditDocumentComponent {
         return;
       }
       const new_content = this.getNewContent()
-      const response = await this.ingresDocumentsService
-        .updateIngresDocument(this.descriptionFormGroup.value, new_content, this.documentId, reason)
+      const response = await this.inserDocumentsService
+        .updateInserDocument(this.descriptionFormGroup.value, new_content, this.documentId, reason)
       if (response) {
         this._snackbar.open('Revisión creada correctamente', null, {
           duration: 3000
         })
+        this.getDocument();
       }
     } catch (error) {
       console.error(error);

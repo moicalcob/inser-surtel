@@ -10,31 +10,31 @@ services:
     ports:
       - '27017-27019:27017-27019'
     networks:
-      - ingres-network
+      - inser-network
     volumes:
       - mongodb_data:/data/db
   
   backend:
-    build: ./ingress-surtel-backend
+    build: ./inser-surtel-backend
     container_name: backend
     command: npm run start:prod
     ports:
         - 3000:3000
     networks:
-        - ingres-network
+        - inser-network
     restart: unless-stopped
     environment:
-      - DATABASE_URL=mongodb://root:rootpassword@db_mongo:27017/ingres?authSource=admin
+      - DATABASE_URL=mongodb://root:rootpassword@db_mongo:27017/inser?authSource=admin
     depends_on:
       - "mongodb"
 
   frontend:
-    build: ./ingres-surtel
+    build: ./inser-surtel
     ports:
         - 80:80
         - 443:443
     networks:
-        - ingres-network
+        - inser-network
     restart: unless-stopped
     depends_on:
       - "backend"
@@ -43,4 +43,4 @@ volumes:
   mongodb_data:
 
 networks:
-  ingres-network:
+  inser-network:

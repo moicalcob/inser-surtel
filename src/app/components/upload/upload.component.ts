@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
+import { InserDocumentsService } from 'src/app/services/inser-documents.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -41,7 +41,7 @@ export class UploadComponent implements OnInit {
   });
 
   constructor(
-    private ingresDocumentsService: IngresDocumentsService,
+    private inserDocumentsService: InserDocumentsService,
     private router: Router,
     private snackbar: MatSnackBar
   ) { }
@@ -69,7 +69,7 @@ export class UploadComponent implements OnInit {
 
         const data = XLSX.utils.sheet_to_json(ws);
 
-        const ingres_json: any[] = [];
+        const inser_json: any[] = [];
 
         // Clean excel data
         data.forEach((row: any) => {
@@ -78,10 +78,10 @@ export class UploadComponent implements OnInit {
             const clave = key.replace(/\s/g, "");
             row_cleaned[clave] = ("" + row[key]).replace(/\s/g, "");
           })
-          ingres_json.push(row_cleaned);
+          inser_json.push(row_cleaned);
         });
 
-        this.dataSource = ingres_json;
+        this.dataSource = inser_json;
       };
 
     }
@@ -98,7 +98,7 @@ export class UploadComponent implements OnInit {
           UNIDAD: this.descriptionFormGroup.get('unidad').value
         }
       })
-      const response = await this.ingresDocumentsService.createIngresDocument(this.descriptionFormGroup.value, this.nameForm.value, content);
+      const response = await this.inserDocumentsService.createInserDocument(this.descriptionFormGroup.value, this.nameForm.value, content);
       if (response) {
         this.snackbar.open('Documento creado correctamente', null, {
           duration: 3000

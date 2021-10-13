@@ -28,7 +28,7 @@ import { UploadComponent } from './components/upload/upload.component';
 import { DocumentsComponent } from './components/documents/documents.component';
 import { HeaderComponent } from './widgets/header/header.component';
 import { DocumentDescriptionFormComponent } from './widgets/document-description-form/document-description-form.component';
-import { IngresDocumentsService } from './services/ingres-documents.service';
+import { InserDocumentsService } from './services/inser-documents.service';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EditDocumentComponent } from './components/edit-document/edit-document.component';
@@ -85,7 +85,7 @@ import { DuplicateDocumentDialogComponent } from './utils/components/duplicate-d
     DragDropModule
   ],
   providers: [
-    IngresDocumentsService,
+    InserDocumentsService,
     { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     DownloadDocumentService

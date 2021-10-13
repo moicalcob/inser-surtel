@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { IngresDocumentsService } from './ingres-documents.service';
+import { InserDocumentsService } from './inser-documents.service';
 import * as moment from 'moment';
 
 @Injectable({
@@ -9,11 +9,11 @@ import * as moment from 'moment';
 })
 export class DownloadDocumentService {
 
-  constructor(private documentsService: IngresDocumentsService) { }
+  constructor(private documentsService: InserDocumentsService) { }
 
   public async downloadAsPDF(document_id) {
     try {
-      const document: any = await this.documentsService.getIngresDocumentById(document_id);
+      const document: any = await this.documentsService.getInserDocumentById(document_id);
       const doc: any = new jsPDF();
       let formattedDate = (moment(document.created_at)).format('HH:mm DD/MM/YYYY')
 
@@ -149,8 +149,17 @@ export class DownloadDocumentService {
       doc.addPage();
 
       autoTable(doc, {
-        head: [['', 'C.TOTAL', 'CODIGO', 'FASE', 'DENOMINACION', 'COMENTARIOS']],
-        body: this.getTableBody(document.content)
+        head: [['', 'C.TOTAL', 'CODIGO', 'FASE', 'REFERENCIA', 'DENOMINACION', 'COMENTARIOS']],
+        body: this.getTableBody(document.content),
+        columnStyles: {
+          0: {cellWidth: 10},
+          1: {cellWidth: 20},
+          2: {cellWidth: 20},
+          3: {cellWidth: 20},
+          4: {cellWidth: 40},
+          5: {cellWidth: 40},
+          6: {cellWidth: 30},
+        }
       });
 
       const pages = doc.getNumberOfPages();
@@ -167,7 +176,7 @@ export class DownloadDocumentService {
         });
       }
 
-      doc.save('tableToPdf.pdf');
+      doc.save(`${document.name}.pdf`);
     } catch (error) {
       console.error(error)
     }
@@ -191,7 +200,7 @@ export class DownloadDocumentService {
     return revisions.map((row, index) => {
       let formattedDate = (moment(row['updated_at'])).format('HH:mm DD/MM/YYYY')
       const result = [];
-      result.push(revisions.length - index);
+      result.push(revisions.length - index + 50);
       result.push(row['reason']);
       result.push(formattedDate);
       result.push(row['user']['name']);

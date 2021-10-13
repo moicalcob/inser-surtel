@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { IngresDocumentsService } from 'src/app/services/ingres-documents.service';
+import { InserDocumentsService } from 'src/app/services/inser-documents.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { DownloadDocumentService } from 'src/app/services/download-document.service';
@@ -27,7 +27,7 @@ export class DocumentsComponent implements AfterViewInit {
 
   constructor(
     public authService: AuthService,
-    private ingresDocumentsService: IngresDocumentsService,
+    private inserDocumentsService: InserDocumentsService,
     private downloadDocumentService: DownloadDocumentService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar
@@ -42,7 +42,7 @@ export class DocumentsComponent implements AfterViewInit {
 
   async getAllDocuments() {
     try {
-      this.documents = await this.ingresDocumentsService.getAllIngresDocuments();
+      this.documents = await this.inserDocumentsService.getAllInserDocuments();
       this.reloadTableData();
     } catch (error) {
       console.error(error);
@@ -54,7 +54,7 @@ export class DocumentsComponent implements AfterViewInit {
       const dialog = this.dialog.open(DuplicateDocumentDialogComponent);
       const documentName = await dialog.afterClosed().toPromise();
       if(!documentName) return;
-      const response = await this.ingresDocumentsService.duplicateIngresDocument(document_id, documentName);
+      const response = await this.inserDocumentsService.duplicateInserDocument(document_id, documentName);
       if(response) {
         this.snackbar.open('Documento duplicado correctamente', null, {
           duration: 3000
