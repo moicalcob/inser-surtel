@@ -41,6 +41,7 @@ import { UserDetailsComponent } from './components/users/user-details/user-detai
 import { AuthInterceptorService } from './auth.interceptor';
 import { AddRowDialogComponent } from './utils/components/add-row-dialog/add-row-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { DuplicateDocumentDialogComponent } from './utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MatSelectModule } from '@angular/material/select';
     UsersComponent,
     UserDetailsComponent,
     AddRowDialogComponent,
+    DuplicateDocumentDialogComponent,
   ],
   imports: [
     BrowserModule,

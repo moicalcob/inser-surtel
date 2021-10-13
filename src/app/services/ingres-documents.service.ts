@@ -35,4 +35,12 @@ export class IngresDocumentsService {
     }
     return this.httpClient.put(environment.API_URL + '/ingres-document/' + documentId, body).toPromise();
   }
+
+  public duplicateIngresDocument(documentId: string, documentName: string) {
+    const body = {
+      documentId: documentId,
+      documentName: documentName
+    }
+    return this.httpClient.post(environment.API_URL + '/ingres-document/duplicate', body).toPromise();
+  }
 }

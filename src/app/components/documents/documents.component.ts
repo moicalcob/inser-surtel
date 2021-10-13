@@ -5,6 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { DownloadDocumentService } from 'src/app/services/download-document.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DuplicateDocumentDialogComponent } from 'src/app/utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-documents',
@@ -25,7 +28,9 @@ export class DocumentsComponent implements AfterViewInit {
   constructor(
     public authService: AuthService,
     private ingresDocumentsService: IngresDocumentsService,
-    private downloadDocumentService: DownloadDocumentService
+    private downloadDocumentService: DownloadDocumentService,
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
   ) {
     this.getAllDocuments();
   }
@@ -39,6 +44,23 @@ export class DocumentsComponent implements AfterViewInit {
     try {
       this.documents = await this.ingresDocumentsService.getAllIngresDocuments();
       this.reloadTableData();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async duplicateDocument(document_id) {
+    try {
+      const dialog = this.dialog.open(DuplicateDocumentDialogComponent);
+      const documentName = await dialog.afterClosed().toPromise();
+      if(!documentName) return;
+      const response = await this.ingresDocumentsService.duplicateIngresDocument(document_id, documentName);
+      if(response) {
+        this.snackbar.open('Documento duplicado correctamente', null, {
+          duration: 3000
+        })
+        this.getAllDocuments();
+      }
     } catch (error) {
       console.error(error);
     }

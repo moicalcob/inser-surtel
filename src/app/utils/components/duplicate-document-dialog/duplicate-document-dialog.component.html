@@ -1,0 +1,11 @@
+<h1 mat-dialog-title class="text-center">Duplicar documento</h1>
+<div mat-dialog-content>
+    <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput [formControl]="nameForm">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions class="flex flex-row justify-around">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-button (click)="confirm()">Confirmar</button>
+</div>
