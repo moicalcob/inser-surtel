@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { InserDocumentsService } from 'src/app/services/inser-documents.service';
-import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
+import { RevisionConfirmationDialogComponent } from 'src/app/utils/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
 import { AuthService } from 'src/app/services/auth.service';
@@ -22,7 +22,7 @@ export class EditDocumentComponent {
   document;
   documentId;
   displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION',
-   'REFERENCIA', 'CANTIDAD', 'UNIDAD', 'COMENTARIOS', 'actions'];
+    'REFERENCIA', 'CANTIDAD', 'UNIDAD', 'COMENTARIOS', 'MSD', 'actions'];
   dataSource = [];
   @ViewChild('table') table: MatTable<any>;
 
@@ -34,16 +34,21 @@ export class EditDocumentComponent {
     {
       text: 'Mililítros',
       value: 'ml'
-    },{
+    }, {
       text: 'Gramos',
       value: 'g'
     }
   ]
 
+  msd_choices = [1, 2, 3, 4, 5, 6]
+
+  name = new FormControl('', Validators.required);
   descriptionFormGroup = new FormGroup({
     cod_modulo: new FormControl('', [Validators.required]),
     plano_situacion: new FormControl('', [Validators.required]),
     plano_electrico: new FormControl('', [Validators.required]),
+    plano_situacion_edicion: new FormControl('VER HL', [Validators.required]),
+    plano_electrico_edicion: new FormControl('VER HL', [Validators.required]),
     num_componentes: new FormControl(0, [Validators.required]),
     smds: new FormControl(0, [Validators.required]),
     tht: new FormControl(0, [Validators.required]),
@@ -59,6 +64,10 @@ export class EditDocumentComponent {
     cliente: new FormControl('', [Validators.required]),
     denominacion: new FormControl('', [Validators.required]),
     codigo: new FormControl('', [Validators.required]),
+    smd_comp: new FormControl('', [Validators.required]),
+    smd_sold: new FormControl('', [Validators.required]),
+    tradic: new FormControl('', [Validators.required]),
+    trazabilidad: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -81,10 +90,26 @@ export class EditDocumentComponent {
     }
   }
 
-  async update_document() {
+  async updateDocument() {
+    try {
+      const new_content = this.getNewContent()
+      const response = await this.inserDocumentsService
+        .updateInserDocument(this.descriptionFormGroup.value, new_content, this.name.value, this.documentId)
+      if (response) {
+        this._snackbar.open('Documento actualizado correctamente', null, {
+          duration: 3000
+        })
+        this.getDocument();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async createDocumentVersion() {
     try {
       // Confirmation dialog
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      const dialogRef = this.dialog.open(RevisionConfirmationDialogComponent, {
         width: '250px',
       });
 
@@ -95,7 +120,7 @@ export class EditDocumentComponent {
       }
       const new_content = this.getNewContent()
       const response = await this.inserDocumentsService
-        .updateInserDocument(this.descriptionFormGroup.value, new_content, this.documentId, reason)
+        .createInserDocumentRevision(this.descriptionFormGroup.value, new_content, this.documentId, this.name.value, reason)
       if (response) {
         this._snackbar.open('Revisión creada correctamente', null, {
           duration: 3000
@@ -108,10 +133,13 @@ export class EditDocumentComponent {
   }
 
   private initDocumentForm() {
+    this.name.setValue(this.document.name);
     this.descriptionFormGroup.setValue({
       cod_modulo: this.document.description.cod_modulo || '',
       plano_situacion: this.document.description.plano_situacion || '',
       plano_electrico: this.document.description.plano_electrico || '',
+      plano_situacion_edicion: this.document.description.plano_situacion_edicion || 'VER HL',
+      plano_electrico_edicion: this.document.description.plano_electrico_edicion || 'VER HL',
       num_componentes: this.document.description.num_componentes || 0,
       smds: this.document.description.smds || 0,
       tht: this.document.description.tht || 0,
@@ -126,7 +154,11 @@ export class EditDocumentComponent {
       producto: this.document.description.producto || '',
       cliente: this.document.description.cliente || '',
       denominacion: this.document.description.denominacion || '',
-      codigo: this.document.description.codigo || ''
+      codigo: this.document.description.codigo || '',
+      smd_comp: this.document.description.smd_comp || '',
+      smd_sold: this.document.description.smd_sold || '',
+      tradic: this.document.description.tradic || '',
+      trazabilidad: this.document.description.trazabilidad || ''
     })
     this.generateContentFormArray(this.document.content);
     this.loaded = true;
@@ -138,6 +170,7 @@ export class EditDocumentComponent {
         ...row,
         'UNIDAD': new FormControl(row['UNIDAD'] || null),
         'COMENTARIOS': new FormControl(row['COMENTARIOS'] || null),
+        'MSD': new FormControl(row['MSD'] || null),
         'CONTENIDO': new FormControl(row['CONTENIDO'] || null)
       }
     })
@@ -149,6 +182,7 @@ export class EditDocumentComponent {
         ...row,
         'UNIDAD': row['UNIDAD'].value,
         'COMENTARIOS': row['COMENTARIOS'].value,
+        'MSD': row['MSD'].value,
         'CONTENIDO': row['CONTENIDO'].value,
       }
     })
@@ -176,6 +210,7 @@ export class EditDocumentComponent {
         ...result,
         'UNIDAD': new FormControl(result['UNIDAD']),
         'COMENTARIOS': new FormControl(result['COMENTARIOS']),
+        'MSD': new FormControl(result['MSD']),
         'CONTENIDO': new FormControl(result['CONTENIDO'])
       }
       this.dataSource.push(result);

@@ -33,13 +33,20 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-1"></th>
                 <td mat-cell *matCellDef="let element" class="w-1">
                     <div class="flex flex-row">
-                        <button matTooltip="Editar documento" *ngIf="authService.isAdmin()" class="p-0" mat-flat-button [routerLink]="'/document/' + element._id">
+                        <button matTooltip="Editar documento" *ngIf="authService.isAdmin()" class="p-0" mat-flat-button
+                            [routerLink]="'/document/' + element._id">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button matTooltip="Duplicar documento" *ngIf="authService.isAdmin()" class="p-0" (click)="duplicateDocument(element._id)">
+                        <button matTooltip="Eliminar documento" *ngIf="authService.isAdmin()" class="p-0"
+                            mat-flat-button (click)="deleteDocument(element._id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button matTooltip="Duplicar documento" *ngIf="authService.isAdmin()" class="p-0"
+                            mat-flat-button (click)="duplicateDocument(element._id)">
                             <mat-icon>file_copy</mat-icon>
                         </button>
-                        <button matTooltip="Descargar documento" class="p-0" mat-flat-button (click)="downloadDocument(element)">
+                        <button matTooltip="Descargar documento" class="p-0" mat-flat-button
+                            (click)="downloadDocument(element)">
                             <mat-icon>download</mat-icon>
                         </button>
                     </div>

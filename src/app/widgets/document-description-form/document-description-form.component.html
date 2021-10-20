@@ -1,6 +1,6 @@
 <form [formGroup]="descriptionFormGroup">
     <div class="rounded border-2 border-primary p-4 mb-4">
-        <div class="grid grid-flow-row grid-cols-3 gap-4">
+        <div class="grid grid-flow-row grid-cols-2 gap-4">
             <mat-form-field appearance="standard">
                 <mat-label>CÓDIGO MÓDULO</mat-label>
                 <input matInput formControlName="cod_modulo">
@@ -44,7 +44,32 @@
             </div>
         </div>
 
+        <div class="grid grid-flow-row grid-cols-3 gap-4">
+            <div class="flex flex-col">
+                <mat-form-field appearance="standard">
+                    <input matInput formControlName="smd_comp">
+                    <mat-label>SMD COMP:</mat-label>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col">
+                <mat-form-field appearance="standard">
+                    <input matInput formControlName="smd_sold">
+                    <mat-label>SMD SOLD:</mat-label>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col">
+                <mat-form-field appearance="standard">
+                    <input matInput formControlName="tradic">
+                    <mat-label>TRADIC:</mat-label>
+                </mat-form-field>
+            </div>
+        </div>
+
         <!-- DATOS PCB -->
+        <mat-form-field appearance="standard" class="w-full">
+            <input matInput formControlName="trazabilidad">
+            <mat-label>TRAZABILIDAD:</mat-label>
+        </mat-form-field>
         <mat-form-field appearance="standard" class="w-full">
             <mat-label>DATOS PCB:</mat-label>
             <input matInput formControlName="datos_pcb">

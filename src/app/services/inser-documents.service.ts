@@ -27,13 +27,23 @@ export class InserDocumentsService {
     return this.httpClient.post(environment.API_URL + '/inser-document', body).toPromise();
   }
 
-  public updateInserDocument(description: DocumentDescription, content: any[], documentId: string, reason: string): Promise<any> {
+  public updateInserDocument(description: DocumentDescription, content: any[], name: string, documentId: string): Promise<any> {
     const body = {
       description: description,
       content: content,
-      reason: reason
+      name: name
     }
     return this.httpClient.put(environment.API_URL + '/inser-document/' + documentId, body).toPromise();
+  }
+
+  public createInserDocumentRevision(description: DocumentDescription, content: any[], documentId: string, name: string, reason: string): Promise<any> {
+    const body = {
+      description: description,
+      content: content,
+      reason: reason,
+      name: name
+    }
+    return this.httpClient.post(environment.API_URL + '/inser-document/revision/' + documentId, body).toPromise();
   }
 
   public duplicateInserDocument(documentId: string, documentName: string) {
@@ -42,5 +52,9 @@ export class InserDocumentsService {
       documentName: documentName
     }
     return this.httpClient.post(environment.API_URL + '/inser-document/duplicate', body).toPromise();
+  }
+
+  public deleteInserDocument(documentId: string) {
+    return this.httpClient.delete(environment.API_URL + '/inser-document/' + documentId).toPromise();
   }
 }

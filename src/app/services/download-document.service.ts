@@ -30,6 +30,8 @@ export class DownloadDocumentService {
 
       let finalY = doc.lastAutoTable.finalY;
 
+      this.drawLine(doc, 15, doc.lastAutoTable.finalY, doc.internal.pageSize.getWidth() - 15, doc.lastAutoTable.finalY);
+
       autoTable(doc, {
         head: [['', '']],
         body: [
@@ -42,8 +44,12 @@ export class DownloadDocumentService {
         },
         showHead: false,
         startY: finalY,
-        theme: 'plain'
+        theme: 'plain',
       });
+
+      this.drawLine(doc, 15, finalY, 15, doc.lastAutoTable.finalY);
+      this.drawLine(doc, doc.internal.pageSize.getWidth() - 15, finalY, doc.internal.pageSize.getWidth() - 15, doc.lastAutoTable.finalY);
+      this.drawLine(doc, 15, doc.lastAutoTable.finalY, doc.internal.pageSize.getWidth() - 15, doc.lastAutoTable.finalY);
 
       autoTable(doc, {
         head: [['DOCUMENTACIÓN APLICABLE']],
@@ -59,13 +65,12 @@ export class DownloadDocumentService {
         head: [['', '']],
         body: [
           [`LISTA DE PIEZAS: ${document?.description?.cod_modulo}`, `EDICION: POR APLICAR`],
-          [`PLANO SITUACION: ${document?.description?.plano_situacion}`, `EDICION: POR APLICAR`],
-          [`PLANO ELECTRICO: ${document?.description?.plano_electrico}`, `EDICION: POR APLICAR`]
+          [`PLANO SITUACION: ${document?.description?.plano_situacion}`, `EDICION: ${document?.description?.plano_situacion_edicion}`],
+          [`PLANO ELECTRICO: ${document?.description?.plano_electrico}`, `EDICION: ${document?.description?.plano_electrico_edicion}`]
         ],
         showHead: false,
         startY: finalY,
       });
-
 
       autoTable(doc, {
         head: [['PROGRAMAS DE INSERTADO SMD Y TRADICIONAL']],
@@ -80,7 +85,7 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '', '']],
         body: [
-          [`SMD COMP.: POR APLICAR`, `SMD SOLD.: POR APLICAR`, `TRADIC.: POR APLICAR`],
+          [`SMD COMP.: ${document?.description?.smd_comp}`, `SMD SOLD.: ${document?.description?.smd_sold}`, `TRADIC.: ${document?.description?.tradic}`],
         ],
         showHead: false,
         startY: finalY,
@@ -89,7 +94,7 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '', '']],
         body: [
-          [`Nº DE COMPONENTES > TRAD: POR APLICAR`, `SMD/S: POR APLICAR`, `SMD/C: POR APLICAR`],
+          [`Nº DE COMPONENTES > TRAD: POR APLICAR`, `SMD/S: ${document?.description?.smds}`, `SMD/C: ${document?.description?.num_componentes}`],
         ],
         showHead: false
       });
@@ -149,16 +154,17 @@ export class DownloadDocumentService {
       doc.addPage();
 
       autoTable(doc, {
-        head: [['', 'C.TOTAL', 'CODIGO', 'FASE', 'REFERENCIA', 'DENOMINACION', 'COMENTARIOS']],
+        head: [['', 'C.TOTAL', 'CODIGO', 'FASE', 'REFERENCIA', 'DENOMINACION', 'COMENTARIOS', 'MSD']],
         body: this.getTableBody(document.content),
         columnStyles: {
           0: { cellWidth: 10 },
           1: { cellWidth: 20 },
           2: { cellWidth: 20 },
           3: { cellWidth: 20 },
-          4: { cellWidth: 40 },
-          5: { cellWidth: 40 },
+          4: { cellWidth: 35 },
+          5: { cellWidth: 35 },
           6: { cellWidth: 30 },
+          7: { cellWidth: 10 }
         }
       });
 
@@ -193,6 +199,7 @@ export class DownloadDocumentService {
         result.push(row['REFERENCIA']);
         result.push(row['DENOMINACION']);
         result.push(row['COMENTARIOS'] || '');
+        result.push(row['MSD'] || '');
       } else {
         result.push({
           content: row['CONTENIDO'], colSpan: 6, styles: {
@@ -215,5 +222,12 @@ export class DownloadDocumentService {
       result.push(row['user']['name']);
       return result
     })
+  }
+
+  private drawLine(doc, x1, y1, x2, y2) {
+    doc.setLineWidth(1);
+    doc.setDrawColor(0, 0, 0);
+    doc.line(x1, y1, x2, y2);
+
   }
 }

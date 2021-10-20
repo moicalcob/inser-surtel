@@ -1,12 +1,8 @@
-<h1 mat-dialog-title>Confirmar revisión</h1>
-<div mat-dialog-content>
-    <p>¿Seguro que quieres crear una nueva revisión del documento?</p>
-    <mat-form-field appearance="fill">
-        <mat-label>Cambios:</mat-label>
-        <input matInput [formControl]="reasonForm">
-    </mat-form-field>
+<h1 mat-dialog-title class="text-center">Eliminar documento</h1>
+<div mat-dialog-content class="text-center">
+    <p>¿Seguro que quieres eliminar el documento?</p>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="justify-center">
     <button mat-button (click)="cancel()">Cancelar</button>
     <button mat-button (click)="confirm()">Confirmar</button>
 </div>

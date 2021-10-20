@@ -34,7 +34,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { EditDocumentComponent } from './components/edit-document/edit-document.component';
 import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
 import { DownloadDocumentService } from './services/download-document.service';
-import { ConfirmationDialogComponent } from './utils/components/confirmation-dialog/confirmation-dialog.component';
+import { RevisionConfirmationDialogComponent } from './utils/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { LoginComponent } from './components/login/login.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
@@ -42,6 +42,7 @@ import { AuthInterceptorService } from './auth.interceptor';
 import { AddRowDialogComponent } from './utils/components/add-row-dialog/add-row-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { DuplicateDocumentDialogComponent } from './utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
+import { ConfirmationDialogComponent } from './utils/components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,12 +52,13 @@ import { DuplicateDocumentDialogComponent } from './utils/components/duplicate-d
     HeaderComponent,
     DocumentDescriptionFormComponent,
     EditDocumentComponent,
-    ConfirmationDialogComponent,
+    RevisionConfirmationDialogComponent,
     LoginComponent,
     UsersComponent,
     UserDetailsComponent,
     AddRowDialogComponent,
     DuplicateDocumentDialogComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,20 +2,38 @@
 
 <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Descripción">
-        <form [formGroup]="descriptionFormGroup" *ngIf="loaded" class="p-4">
+        <div class="px-4 pt-4 w-full">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Título del documento</mat-label>
+                <input matInput [formControl]="name">
+            </mat-form-field>
+        </div>
+        <form [formGroup]="descriptionFormGroup" *ngIf="loaded" class="px-4 pb-2">
             <div class="rounded border-2 border-primary p-4 mb-4">
-                <div class="grid grid-flow-row grid-cols-3 gap-4">
+                <div class="grid grid-flow-row grid-cols-2 gap-4">
                     <mat-form-field appearance="standard">
                         <mat-label>CÓDIGO MÓDULO</mat-label>
                         <input matInput formControlName="cod_modulo">
+                    </mat-form-field>
+                    <mat-form-field appearance="standard">
+                        <mat-label>EDICIÓN</mat-label>
+                        <input matInput>
                     </mat-form-field>
                     <mat-form-field appearance="standard">
                         <mat-label>PLANO SITUACIÓN</mat-label>
                         <input matInput formControlName="plano_situacion">
                     </mat-form-field>
                     <mat-form-field appearance="standard">
+                        <mat-label>EDICIÓN</mat-label>
+                        <input matInput formControlName="plano_situacion_edicion">
+                    </mat-form-field>
+                    <mat-form-field appearance="standard">
                         <mat-label>PLANO ELÉCTRICO</mat-label>
                         <input matInput formControlName="plano_electrico">
+                    </mat-form-field>
+                    <mat-form-field appearance="standard">
+                        <mat-label>EDICIÓN</mat-label>
+                        <input matInput formControlName="plano_electrico_edicion">
                     </mat-form-field>
                 </div>
             </div>
@@ -48,7 +66,32 @@
                     </div>
                 </div>
 
+                <div class="grid grid-flow-row grid-cols-3 gap-4">
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="standard">
+                            <input matInput formControlName="smd_comp">
+                            <mat-label>SMD COMP:</mat-label>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="standard">
+                            <input matInput formControlName="smd_sold">
+                            <mat-label>SMD SOLD:</mat-label>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <mat-form-field appearance="standard">
+                            <input matInput formControlName="tradic">
+                            <mat-label>TRADIC:</mat-label>
+                        </mat-form-field>
+                    </div>
+                </div>
+
                 <!-- DATOS PCB -->
+                <mat-form-field appearance="standard" class="w-full">
+                    <input matInput formControlName="trazabilidad">
+                    <mat-label>TRAZABILIDAD:</mat-label>
+                </mat-form-field>
                 <mat-form-field appearance="standard" class="w-full">
                     <mat-label>DATOS PCB:</mat-label>
                     <input matInput formControlName="datos_pcb">
@@ -112,14 +155,11 @@
             <table #table *ngIf="dataSource?.length > 0" mat-table [dataSource]="dataSource"
                 class="mat-elevation-z8 w-full mt-4" cdkDropList [cdkDropListData]="dataSource"
                 (cdkDropListDropped)="dropTable($event)">
-                <ng-container matColumnDef="true">
-                    Hola
-                </ng-container>
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef>Nº línea</th>
                     <td mat-cell *matCellDef="let element; let i = index">
                         <div class="flex flex-row items-center">
-                            <mat-icon cdkDragHandle>reorder</mat-icon>
+                            <mat-icon cdkDragHandle class="cursor-pointer">reorder</mat-icon>
                             <span class="p-2">{{i + 1}}</span>
                         </div>
                     </td>
@@ -134,7 +174,6 @@
                     <th mat-header-cell *matHeaderCellDef>Denominación</th>
                     <td mat-cell *matCellDef="let element">
                         <span *ngIf="element.type === 'component'">{{element['DENOMINACION']}}</span>
-                        <span *ngIf="element.type === 'text'">Línea de texto:</span>
                     </td>
                 </ng-container>
 
@@ -167,11 +206,23 @@
 
                 <ng-container matColumnDef="COMENTARIOS">
                     <th mat-header-cell *matHeaderCellDef>Comentarios</th>
-                    <td mat-cell *matCellDef="let element">
+                    <td mat-cell *matCellDef="let element" [ngClass]="{'comments-row': element.type === 'text'}">
                         <textarea *ngIf="element.type === 'component'" class="mt-2"
                             [formControl]="element['COMENTARIOS']"></textarea>
                         <textarea *ngIf="element.type === 'text'" class="mt-2"
                             [formControl]="element['CONTENIDO']"></textarea>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="MSD">
+                    <th mat-header-cell *matHeaderCellDef class="unit-col col-center">MSD</th>
+                    <td mat-cell *matCellDef="let element" class="unit-col">
+                        <mat-select *ngIf="element.type === 'component'" [formControl]="element['MSD']"
+                            class="text-center pr-2 w-full">
+                            <mat-option *ngFor="let choice of msd_choices" [value]="choice">
+                                {{choice}}
+                            </mat-option>
+                        </mat-select>
                     </td>
                 </ng-container>
 
@@ -221,6 +272,7 @@
     </mat-tab>
 </mat-tab-group>
 
-<div class="pb-4 w-full flex flex-col items-center">
-    <button mat-flat-button color="primary" class="mt-4" (click)="update_document()">Guardar</button>
+<div class="pb-4 w-full flex flex-row items-center justify-around">
+    <button mat-flat-button color="primary" class="mt-4" (click)="updateDocument()">Guardar</button>
+    <button mat-flat-button color="primary" class="mt-4" (click)="createDocumentVersion()">Generar revisión</button>
 </div>

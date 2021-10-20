@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DuplicateDocumentDialogComponent } from 'src/app/utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-documents',
@@ -53,10 +54,27 @@ export class DocumentsComponent implements AfterViewInit {
     try {
       const dialog = this.dialog.open(DuplicateDocumentDialogComponent);
       const documentName = await dialog.afterClosed().toPromise();
-      if(!documentName) return;
+      if (!documentName) return;
       const response = await this.inserDocumentsService.duplicateInserDocument(document_id, documentName);
-      if(response) {
+      if (response) {
         this.snackbar.open('Documento duplicado correctamente', null, {
+          duration: 3000
+        })
+        this.getAllDocuments();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async deleteDocument(document_id) {
+    try {
+      const dialog = this.dialog.open(ConfirmationDialogComponent);
+      const confirmation = await dialog.afterClosed().toPromise();
+      if (!confirmation) return;
+      const response = await this.inserDocumentsService.deleteInserDocument(document_id);
+      if (response) {
+        this.snackbar.open('Documento eliminado correctamente', null, {
           duration: 3000
         })
         this.getAllDocuments();

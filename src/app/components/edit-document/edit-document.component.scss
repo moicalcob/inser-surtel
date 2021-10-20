@@ -1,7 +1,26 @@
+textarea {
+    resize: none;
+}
+
 .unit-col {
     min-width: 4rem;
 }
 
 .col-center {
     text-align: center !important;
+}
+
+table tr {
+    position: relative;
+    height: 80px;
+}
+
+.comments-row {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+}
+
+.comments-row textarea {
+    width: 100%;
 }

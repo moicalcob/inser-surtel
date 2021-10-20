@@ -18,11 +18,7 @@ export class ConfirmationDialogComponent {
   }
 
   confirm(): void {
-    if (this.reasonForm.invalid) {
-      this.reasonForm.markAllAsTouched();
-      return
-    }
-    this.dialogRef.close(this.reasonForm.value)
+    this.dialogRef.close(true)
   }
 
 }

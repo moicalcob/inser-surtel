@@ -37,6 +37,10 @@ export class UploadComponent implements OnInit {
     cliente: new FormControl('', [Validators.required]),
     denominacion: new FormControl('', [Validators.required]),
     codigo: new FormControl('', [Validators.required]),
+    smd_comp: new FormControl('', [Validators.required]),
+    smd_sold: new FormControl('', [Validators.required]),
+    tradic: new FormControl('', [Validators.required]),
+    trazabilidad: new FormControl('', [Validators.required]),
     unidad: new FormControl('')
   });
 
