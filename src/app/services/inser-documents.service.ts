@@ -14,6 +14,13 @@ export class InserDocumentsService {
     return this.httpClient.get(environment.API_URL + '/inser-document').toPromise();
   }
 
+  public getResumeOfNeededPieces(documents: string[]): Promise<any> {
+    const body = {
+      documents: documents
+    }
+    return this.httpClient.post(environment.API_URL + '/inser-document/needed-pieces', body).toPromise();
+  }
+
   public getInserDocumentById(documentId: string) {
     return this.httpClient.get(environment.API_URL + '/inser-document/' + documentId).toPromise();
   }

@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DuplicateDocumentDialogComponent } from 'src/app/utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-documents',
@@ -20,11 +22,12 @@ export class DocumentsComponent implements AfterViewInit {
 
   documents: any[] = [];
 
-  displayedColumns: string[] = ['name', 'created_at', 'last_modification', 'revisions', 'actions'];
+  displayedColumns: string[] = ['select', 'name', 'created_at', 'last_modification', 'revisions', 'actions'];
   dataSource = new MatTableDataSource(this.documents);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  selection = new SelectionModel<any>(true, []);
 
   constructor(
     public authService: AuthService,
@@ -84,6 +87,20 @@ export class DocumentsComponent implements AfterViewInit {
     }
   }
 
+  async generateNeededPieces() {
+    try {
+      const documentsIds = this.selection.selected.map(document => document._id);
+      const response = await this.inserDocumentsService.getResumeOfNeededPieces(documentsIds);
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(response);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Resumen de necesidades');
+      const name = `${this.selection.selected.map(document => document.name).join(' - ')}_${new Date().toLocaleDateString()}.xlsx`
+      XLSX.writeFile(wb, name);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   reloadTableData() {
     this.dataSource = new MatTableDataSource(this.documents);
     this.dataSource.paginator = this.paginator;
@@ -101,6 +118,28 @@ export class DocumentsComponent implements AfterViewInit {
 
   downloadDocument(document) {
     this.downloadDocumentService.downloadAsPDF(document._id);
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
 }

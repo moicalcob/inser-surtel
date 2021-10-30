@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -76,6 +77,7 @@ import { ConfirmationDialogComponent } from './utils/components/confirmation-dia
     MatFormFieldModule,
     HttpClientModule,
     MatPaginatorModule,
+    MatCheckboxModule,
     MatSortModule,
     MatSelectModule,
     MatTabsModule,

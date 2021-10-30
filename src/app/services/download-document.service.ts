@@ -37,7 +37,7 @@ export class DownloadDocumentService {
         body: [
           [`MODULO: ${document?.description?.denominacion}`, ''],
           [`CODIGO: ${document?.description?.codigo}`, ''],
-          [`PRODUCTO: POR APLICAR`, `CLIENTE: ${document?.description?.cliente}`]
+          [`PRODUCTO: ${document?.description?.producto}`, `CLIENTE: ${document?.description?.cliente}`]
         ],
         headStyles: {
           halign: 'center'
@@ -94,7 +94,7 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '', '']],
         body: [
-          [`Nº DE COMPONENTES > TRAD: POR APLICAR`, `SMD/S: ${document?.description?.smds}`, `SMD/C: ${document?.description?.num_componentes}`],
+          [`Nº DE COMPONENTES > TRAD: ${document?.description.num_componentes}`, `SMD/S: ${document?.description?.smds}`, `SMD/C: ${document?.description?.num_componentes}`],
         ],
         showHead: false
       });
