@@ -35,7 +35,7 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '']],
         body: [
-          [`MODULO: ${document?.description?.denominacion}`, ''],
+          [`MODULO: ${document?.description?.modulo}`, ''],
           [`CODIGO: ${document?.description?.codigo}`, ''],
           [`PRODUCTO: ${document?.description?.producto}`, `CLIENTE: ${document?.description?.cliente}`]
         ],
@@ -64,7 +64,7 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '']],
         body: [
-          [`LISTA DE PIEZAS: ${document?.description?.cod_modulo}`, `EDICION: POR APLICAR`],
+          [`LISTA DE PIEZAS: ${document?.description?.lista_piezas}`, `EDICION: ${document?.description?.lista_piezas_edicion}`],
           [`PLANO SITUACION: ${document?.description?.plano_situacion}`, `EDICION: ${document?.description?.plano_situacion_edicion}`],
           [`PLANO ELECTRICO: ${document?.description?.plano_electrico}`, `EDICION: ${document?.description?.plano_electrico_edicion}`]
         ],
@@ -94,7 +94,7 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '', '']],
         body: [
-          [`Nº DE COMPONENTES > TRAD: ${document?.description.num_componentes}`, `SMD/S: ${document?.description?.smds}`, `SMD/C: ${document?.description?.num_componentes}`],
+          [`Nº DE COMPONENTES > TRAD: ${document?.description.num_componentes}`, `SMD/S: ${document?.description?.smds}`, `SMD/C: ${document?.description?.smdc}`],
         ],
         showHead: false
       });
@@ -107,7 +107,7 @@ export class DownloadDocumentService {
           [`SOLDADURA REFLUJO: ${document?.description.reflujo}`],
           [`CURADO ADHESIVO: ${document?.description.adhesivo}`],
           [`SOLDADURA OLA: ${document?.description.ola}`],
-          [`PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA: POR APLICAR`]
+          [`PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA: ${document?.description.preformado_max}`]
         ],
         showHead: false
       });

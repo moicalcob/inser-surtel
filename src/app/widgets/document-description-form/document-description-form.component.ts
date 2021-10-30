@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './document-description-form.component.html',
   styleUrls: ['./document-description-form.component.scss']
 })
-export class DocumentDescriptionFormComponent implements OnInit {
+export class DocumentDescriptionFormComponent {
 
   @Input() descriptionFormGroup: FormGroup;
   
@@ -23,9 +23,7 @@ export class DocumentDescriptionFormComponent implements OnInit {
       value: 'g'
     }
   ]
-  constructor() { }
 
-  ngOnInit(): void {
-  }
+  constructor() { }
 
 }

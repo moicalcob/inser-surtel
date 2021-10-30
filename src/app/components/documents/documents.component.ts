@@ -22,7 +22,7 @@ export class DocumentsComponent implements AfterViewInit {
 
   documents: any[] = [];
 
-  displayedColumns: string[] = ['select', 'name', 'created_at', 'last_modification', 'revisions', 'actions'];
+  displayedColumns: string[] = ['select', 'name', 'codigo', 'created_at', 'last_modification', 'revisions', 'actions'];
   dataSource = new MatTableDataSource(this.documents);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -105,6 +105,13 @@ export class DocumentsComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(this.documents);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = (data, filter: string): boolean => {
+      const dataStr = (data.name + data.description.id_documento).toLowerCase();
+
+      const transformedFilter = filter.trim().toLowerCase();
+
+      return dataStr.indexOf(transformedFilter) != -1;
+    }
   }
 
   applyFilter(event: Event) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -44,30 +44,36 @@ export class EditDocumentComponent {
 
   name = new FormControl('', Validators.required);
   descriptionFormGroup = new FormGroup({
-    cod_modulo: new FormControl('', [Validators.required]),
+    modulo: new FormControl('', [Validators.required]),
+    codigo: new FormControl('', [Validators.required]),
+    producto: new FormControl('', [Validators.required]),
+    cliente: new FormControl('', [Validators.required]),
+    // DOCUMENTACIÓN APLICABLE
+    lista_piezas: new FormControl('', [Validators.required]),
     plano_situacion: new FormControl('', [Validators.required]),
     plano_electrico: new FormControl('', [Validators.required]),
+    lista_piezas_edicion: new FormControl('VER HL', [Validators.required]),
     plano_situacion_edicion: new FormControl('VER HL', [Validators.required]),
     plano_electrico_edicion: new FormControl('VER HL', [Validators.required]),
+    // PROGRAMAS DE INSERTADO SMD Y TRADICIONAL
+    smd_comp: new FormControl('', [Validators.required]),
+    smd_sold: new FormControl('', [Validators.required]),
+    tradic: new FormControl('', [Validators.required]),
     num_componentes: new FormControl(0, [Validators.required]),
     smds: new FormControl(0, [Validators.required]),
-    tht: new FormControl(0, [Validators.required]),
-    max_lt: new FormControl(0, [Validators.required]),
+    smdc: new FormControl(0, [Validators.required]),
     datos_pcb: new FormControl('', [Validators.required]),
     serigrafia: new FormControl('', [Validators.required]),
     reflujo: new FormControl('', [Validators.required]),
     adhesivo: new FormControl('', [Validators.required]),
     ola: new FormControl('', [Validators.required]),
+    preformado_max: new FormControl('', [Validators.required]),
+    // NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP)
     norma_surtel: new FormControl('', [Validators.required]),
     norma_cliente: new FormControl('', [Validators.required]),
-    producto: new FormControl('', [Validators.required]),
-    cliente: new FormControl('', [Validators.required]),
-    denominacion: new FormControl('', [Validators.required]),
-    codigo: new FormControl('', [Validators.required]),
-    smd_comp: new FormControl('', [Validators.required]),
-    smd_sold: new FormControl('', [Validators.required]),
-    tradic: new FormControl('', [Validators.required]),
-    trazabilidad: new FormControl('', [Validators.required]),
+    id_documento: new FormControl('', [Validators.required]),
+    // CAMPO PEDIDO
+    trazabilidad: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -134,30 +140,33 @@ export class EditDocumentComponent {
 
   private initDocumentForm() {
     this.name.setValue(this.document.name);
+    console.log(this.document.description)
     this.descriptionFormGroup.setValue({
-      cod_modulo: this.document.description.cod_modulo || '',
+      modulo: this.document.description.modulo || '',
+      codigo: this.document.description.codigo || '',
+      producto: this.document.description.producto || '',
+      cliente: this.document.description.cliente || '',
+      lista_piezas: this.document.description.lista_piezas || '',
       plano_situacion: this.document.description.plano_situacion || '',
       plano_electrico: this.document.description.plano_electrico || '',
+      lista_piezas_edicion: this.document.description.lista_piezas_edicion || 'VER HL',
       plano_situacion_edicion: this.document.description.plano_situacion_edicion || 'VER HL',
       plano_electrico_edicion: this.document.description.plano_electrico_edicion || 'VER HL',
+      smd_comp: this.document.description.smd_comp || '',
+      smd_sold: this.document.description.smd_sold || '',
+      tradic: this.document.description.tradic || '',
       num_componentes: this.document.description.num_componentes || 0,
       smds: this.document.description.smds || 0,
-      tht: this.document.description.tht || 0,
-      max_lt: this.document.description.max_lt || 0,
+      smdc: this.document.description.smdc || 0,
       datos_pcb: this.document.description.datos_pcb || '',
       serigrafia: this.document.description.serigrafia || '',
       reflujo: this.document.description.reflujo || '',
       adhesivo: this.document.description.adhesivo || '',
       ola: this.document.description.ola || '',
+      preformado_max: this.document.description.preformado_max || '',
       norma_surtel: this.document.description.norma_surtel || '',
       norma_cliente: this.document.description.norma_cliente || '',
-      producto: this.document.description.producto || '',
-      cliente: this.document.description.cliente || '',
-      denominacion: this.document.description.denominacion || '',
-      codigo: this.document.description.codigo || '',
-      smd_comp: this.document.description.smd_comp || '',
-      smd_sold: this.document.description.smd_sold || '',
-      tradic: this.document.description.tradic || '',
+      id_documento: this.document.description.id_documento || '',
       trazabilidad: this.document.description.trazabilidad || ''
     })
     this.generateContentFormArray(this.document.content);

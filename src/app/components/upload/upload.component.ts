@@ -19,29 +19,36 @@ export class UploadComponent implements OnInit {
   fileFormControl = new FormControl(null, [Validators.required])
   nameForm = new FormControl('', Validators.required)
   descriptionFormGroup = new FormGroup({
-    cod_modulo: new FormControl('', [Validators.required]),
+    modulo: new FormControl('', [Validators.required]),
+    codigo: new FormControl('', [Validators.required]),
+    producto: new FormControl('', [Validators.required]),
+    cliente: new FormControl('', [Validators.required]),
+    // DOCUMENTACIÓN APLICABLE
+    lista_piezas: new FormControl('', [Validators.required]),
     plano_situacion: new FormControl('', [Validators.required]),
     plano_electrico: new FormControl('', [Validators.required]),
+    lista_piezas_edicion: new FormControl('VER HL', [Validators.required]),
+    plano_situacion_edicion: new FormControl('VER HL', [Validators.required]),
+    plano_electrico_edicion: new FormControl('VER HL', [Validators.required]),
+    // PROGRAMAS DE INSERTADO SMD Y TRADICIONAL
+    smd_comp: new FormControl('', [Validators.required]),
+    smd_sold: new FormControl('', [Validators.required]),
+    tradic: new FormControl('', [Validators.required]),
     num_componentes: new FormControl(0, [Validators.required]),
     smds: new FormControl(0, [Validators.required]),
-    tht: new FormControl(0, [Validators.required]),
-    max_lt: new FormControl(0, [Validators.required]),
+    smdc: new FormControl(0, [Validators.required]),
     datos_pcb: new FormControl('', [Validators.required]),
     serigrafia: new FormControl('', [Validators.required]),
     reflujo: new FormControl('', [Validators.required]),
     adhesivo: new FormControl('', [Validators.required]),
     ola: new FormControl('', [Validators.required]),
+    preformado_max: new FormControl('', [Validators.required]),
+    // NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP)
     norma_surtel: new FormControl('', [Validators.required]),
     norma_cliente: new FormControl('', [Validators.required]),
-    producto: new FormControl('', [Validators.required]),
-    cliente: new FormControl('', [Validators.required]),
-    denominacion: new FormControl('', [Validators.required]),
-    codigo: new FormControl('', [Validators.required]),
-    smd_comp: new FormControl('', [Validators.required]),
-    smd_sold: new FormControl('', [Validators.required]),
-    tradic: new FormControl('', [Validators.required]),
+    // CAMPO PEDIDO
+    unidad: new FormControl(''),
     trazabilidad: new FormControl('', [Validators.required]),
-    unidad: new FormControl('')
   });
 
   constructor(
