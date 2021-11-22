@@ -47,7 +47,7 @@ export class UploadComponent implements OnInit {
     norma_surtel: new FormControl('', [Validators.required]),
     norma_cliente: new FormControl('', [Validators.required]),
     // CAMPO PEDIDO
-    unidad: new FormControl(''),
+    unidad: new FormControl('uds'),
     trazabilidad: new FormControl('', [Validators.required]),
   });
 
