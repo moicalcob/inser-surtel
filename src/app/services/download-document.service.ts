@@ -228,6 +228,5 @@ export class DownloadDocumentService {
     doc.setLineWidth(1);
     doc.setDrawColor(0, 0, 0);
     doc.line(x1, y1, x2, y2);
-
   }
 }
