@@ -64,4 +64,8 @@ export class InserDocumentsService {
   public deleteInserDocument(documentId: string) {
     return this.httpClient.delete(environment.API_URL + '/inser-document/' + documentId).toPromise();
   }
+
+  public activateRevision(sourceDocumentId: string, revision: any) {
+    return this.httpClient.post(environment.API_URL + '/inser-document/' + sourceDocumentId + '/activate-revision', { revision }).toPromise();
+  }
 }

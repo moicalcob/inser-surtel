@@ -1,6 +1,6 @@
-<h1 mat-dialog-title class="text-center">Eliminar documento</h1>
+<h1 mat-dialog-title class="text-center">{{ data?.title ? data.title : 'Eliminar documento'}}</h1>
 <div mat-dialog-content class="text-center">
-    <p>¿Seguro que quieres eliminar el documento?</p>
+    <p>{{ data?.text ? data.text : '¿Seguro que quieres eliminar el documento?'}}</p>
 </div>
 <div mat-dialog-actions class="justify-center">
     <button mat-button (click)="cancel()">Cancelar</button>

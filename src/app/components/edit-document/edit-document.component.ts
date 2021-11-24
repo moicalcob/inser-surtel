@@ -2,13 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InserDocumentsService } from 'src/app/services/inser-documents.service';
 import { RevisionConfirmationDialogComponent } from 'src/app/utils/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddRowDialogComponent } from 'src/app/utils/components/add-row-dialog/add-row-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-edit-document',
@@ -81,7 +82,8 @@ export class EditDocumentComponent {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private _snackbar: MatSnackBar,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router
   ) {
     this.getDocument();
   }
@@ -138,9 +140,37 @@ export class EditDocumentComponent {
     }
   }
 
+  async markActiveRevision(revision) {
+    try {
+      // Confirmation dialog
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: {
+          title: 'Activar revisión',
+          text: '¿Seguro que quieres marcar esta revisión como activa?'
+        }
+      });
+
+      const reason = await dialogRef.afterClosed().toPromise();
+
+      if (!reason) {
+        return;
+      }
+      const response = await this.inserDocumentsService
+        .activateRevision(this.documentId, revision)
+      if (response) {
+        this._snackbar.open('Revisión activada correctamente', null, {
+          duration: 3000
+        })
+        this.router.navigate(['/']);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   private initDocumentForm() {
     this.name.setValue(this.document.name);
-    console.log(this.document.description)
     this.descriptionFormGroup.setValue({
       modulo: this.document.description.modulo || '',
       codigo: this.document.description.codigo || '',

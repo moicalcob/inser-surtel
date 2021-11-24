@@ -259,7 +259,9 @@
                     <div mat-line>{{revision.reason}}</div>
                     <div mat-line>Fecha: {{revision.updated_at | date:'YYYY-MM-dd HH:mm'}}</div>
                     <div>Guardada por: {{revision.user.username}}</div>
-                    <div class="flex flex-row">
+                    <div class="flex flex-row items-center">
+                        <mat-slide-toggle class="pl-2" [checked]="revision.active_revision" [disabled]="revision.active_revision" (change)="markActiveRevision(revision)">Revisión activa
+                        </mat-slide-toggle>
                         <button *ngIf="authService.isAdmin()" class="p-0" mat-flat-button
                             (click)="restoreRevision(revision)">
                             <mat-icon>restore</mat-icon>
