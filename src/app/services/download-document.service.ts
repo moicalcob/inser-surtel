@@ -5,42 +5,54 @@ import { InserDocumentsService } from './inser-documents.service';
 import * as moment from 'moment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DownloadDocumentService {
-
-  constructor(private documentsService: InserDocumentsService) { }
+  constructor(private documentsService: InserDocumentsService) {}
 
   public async downloadAsPDF(document_id) {
     try {
-      const document: any = await this.documentsService.getInserDocumentById(document_id);
+      const document: any = await this.documentsService.getInserDocumentById(
+        document_id,
+      );
       const doc: any = new jsPDF();
-      let formattedDate = (moment(document.created_at)).format('HH:mm DD/MM/YYYY')
+      const formattedDate = moment(document.created_at).format(
+        'HH:mm DD/MM/YYYY',
+      );
 
       autoTable(doc, {
         head: [[`SURTEL - LISTADO DE INSERCION    -    ${formattedDate}`]],
         headStyles: {
-          halign: 'center'
+          halign: 'center',
         },
         margin: {
-          top: 5
+          top: 5,
         },
-        theme: 'plain'
+        theme: 'plain',
       });
 
       let finalY = doc.lastAutoTable.finalY;
 
-      this.drawLine(doc, 15, doc.lastAutoTable.finalY, doc.internal.pageSize.getWidth() - 15, doc.lastAutoTable.finalY);
+      this.drawLine(
+        doc,
+        15,
+        doc.lastAutoTable.finalY,
+        doc.internal.pageSize.getWidth() - 15,
+        doc.lastAutoTable.finalY,
+      );
 
       autoTable(doc, {
         head: [['', '']],
         body: [
           [`MODULO: ${document?.description?.modulo}`, ''],
           [`CODIGO: ${document?.description?.codigo}`, ''],
-          [`PRODUCTO: ${document?.description?.producto}`, `CLIENTE: ${document?.description?.cliente}`]
+          [
+            `PRODUCTO: ${document?.description?.producto}`,
+            `CLIENTE: ${document?.description?.cliente}`,
+          ],
         ],
         headStyles: {
-          halign: 'center'
+          halign: 'center',
         },
         showHead: false,
         startY: finalY,
@@ -48,15 +60,27 @@ export class DownloadDocumentService {
       });
 
       this.drawLine(doc, 15, finalY, 15, doc.lastAutoTable.finalY);
-      this.drawLine(doc, doc.internal.pageSize.getWidth() - 15, finalY, doc.internal.pageSize.getWidth() - 15, doc.lastAutoTable.finalY);
-      this.drawLine(doc, 15, doc.lastAutoTable.finalY, doc.internal.pageSize.getWidth() - 15, doc.lastAutoTable.finalY);
+      this.drawLine(
+        doc,
+        doc.internal.pageSize.getWidth() - 15,
+        finalY,
+        doc.internal.pageSize.getWidth() - 15,
+        doc.lastAutoTable.finalY,
+      );
+      this.drawLine(
+        doc,
+        15,
+        doc.lastAutoTable.finalY,
+        doc.internal.pageSize.getWidth() - 15,
+        doc.lastAutoTable.finalY,
+      );
 
       autoTable(doc, {
         head: [['DOCUMENTACIÓN APLICABLE']],
         body: [],
         headStyles: {
-          halign: 'center'
-        }
+          halign: 'center',
+        },
       });
 
       finalY = doc.lastAutoTable.finalY;
@@ -64,9 +88,18 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '']],
         body: [
-          [`LISTA DE PIEZAS: ${document?.description?.lista_piezas}`, `EDICION: ${document?.description?.lista_piezas_edicion}`],
-          [`PLANO SITUACION: ${document?.description?.plano_situacion}`, `EDICION: ${document?.description?.plano_situacion_edicion}`],
-          [`PLANO ELECTRICO: ${document?.description?.plano_electrico}`, `EDICION: ${document?.description?.plano_electrico_edicion}`]
+          [
+            `LISTA DE PIEZAS: ${document?.description?.lista_piezas}`,
+            `EDICION: ${document?.description?.lista_piezas_edicion}`,
+          ],
+          [
+            `PLANO SITUACION: ${document?.description?.plano_situacion}`,
+            `EDICION: ${document?.description?.plano_situacion_edicion}`,
+          ],
+          [
+            `PLANO ELECTRICO: ${document?.description?.plano_electrico}`,
+            `EDICION: ${document?.description?.plano_electrico_edicion}`,
+          ],
         ],
         showHead: false,
         startY: finalY,
@@ -76,7 +109,7 @@ export class DownloadDocumentService {
         head: [['PROGRAMAS DE INSERTADO SMD Y TRADICIONAL']],
         body: [],
         headStyles: {
-          halign: 'center'
+          halign: 'center',
         },
       });
 
@@ -85,7 +118,11 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '', '']],
         body: [
-          [`SMD COMP.: ${document?.description?.smd_comp}`, `SMD SOLD.: ${document?.description?.smd_sold}`, `TRADIC.: ${document?.description?.tradic}`],
+          [
+            `SMD COMP.: ${document?.description?.smd_comp}`,
+            `SMD SOLD.: ${document?.description?.smd_sold}`,
+            `TRADIC.: ${document?.description?.tradic}`,
+          ],
         ],
         showHead: false,
         startY: finalY,
@@ -94,9 +131,13 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '', '']],
         body: [
-          [`Nº DE COMPONENTES > TRAD: ${document?.description.num_componentes}`, `SMD/S: ${document?.description?.smds}`, `SMD/C: ${document?.description?.smdc}`],
+          [
+            `Nº DE COMPONENTES > TRAD: ${document?.description.num_componentes}`,
+            `SMD/S: ${document?.description?.smds}`,
+            `SMD/C: ${document?.description?.smdc}`,
+          ],
         ],
-        showHead: false
+        showHead: false,
       });
 
       autoTable(doc, {
@@ -107,9 +148,11 @@ export class DownloadDocumentService {
           [`SOLDADURA REFLUJO: ${document?.description.reflujo}`],
           [`CURADO ADHESIVO: ${document?.description.adhesivo}`],
           [`SOLDADURA OLA: ${document?.description.ola}`],
-          [`PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA: ${document?.description.preformado_max}`]
+          [
+            `PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA: ${document?.description.preformado_max}`,
+          ],
         ],
-        showHead: false
+        showHead: false,
       });
 
       autoTable(doc, {
@@ -135,26 +178,40 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '']],
         body: [
-          ['CODIGO DE ESTE DOCUMENTO:', 'POR APLICAR'],
-          ['TITULO DE ESTE DOCUMENTO:', document.name],
+          ['CODIGO DE ESTE DOCUMENTO:', document?.description?.id_documento],
+          ['TITULO DE ESTE DOCUMENTO:', document?.name],
         ],
-        showHead: false
+        showHead: false,
       });
       autoTable(doc, {
         head: [['EDICION', 'MODIFICACION', 'FECHA', 'NOMBRE']],
-        body: this.getRevisionsBody(document.revisions)
+        body: this.getRevisionsBody(document.revisions),
       });
 
       finalY = doc.lastAutoTable.finalY;
 
-      doc.setFontSize(10)
-      var splitText = doc.splitTextToSize('ATENCION: La información de este documento debe complementarse con la contenida en la correspondiente Hoja de Lanzamiento (HL)', 180);
-      doc.text(splitText, 16, finalY + 4)
+      doc.setFontSize(10);
+      const splitText = doc.splitTextToSize(
+        'ATENCION: La información de este documento debe complementarse con la contenida en la correspondiente Hoja de Lanzamiento (HL)',
+        180,
+      );
+      doc.text(splitText, 16, finalY + 4);
 
       doc.addPage();
 
       autoTable(doc, {
-        head: [['', 'C.TOTAL', 'CODIGO', 'FASE', 'REFERENCIA', 'DENOMINACION', 'COMENTARIOS', 'MSD']],
+        head: [
+          [
+            '',
+            'C.TOTAL',
+            'CODIGO',
+            'FASE',
+            'REFERENCIA',
+            'DENOMINACION',
+            'COMENTARIOS',
+            'MSD',
+          ],
+        ],
         body: this.getTableBody(document.content),
         columnStyles: {
           0: { cellWidth: 10 },
@@ -164,8 +221,8 @@ export class DownloadDocumentService {
           4: { cellWidth: 35 },
           5: { cellWidth: 35 },
           6: { cellWidth: 30 },
-          7: { cellWidth: 10 }
-        }
+          7: { cellWidth: 10 },
+        },
       });
 
       const pages = doc.getNumberOfPages();
@@ -174,54 +231,56 @@ export class DownloadDocumentService {
       doc.setFontSize(10);
 
       for (let j = 1; j < pages + 1; j++) {
-        let horizontalPos = pageWidth / 2;
-        let verticalPos = pageHeight - 10;
+        const horizontalPos = pageWidth / 2;
+        const verticalPos = pageHeight - 10;
         doc.setPage(j);
         doc.text(`${j} de ${pages}`, horizontalPos, verticalPos, {
-          align: 'center'
+          align: 'center',
         });
       }
 
       doc.save(`${document.name}.pdf`);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   private getTableBody(content) {
     return content.map((row, index) => {
-      let result: any = [];
+      const result: any = [];
       result.push(index);
-      if (row['type'] === 'component') {
-        result.push(row['CANTIDAD'] + ' ' + row['UNIDAD']);
-        result.push(row['CODIGO']);
-        result.push(row['FASE']);
-        result.push(row['REFERENCIA']);
-        result.push(row['DENOMINACION']);
-        result.push(row['COMENTARIOS'] || '');
-        result.push(row['MSD'] || '');
+      if (row.type === 'component') {
+        result.push(row.CANTIDAD + ' ' + row.UNIDAD);
+        result.push(row.CODIGO);
+        result.push(row.FASE);
+        result.push(row.REFERENCIA);
+        result.push(row.DENOMINACION);
+        result.push(row.COMENTARIOS || '');
+        result.push(row.MSD || '');
       } else {
         result.push({
-          content: row['CONTENIDO'], colSpan: 6, styles: {
+          content: row.CONTENIDO,
+          colSpan: 6,
+          styles: {
             halign: 'left',
             textColor: [0, 0, 0],
-          }
-        })
+          },
+        });
       }
-      return result
-    })
+      return result;
+    });
   }
 
   private getRevisionsBody(revisions) {
     return revisions.map((row, index) => {
-      let formattedDate = (moment(row['updated_at'])).format('HH:mm DD/MM/YYYY')
+      const formattedDate = moment(row.updated_at).format('HH:mm DD/MM/YYYY');
       const result = [];
       result.push(revisions.length - index + 50);
-      result.push(row['reason']);
+      result.push(row.reason);
       result.push(formattedDate);
-      result.push(row['user']['name']);
-      return result
-    })
+      result.push(row.user.name);
+      return result;
+    });
   }
 
   private drawLine(doc, x1, y1, x2, y2) {

@@ -1,286 +1,367 @@
 <app-header></app-header>
 
 <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Descripción">
-        <div class="px-4 pt-4 w-full">
-            <mat-form-field appearance="outline" class="w-full">
-                <mat-label>Título del documento</mat-label>
-                <input matInput [formControl]="name">
+  <mat-tab label="Descripción">
+    <div class="px-4 pt-4 w-full">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Título del documento</mat-label>
+        <input matInput [formControl]="name" />
+      </mat-form-field>
+    </div>
+    <form [formGroup]="descriptionFormGroup" *ngIf="loaded" class="px-4 pb-2">
+      <div class="flex flex-row">
+        <div class="flex flex-row items-center w-full">
+          <mat-form-field class="w-full pr-2" appearance="standard">
+            <mat-label>MODULO:</mat-label>
+            <input matInput formControlName="modulo" />
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row items-center w-full">
+          <mat-form-field appearance="standard" class="w-full">
+            <mat-label>CÓDIGO:</mat-label>
+            <input matInput formControlName="codigo" />
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row items-center w-full">
+          <mat-form-field class="w-full pr-2" appearance="standard">
+            <mat-label>PRODUCTO:</mat-label>
+            <input matInput formControlName="producto" />
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row items-center w-full">
+          <mat-form-field class="w-full pl-2" appearance="standard">
+            <mat-label>CLIENTE:</mat-label>
+            <input matInput formControlName="cliente" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="rounded border-2 border-primary p-4 mb-4">
+        <div class="grid grid-flow-row grid-cols-2 gap-4">
+          <mat-form-field appearance="standard">
+            <mat-label>LISTA PIEZAS</mat-label>
+            <input matInput formControlName="lista_piezas" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>EDICIÓN</mat-label>
+            <input matInput formControlName="lista_piezas_edicion" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>PLANO SITUACIÓN</mat-label>
+            <input matInput formControlName="plano_situacion" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>EDICIÓN</mat-label>
+            <input matInput formControlName="plano_situacion_edicion" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>PLANO ELÉCTRICO</mat-label>
+            <input matInput formControlName="plano_electrico" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>EDICIÓN</mat-label>
+            <input matInput formControlName="plano_electrico_edicion" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="rounded border-2 border-primary p-3">
+        <div class="grid grid-flow-row grid-cols-3 gap-4">
+          <div class="flex flex-col">
+            <mat-form-field appearance="standard">
+              <input matInput formControlName="smd_comp" />
+              <mat-label>SMD COMP:</mat-label>
             </mat-form-field>
+          </div>
+          <div class="flex flex-col">
+            <mat-form-field appearance="standard">
+              <input matInput formControlName="smd_sold" />
+              <mat-label>SMD SOLD:</mat-label>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-col">
+            <mat-form-field appearance="standard">
+              <input matInput formControlName="tradic" />
+              <mat-label>TRADIC:</mat-label>
+            </mat-form-field>
+          </div>
         </div>
-        <form [formGroup]="descriptionFormGroup" *ngIf="loaded" class="px-4 pb-2">
+
+        <div class="grid grid-flow-row grid-cols-3 gap-3">
+          <div class="flex flex-col">
+            <mat-form-field appearance="standard">
+              <input matInput type="number" formControlName="num_componentes" />
+              <mat-label>Nº DE COMPONENTES > TRAD:</mat-label>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-col">
+            <mat-form-field appearance="standard">
+              <input matInput type="number" formControlName="smds" />
+              <mat-label>SMD/S:</mat-label>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-col">
+            <mat-form-field appearance="standard">
+              <input matInput type="number" formControlName="smdc" />
+              <mat-label>SMD/C:</mat-label>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>DATOS PCB:</mat-label>
+          <input matInput formControlName="datos_pcb" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>SERIGRAFÍA PASTA:</mat-label>
+          <input matInput formControlName="serigrafia" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>SOLDADURA REFLUJO:</mat-label>
+          <input matInput formControlName="reflujo" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>CURADO ADHESIVO:</mat-label>
+          <input matInput formControlName="adhesivo" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>SOLDADURA OLA:</mat-label>
+          <input matInput formControlName="ola" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label
+            >PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA</mat-label
+          >
+          <input matInput formControlName="preformado_max" />
+        </mat-form-field>
+
+        <!-- NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP) -->
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>NORMA SURTEL:</mat-label>
+          <input matInput formControlName="norma_surtel" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>NORMA CLIENTE:</mat-label>
+          <input matInput formControlName="norma_cliente" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>CODIGO DOCUMENTO:</mat-label>
+          <input matInput formControlName="id_documento" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <input matInput formControlName="trazabilidad" />
+          <mat-label>TRAZABILIDAD:</mat-label>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-tab>
+  <mat-tab label="Contenido">
+    <div class="px-4 pt-4 w-full flex flex-col items-end">
+      <button mat-flat-button color="primary" class="mt-4" (click)="addRow()">
+        Agregar fila
+      </button>
+    </div>
+    <div class="px-4 pb-4">
+      <table
+        #table
+        *ngIf="dataSource?.length > 0"
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8 w-full mt-4"
+        cdkDropList
+        [cdkDropListData]="dataSource"
+        (cdkDropListDropped)="dropTable($event)"
+      >
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>Nº línea</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <div class="flex flex-row items-center">
+              <mat-icon cdkDragHandle class="cursor-pointer">reorder</mat-icon>
+              <span class="p-2">{{ i + 1 }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="CODIGO">
+          <th mat-header-cell *matHeaderCellDef class="p-1">Código</th>
+          <td mat-cell *matCellDef="let element" class="break-all p-1">
+            {{ element['CODIGO'] }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DENOMINACION">
+          <th mat-header-cell *matHeaderCellDef class="p-1">Denominación</th>
+          <td mat-cell *matCellDef="let element" class="break-all p-1">
+            <span *ngIf="element.type === 'component'">{{
+              element['DENOMINACION']
+            }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FASE">
+          <th mat-header-cell *matHeaderCellDef class="p-1">Fase</th>
+          <td mat-cell *matCellDef="let element">{{ element['FASE'] }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="REFERENCIA">
+          <th mat-header-cell *matHeaderCellDef class="p-1">Referencia</th>
+          <td mat-cell *matCellDef="let element" class="break-all p-1">
+            {{ element['REFERENCIA'] }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="CANTIDAD">
+          <th mat-header-cell *matHeaderCellDef class="col-center p-1">
+            Cantidad
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element['CANTIDAD'] }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="UNIDAD">
+          <th mat-header-cell *matHeaderCellDef class="unit-col col-center p-1">
+            Unidad
+          </th>
+          <td mat-cell *matCellDef="let element" class="unit-col">
+            <mat-select
+              *ngIf="element.type === 'component'"
+              [formControl]="element['UNIDAD']"
+              class="text-center pr-2 w-full"
+            >
+              <mat-option *ngFor="let unit of units" [value]="unit.value">
+                {{ unit.value }}
+              </mat-option>
+            </mat-select>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="COMENTARIOS">
+          <th mat-header-cell *matHeaderCellDef class="p-1">Comentarios</th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{ 'comments-row': element.type === 'text' }"
+          >
+            <textarea
+              *ngIf="element.type === 'component'"
+              class="mt-2"
+              [formControl]="element['COMENTARIOS']"
+            ></textarea>
+            <textarea
+              *ngIf="element.type === 'text'"
+              class="mt-2"
+              [formControl]="element['CONTENIDO']"
+            ></textarea>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="MSD">
+          <th mat-header-cell *matHeaderCellDef class="unit-col col-center p-1">
+            MSD
+          </th>
+          <td mat-cell *matCellDef="let element" class="unit-col">
+            <mat-select
+              *ngIf="element.type === 'component'"
+              [formControl]="element['MSD']"
+              class="text-center pr-2 w-full"
+            >
+              <mat-option *ngFor="let choice of msd_choices" [value]="choice">
+                {{ choice }}
+              </mat-option>
+            </mat-select>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
             <div class="flex flex-row">
-                <div class="flex flex-row items-center w-full">
-                    <mat-form-field class="w-full pr-2" appearance="standard">
-                        <mat-label>MODULO:</mat-label>
-                        <input matInput formControlName="modulo">
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-row items-center w-full">
-                    <mat-form-field appearance="standard" class="w-full">
-                        <mat-label>CÓDIGO:</mat-label>
-                        <input matInput formControlName="codigo">
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-row items-center w-full">
-                    <mat-form-field class="w-full pr-2" appearance="standard">
-                        <mat-label>PRODUCTO:</mat-label>
-                        <input matInput formControlName="producto">
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-row items-center w-full">
-                    <mat-form-field class="w-full pl-2" appearance="standard">
-                        <mat-label>CLIENTE:</mat-label>
-                        <input matInput formControlName="cliente">
-                    </mat-form-field>
-                </div>
+              <button
+                *ngIf="authService.isAdmin()"
+                class="p-0"
+                mat-flat-button
+                (click)="deleteRow(element)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
+          </td>
+        </ng-container>
 
-            <div class="rounded border-2 border-primary p-4 mb-4">
-                <div class="grid grid-flow-row grid-cols-2 gap-4">
-                    <mat-form-field appearance="standard">
-                        <mat-label>LISTA PIEZAS</mat-label>
-                        <input matInput formControlName="lista_piezas">
-                    </mat-form-field>
-                    <mat-form-field appearance="standard">
-                        <mat-label>EDICIÓN</mat-label>
-                        <input matInput formControlName="lista_piezas_edicion">
-                    </mat-form-field>
-                    <mat-form-field appearance="standard">
-                        <mat-label>PLANO SITUACIÓN</mat-label>
-                        <input matInput formControlName="plano_situacion">
-                    </mat-form-field>
-                    <mat-form-field appearance="standard">
-                        <mat-label>EDICIÓN</mat-label>
-                        <input matInput formControlName="plano_situacion_edicion">
-                    </mat-form-field>
-                    <mat-form-field appearance="standard">
-                        <mat-label>PLANO ELÉCTRICO</mat-label>
-                        <input matInput formControlName="plano_electrico">
-                    </mat-form-field>
-                    <mat-form-field appearance="standard">
-                        <mat-label>EDICIÓN</mat-label>
-                        <input matInput formControlName="plano_electrico_edicion">
-                    </mat-form-field>
-                </div>
-            </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns; let i = index"
+          cdkDrag
+          [cdkDragData]="row"
+        ></tr>
+      </table>
+    </div>
+  </mat-tab>
+  <mat-tab label="Revisiones">
+    <div class="p-4">
+      <mat-list
+        class="mat-elevation-z8 w-full mt-4"
+        *ngIf="document?.revisions?.length > 0"
+      >
+        <mat-list-item
+          *ngFor="let revision of document?.revisions; let i = index"
+        >
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <span mat-line>Nº Revisión: {{ i + 51 }}</span>
+          <div mat-line>{{ revision.reason }}</div>
+          <div mat-line>
+            Fecha: {{ revision.updated_at | date: 'YYYY-MM-dd HH:mm' }}
+          </div>
+          <div>Guardada por: {{ revision.user.username }}</div>
+          <div class="flex flex-row items-center">
+            <mat-slide-toggle
+              class="pl-2"
+              [checked]="revision.active_revision"
+              [disabled]="revision.active_revision"
+              (change)="markActiveRevision(revision)"
+              >Revisión activa
+            </mat-slide-toggle>
+            <button
+              *ngIf="authService.isAdmin()"
+              class="p-0"
+              mat-flat-button
+              (click)="restoreRevision(revision)"
+            >
+              <mat-icon>restore</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
 
-            <div class="rounded border-2 border-primary p-3">
-                <div class="grid grid-flow-row grid-cols-3 gap-4">
-                    <div class="flex flex-col">
-                        <mat-form-field appearance="standard">
-                            <input matInput formControlName="smd_comp">
-                            <mat-label>SMD COMP:</mat-label>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex flex-col">
-                        <mat-form-field appearance="standard">
-                            <input matInput formControlName="smd_sold">
-                            <mat-label>SMD SOLD:</mat-label>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex flex-col">
-                        <mat-form-field appearance="standard">
-                            <input matInput formControlName="tradic">
-                            <mat-label>TRADIC:</mat-label>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="grid grid-flow-row grid-cols-3 gap-3">
-                    <div class="flex flex-col">
-                        <mat-form-field appearance="standard">
-                            <input matInput type="number" formControlName="num_componentes">
-                            <mat-label>Nº DE COMPONENTES > TRAD:</mat-label>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex flex-col">
-                        <mat-form-field appearance="standard">
-                            <input matInput type="number" formControlName="smds">
-                            <mat-label>SMD/S:</mat-label>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex flex-col">
-                        <mat-form-field appearance="standard">
-                            <input matInput type="number" formControlName="smdc">
-                            <mat-label>SMD/C:</mat-label>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>DATOS PCB:</mat-label>
-                    <input matInput formControlName="datos_pcb">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>SERIGRAFÍA PASTA:</mat-label>
-                    <input matInput formControlName="serigrafia">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>SOLDADURA REFLUJO:</mat-label>
-                    <input matInput formControlName="reflujo">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>CURADO ADHESIVO:</mat-label>
-                    <input matInput formControlName="adhesivo">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>SOLDADURA OLA:</mat-label>
-                    <input matInput formControlName="ola">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA</mat-label>
-                    <input matInput formControlName="preformado_max">
-                </mat-form-field>
-
-                <!-- NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP) -->
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>NORMA SURTEL:</mat-label>
-                    <input matInput formControlName="norma_surtel">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>NORMA CLIENTE:</mat-label>
-                    <input matInput formControlName="norma_cliente">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <mat-label>CODIGO DOCUMENTO:</mat-label>
-                    <input matInput formControlName="id_documento">
-                </mat-form-field>
-                <mat-form-field appearance="standard" class="w-full">
-                    <input matInput formControlName="trazabilidad">
-                    <mat-label>TRAZABILIDAD:</mat-label>
-                </mat-form-field>
-            </div>
-        </form>
-    </mat-tab>
-    <mat-tab label="Contenido">
-        <div class="px-4 pt-4 w-full flex flex-col items-end">
-            <button mat-flat-button color="primary" class="mt-4" (click)="addRow()">Agregar fila</button>
-        </div>
-        <div class="px-4 pb-4">
-            <table #table *ngIf="dataSource?.length > 0" mat-table [dataSource]="dataSource"
-                class="mat-elevation-z8 w-full mt-4" cdkDropList [cdkDropListData]="dataSource"
-                (cdkDropListDropped)="dropTable($event)">
-                <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef>Nº línea</th>
-                    <td mat-cell *matCellDef="let element; let i = index">
-                        <div class="flex flex-row items-center">
-                            <mat-icon cdkDragHandle class="cursor-pointer">reorder</mat-icon>
-                            <span class="p-2">{{i + 1}}</span>
-                        </div>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="CODIGO">
-                    <th mat-header-cell *matHeaderCellDef>Código</th>
-                    <td mat-cell *matCellDef="let element"> {{element['CODIGO']}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="DENOMINACION">
-                    <th mat-header-cell *matHeaderCellDef>Denominación</th>
-                    <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.type === 'component'">{{element['DENOMINACION']}}</span>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="FASE">
-                    <th mat-header-cell *matHeaderCellDef>Fase</th>
-                    <td mat-cell *matCellDef="let element"> {{element['FASE']}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="REFERENCIA">
-                    <th mat-header-cell *matHeaderCellDef>Referencia</th>
-                    <td mat-cell *matCellDef="let element"> {{element['REFERENCIA']}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="CANTIDAD">
-                    <th mat-header-cell *matHeaderCellDef class="col-center">Cantidad</th>
-                    <td mat-cell *matCellDef="let element" class="text-center"> {{element['CANTIDAD']}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="UNIDAD">
-                    <th mat-header-cell *matHeaderCellDef class="unit-col col-center">Unidad</th>
-                    <td mat-cell *matCellDef="let element" class="unit-col">
-                        <mat-select *ngIf="element.type === 'component'" [formControl]="element['UNIDAD']"
-                            class="text-center pr-2 w-full">
-                            <mat-option *ngFor="let unit of units" [value]="unit.value">
-                                {{unit.value}}
-                            </mat-option>
-                        </mat-select>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="COMENTARIOS">
-                    <th mat-header-cell *matHeaderCellDef>Comentarios</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="{'comments-row': element.type === 'text'}">
-                        <textarea *ngIf="element.type === 'component'" class="mt-2"
-                            [formControl]="element['COMENTARIOS']"></textarea>
-                        <textarea *ngIf="element.type === 'text'" class="mt-2"
-                            [formControl]="element['CONTENIDO']"></textarea>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="MSD">
-                    <th mat-header-cell *matHeaderCellDef class="unit-col col-center">MSD</th>
-                    <td mat-cell *matCellDef="let element" class="unit-col">
-                        <mat-select *ngIf="element.type === 'component'" [formControl]="element['MSD']"
-                            class="text-center pr-2 w-full">
-                            <mat-option *ngFor="let choice of msd_choices" [value]="choice">
-                                {{choice}}
-                            </mat-option>
-                        </mat-select>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let element">
-                        <div class="flex flex-row">
-                            <button *ngIf="authService.isAdmin()" class="p-0" mat-flat-button
-                                (click)="deleteRow(element)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" cdkDrag [cdkDragData]="row">
-                </tr>
-            </table>
-        </div>
-    </mat-tab>
-    <mat-tab label="Revisiones">
-        <div class="p-4">
-            <mat-list class="mat-elevation-z8 w-full mt-4" *ngIf="document?.revisions?.length > 0">
-                <mat-list-item *ngFor="let revision of document?.revisions; let i = index">
-                    <mat-icon mat-list-icon>folder</mat-icon>
-                    <span mat-line>Nº Revisión: {{i + 51}}</span>
-                    <div mat-line>{{revision.reason}}</div>
-                    <div mat-line>Fecha: {{revision.updated_at | date:'YYYY-MM-dd HH:mm'}}</div>
-                    <div>Guardada por: {{revision.user.username}}</div>
-                    <div class="flex flex-row items-center">
-                        <mat-slide-toggle class="pl-2" [checked]="revision.active_revision" [disabled]="revision.active_revision" (change)="markActiveRevision(revision)">Revisión activa
-                        </mat-slide-toggle>
-                        <button *ngIf="authService.isAdmin()" class="p-0" mat-flat-button
-                            (click)="restoreRevision(revision)">
-                            <mat-icon>restore</mat-icon>
-                        </button>
-                    </div>
-                </mat-list-item>
-            </mat-list>
-
-            <mat-list class="mat-elevation-z8 w-full mt-4"
-                *ngIf="document?.revisions?.length === 0 || !document?.revisions">
-                <mat-list-item>
-                    <div mat-line>Esta es la única revisión disponible</div>
-                </mat-list-item>
-            </mat-list>
-        </div>
-    </mat-tab>
+      <mat-list
+        class="mat-elevation-z8 w-full mt-4"
+        *ngIf="document?.revisions?.length === 0 || !document?.revisions"
+      >
+        <mat-list-item>
+          <div mat-line>Esta es la única revisión disponible</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-tab>
 </mat-tab-group>
 
 <div class="pb-4 w-full flex flex-row items-center justify-around">
-    <button mat-flat-button color="primary" class="mt-4" (click)="updateDocument()">Guardar</button>
-    <button mat-flat-button color="primary" class="mt-4" (click)="createDocumentVersion()">Generar revisión</button>
+  <button
+    mat-flat-button
+    color="primary"
+    class="mt-4"
+    (click)="updateDocument()"
+  >
+    Guardar
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    class="mt-4"
+    (click)="createDocumentVersion()"
+  >
+    Generar revisión
+  </button>
 </div>

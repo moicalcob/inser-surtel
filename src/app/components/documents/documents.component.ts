@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { InserDocumentsService } from 'src/app/services/inser-documents.service';
 import { MatSort } from '@angular/material/sort';
@@ -16,13 +22,20 @@ import * as XLSX from 'xlsx';
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class DocumentsComponent implements AfterViewInit {
-
   documents: any[] = [];
 
-  displayedColumns: string[] = ['select', 'name', 'codigo', 'created_at', 'last_modification', 'revisions', 'actions'];
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'codigo',
+    'created_at',
+    'last_modification',
+    'revisions',
+    'actions',
+  ];
   dataSource = new MatTableDataSource(this.documents);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -34,7 +47,7 @@ export class DocumentsComponent implements AfterViewInit {
     private inserDocumentsService: InserDocumentsService,
     private downloadDocumentService: DownloadDocumentService,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.getAllDocuments();
   }
@@ -57,12 +70,17 @@ export class DocumentsComponent implements AfterViewInit {
     try {
       const dialog = this.dialog.open(DuplicateDocumentDialogComponent);
       const documentName = await dialog.afterClosed().toPromise();
-      if (!documentName) return;
-      const response = await this.inserDocumentsService.duplicateInserDocument(document_id, documentName);
+      if (!documentName) {
+        return;
+      }
+      const response = await this.inserDocumentsService.duplicateInserDocument(
+        document_id,
+        documentName,
+      );
       if (response) {
         this.snackbar.open('Documento duplicado correctamente', null, {
-          duration: 3000
-        })
+          duration: 3000,
+        });
         this.getAllDocuments();
       }
     } catch (error) {
@@ -74,12 +92,16 @@ export class DocumentsComponent implements AfterViewInit {
     try {
       const dialog = this.dialog.open(ConfirmationDialogComponent);
       const confirmation = await dialog.afterClosed().toPromise();
-      if (!confirmation) return;
-      const response = await this.inserDocumentsService.deleteInserDocument(document_id);
+      if (!confirmation) {
+        return;
+      }
+      const response = await this.inserDocumentsService.deleteInserDocument(
+        document_id,
+      );
       if (response) {
         this.snackbar.open('Documento eliminado correctamente', null, {
-          duration: 3000
-        })
+          duration: 3000,
+        });
         this.getAllDocuments();
       }
     } catch (error) {
@@ -89,15 +111,21 @@ export class DocumentsComponent implements AfterViewInit {
 
   async generateNeededPieces() {
     try {
-      const documentsIds = this.selection.selected.map(document => document._id);
-      const response = await this.inserDocumentsService.getResumeOfNeededPieces(documentsIds);
+      const documentsIds = this.selection.selected.map(
+        (document) => document._id,
+      );
+      const response = await this.inserDocumentsService.getResumeOfNeededPieces(
+        documentsIds,
+      );
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(response);
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Resumen de necesidades');
-      const name = `${this.selection.selected.map(document => document.name).join(' - ')}_${new Date().toLocaleDateString()}.xlsx`
+      const name = `${this.selection.selected
+        .map((document) => document.name)
+        .join(' - ')}_${new Date().toLocaleDateString()}.xlsx`;
       XLSX.writeFile(wb, name);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
@@ -111,7 +139,7 @@ export class DocumentsComponent implements AfterViewInit {
       const transformedFilter = filter.trim().toLowerCase();
 
       return dataStr.indexOf(transformedFilter) != -1;
-    }
+    };
   }
 
   applyFilter(event: Event) {
@@ -146,7 +174,8 @@ export class DocumentsComponent implements AfterViewInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
   }
-
 }

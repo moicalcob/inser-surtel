@@ -4,68 +4,115 @@ import { environment } from 'src/environments/environment';
 import { DocumentDescription } from '../interfaces/document-description';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InserDocumentsService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   public getAllInserDocuments(): Promise<any> {
-    return this.httpClient.get(environment.API_URL + '/inser-document').toPromise();
+    return this.httpClient
+      .get(environment.API_URL + '/inser-document')
+      .toPromise();
   }
 
   public getResumeOfNeededPieces(documents: string[]): Promise<any> {
     const body = {
-      documents: documents
-    }
-    return this.httpClient.post(environment.API_URL + '/inser-document/needed-pieces', body).toPromise();
+      documents,
+    };
+    return this.httpClient
+      .post(environment.API_URL + '/inser-document/needed-pieces', body)
+      .toPromise();
   }
 
-  public getInserDocumentById(documentId: string) {
-    return this.httpClient.get(environment.API_URL + '/inser-document/' + documentId).toPromise();
+  public getInserDocumentById(documentId: string): Promise<any> {
+    return this.httpClient
+      .get(environment.API_URL + '/inser-document/' + documentId)
+      .toPromise();
   }
 
-  public createInserDocument(description: DocumentDescription, name: string, content: any[]): Promise<any> {
+  public createInserDocument(
+    description: DocumentDescription,
+    name: string,
+    content: any[],
+  ): Promise<any> {
     const body = {
-      description: description,
-      name: name,
-      content: content
-    }
-    return this.httpClient.post(environment.API_URL + '/inser-document', body).toPromise();
+      description,
+      name,
+      content,
+    };
+    return this.httpClient
+      .post(environment.API_URL + '/inser-document', body)
+      .toPromise();
   }
 
-  public updateInserDocument(description: DocumentDescription, content: any[], name: string, documentId: string): Promise<any> {
+  public updateInserDocument(
+    description: DocumentDescription,
+    content: any[],
+    name: string,
+    documentId: string,
+  ): Promise<any> {
     const body = {
-      description: description,
-      content: content,
-      name: name
-    }
-    return this.httpClient.put(environment.API_URL + '/inser-document/' + documentId, body).toPromise();
+      description,
+      content,
+      name,
+    };
+    return this.httpClient
+      .put(environment.API_URL + '/inser-document/' + documentId, body)
+      .toPromise();
   }
 
-  public createInserDocumentRevision(description: DocumentDescription, content: any[], documentId: string, name: string, reason: string): Promise<any> {
+  public createInserDocumentRevision(
+    description: DocumentDescription,
+    content: any[],
+    documentId: string,
+    name: string,
+    reason: string,
+  ): Promise<any> {
     const body = {
-      description: description,
-      content: content,
-      reason: reason,
-      name: name
-    }
-    return this.httpClient.post(environment.API_URL + '/inser-document/revision/' + documentId, body).toPromise();
+      description,
+      content,
+      reason,
+      name,
+    };
+    return this.httpClient
+      .post(
+        environment.API_URL + '/inser-document/revision/' + documentId,
+        body,
+      )
+      .toPromise();
   }
 
-  public duplicateInserDocument(documentId: string, documentName: string) {
+  public duplicateInserDocument(
+    documentId: string,
+    documentName: string,
+  ): Promise<any> {
     const body = {
-      documentId: documentId,
-      documentName: documentName
-    }
-    return this.httpClient.post(environment.API_URL + '/inser-document/duplicate', body).toPromise();
+      documentId,
+      documentName,
+    };
+    return this.httpClient
+      .post(environment.API_URL + '/inser-document/duplicate', body)
+      .toPromise();
   }
 
-  public deleteInserDocument(documentId: string) {
-    return this.httpClient.delete(environment.API_URL + '/inser-document/' + documentId).toPromise();
+  public deleteInserDocument(documentId: string): Promise<any> {
+    return this.httpClient
+      .delete(environment.API_URL + '/inser-document/' + documentId)
+      .toPromise();
   }
 
-  public activateRevision(sourceDocumentId: string, revision: any) {
-    return this.httpClient.post(environment.API_URL + '/inser-document/' + sourceDocumentId + '/activate-revision', { revision }).toPromise();
+  public activateRevision(
+    sourceDocumentId: string,
+    revision: any,
+  ): Promise<any> {
+    return this.httpClient
+      .post(
+        environment.API_URL +
+          '/inser-document/' +
+          sourceDocumentId +
+          '/activate-revision',
+        { revision },
+      )
+      .toPromise();
   }
 }

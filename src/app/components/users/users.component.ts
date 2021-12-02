@@ -5,10 +5,9 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent {
-
   users;
 
   constructor(private authService: AuthService, private snackbar: MatSnackBar) {
@@ -27,10 +26,10 @@ export class UsersComponent {
     try {
       const response = await this.authService.deleteUser(user_id);
       if (response) {
-        this.users = this.users.filter(user => user._id !== user_id)
+        this.users = this.users.filter((user) => user._id !== user_id);
         this.snackbar.open('Usuario eliminado', null, {
-          duration: 3000
-        })
+          duration: 3000,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -44,5 +43,4 @@ export class UsersComponent {
   getTooltip(isAdmin) {
     return isAdmin ? 'Administrador' : 'Invitado';
   }
-
 }

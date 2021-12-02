@@ -14,34 +14,44 @@ import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmati
 @Component({
   selector: 'app-edit-document',
   templateUrl: './edit-document.component.html',
-  styleUrls: ['./edit-document.component.scss']
+  styleUrls: ['./edit-document.component.scss'],
 })
 export class EditDocumentComponent {
-
   loaded = false;
 
   document;
   documentId;
-  displayedColumns: string[] = ['position', 'CODIGO', 'FASE', 'DENOMINACION',
-    'REFERENCIA', 'CANTIDAD', 'UNIDAD', 'COMENTARIOS', 'MSD', 'actions'];
+  displayedColumns: string[] = [
+    'position',
+    'CODIGO',
+    'FASE',
+    'DENOMINACION',
+    'REFERENCIA',
+    'CANTIDAD',
+    'UNIDAD',
+    'COMENTARIOS',
+    'MSD',
+    'actions',
+  ];
   dataSource = [];
   @ViewChild('table') table: MatTable<any>;
 
   units = [
     {
       text: 'Unidades',
-      value: 'uds'
+      value: 'uds',
     },
     {
       text: 'Mililítros',
-      value: 'ml'
-    }, {
+      value: 'ml',
+    },
+    {
       text: 'Gramos',
-      value: 'g'
-    }
-  ]
+      value: 'g',
+    },
+  ];
 
-  msd_choices = [1, 2, 3, 4, 5, 6]
+  msd_choices = [1, 2, 3, 4, 5, 6];
 
   name = new FormControl('', Validators.required);
   descriptionFormGroup = new FormGroup({
@@ -74,7 +84,7 @@ export class EditDocumentComponent {
     norma_cliente: new FormControl('', [Validators.required]),
     id_documento: new FormControl('', [Validators.required]),
     // CAMPO PEDIDO
-    trazabilidad: new FormControl('', [Validators.required])
+    trazabilidad: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -83,15 +93,17 @@ export class EditDocumentComponent {
     private dialog: MatDialog,
     private _snackbar: MatSnackBar,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.getDocument();
   }
 
   async getDocument() {
     try {
-      this.documentId = this.route.snapshot.params['document_id'];
-      this.document = await this.inserDocumentsService.getInserDocumentById(this.documentId);
+      this.documentId = this.route.snapshot.params.document_id;
+      this.document = await this.inserDocumentsService.getInserDocumentById(
+        this.documentId,
+      );
       this.initDocumentForm();
     } catch (error) {
       console.error(error);
@@ -100,13 +112,17 @@ export class EditDocumentComponent {
 
   async updateDocument() {
     try {
-      const new_content = this.getNewContent()
-      const response = await this.inserDocumentsService
-        .updateInserDocument(this.descriptionFormGroup.value, new_content, this.name.value, this.documentId)
+      const new_content = this.getNewContent();
+      const response = await this.inserDocumentsService.updateInserDocument(
+        this.descriptionFormGroup.value,
+        new_content,
+        this.name.value,
+        this.documentId,
+      );
       if (response) {
         this._snackbar.open('Documento actualizado correctamente', null, {
-          duration: 3000
-        })
+          duration: 3000,
+        });
         this.getDocument();
       }
     } catch (error) {
@@ -126,13 +142,19 @@ export class EditDocumentComponent {
       if (!reason) {
         return;
       }
-      const new_content = this.getNewContent()
-      const response = await this.inserDocumentsService
-        .createInserDocumentRevision(this.descriptionFormGroup.value, new_content, this.documentId, this.name.value, reason)
+      const new_content = this.getNewContent();
+      const response =
+        await this.inserDocumentsService.createInserDocumentRevision(
+          this.descriptionFormGroup.value,
+          new_content,
+          this.documentId,
+          this.name.value,
+          reason,
+        );
       if (response) {
         this._snackbar.open('Revisión creada correctamente', null, {
-          duration: 3000
-        })
+          duration: 3000,
+        });
         this.getDocument();
       }
     } catch (error) {
@@ -147,8 +169,8 @@ export class EditDocumentComponent {
         width: '250px',
         data: {
           title: 'Activar revisión',
-          text: '¿Seguro que quieres marcar esta revisión como activa?'
-        }
+          text: '¿Seguro que quieres marcar esta revisión como activa?',
+        },
       });
 
       const reason = await dialogRef.afterClosed().toPromise();
@@ -156,12 +178,14 @@ export class EditDocumentComponent {
       if (!reason) {
         return;
       }
-      const response = await this.inserDocumentsService
-        .activateRevision(this.documentId, revision)
+      const response = await this.inserDocumentsService.activateRevision(
+        this.documentId,
+        revision,
+      );
       if (response) {
         this._snackbar.open('Revisión activada correctamente', null, {
-          duration: 3000
-        })
+          duration: 3000,
+        });
         this.router.navigate(['/']);
       }
     } catch (error) {
@@ -179,9 +203,12 @@ export class EditDocumentComponent {
       lista_piezas: this.document.description.lista_piezas || '',
       plano_situacion: this.document.description.plano_situacion || '',
       plano_electrico: this.document.description.plano_electrico || '',
-      lista_piezas_edicion: this.document.description.lista_piezas_edicion || 'VER HL',
-      plano_situacion_edicion: this.document.description.plano_situacion_edicion || 'VER HL',
-      plano_electrico_edicion: this.document.description.plano_electrico_edicion || 'VER HL',
+      lista_piezas_edicion:
+        this.document.description.lista_piezas_edicion || 'VER HL',
+      plano_situacion_edicion:
+        this.document.description.plano_situacion_edicion || 'VER HL',
+      plano_electrico_edicion:
+        this.document.description.plano_electrico_edicion || 'VER HL',
       smd_comp: this.document.description.smd_comp || '',
       smd_sold: this.document.description.smd_sold || '',
       tradic: this.document.description.tradic || '',
@@ -197,34 +224,34 @@ export class EditDocumentComponent {
       norma_surtel: this.document.description.norma_surtel || '',
       norma_cliente: this.document.description.norma_cliente || '',
       id_documento: this.document.description.id_documento || '',
-      trazabilidad: this.document.description.trazabilidad || ''
-    })
+      trazabilidad: this.document.description.trazabilidad || '',
+    });
     this.generateContentFormArray(this.document.content);
     this.loaded = true;
   }
 
   private generateContentFormArray(content) {
-    this.dataSource = content.map(row => {
+    this.dataSource = content.map((row) => {
       return {
         ...row,
-        'UNIDAD': new FormControl(row['UNIDAD'] || null),
-        'COMENTARIOS': new FormControl(row['COMENTARIOS'] || null),
-        'MSD': new FormControl(row['MSD'] || null),
-        'CONTENIDO': new FormControl(row['CONTENIDO'] || null)
-      }
-    })
+        UNIDAD: new FormControl(row.UNIDAD || null),
+        COMENTARIOS: new FormControl(row.COMENTARIOS || null),
+        MSD: new FormControl(row.MSD || null),
+        CONTENIDO: new FormControl(row.CONTENIDO || null),
+      };
+    });
   }
 
   private getNewContent() {
-    return this.dataSource.map(row => {
+    return this.dataSource.map((row) => {
       return {
         ...row,
-        'UNIDAD': row['UNIDAD'].value,
-        'COMENTARIOS': row['COMENTARIOS'].value,
-        'MSD': row['MSD'].value,
-        'CONTENIDO': row['CONTENIDO'].value,
-      }
-    })
+        UNIDAD: row.UNIDAD.value,
+        COMENTARIOS: row.COMENTARIOS.value,
+        MSD: row.MSD.value,
+        CONTENIDO: row.CONTENIDO.value,
+      };
+    });
   }
 
   dropTable(event: CdkDragDrop<any[]>) {
@@ -234,7 +261,7 @@ export class EditDocumentComponent {
   }
 
   deleteRow(element) {
-    this.dataSource = this.dataSource.filter(row => row !== element);
+    this.dataSource = this.dataSource.filter((row) => row !== element);
     this.table.renderRows();
   }
 
@@ -247,11 +274,11 @@ export class EditDocumentComponent {
     if (result) {
       result = {
         ...result,
-        'UNIDAD': new FormControl(result['UNIDAD']),
-        'COMENTARIOS': new FormControl(result['COMENTARIOS']),
-        'MSD': new FormControl(result['MSD']),
-        'CONTENIDO': new FormControl(result['CONTENIDO'])
-      }
+        UNIDAD: new FormControl(result.UNIDAD),
+        COMENTARIOS: new FormControl(result.COMENTARIOS),
+        MSD: new FormControl(result.MSD),
+        CONTENIDO: new FormControl(result.CONTENIDO),
+      };
       this.dataSource.push(result);
       this.table.renderRows();
     }
@@ -259,14 +286,13 @@ export class EditDocumentComponent {
 
   restoreRevision(revision) {
     this.document.content = revision.content;
-    Object.keys(this.document.description).forEach(key => {
+    Object.keys(this.document.description).forEach((key) => {
       this.document.description[key] = revision.description[key];
-    })
+    });
     this.initDocumentForm();
     this.table.renderRows();
     this._snackbar.open('Revisión restaurada correctamente', null, {
-      duration: 3000
-    })
+      duration: 3000,
+    });
   }
-
 }

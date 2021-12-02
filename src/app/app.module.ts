@@ -30,7 +30,10 @@ import { DocumentsComponent } from './components/documents/documents.component';
 import { HeaderComponent } from './widgets/header/header.component';
 import { DocumentDescriptionFormComponent } from './widgets/document-description-form/document-description-form.component';
 import { InserDocumentsService } from './services/inser-documents.service';
-import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EditDocumentComponent } from './components/edit-document/edit-document.component';
 import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
@@ -86,14 +89,18 @@ import { ConfirmationDialogComponent } from './utils/components/confirmation-dia
     MatListModule,
     MatMenuModule,
     MatSlideToggleModule,
-    DragDropModule
+    DragDropModule,
   ],
   providers: [
     InserDocumentsService,
     { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-    DownloadDocumentService
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+    DownloadDocumentService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

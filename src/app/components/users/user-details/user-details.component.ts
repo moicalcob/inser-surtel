@@ -7,27 +7,28 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss']
+  styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {
-
   create_mode = false;
   user_form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
-    admin_role: new FormControl(false)
-  })
+    admin_role: new FormControl(false),
+  });
   user_id: string;
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
     private snackbar: MatSnackBar,
-    private router: Router
+    private router: Router,
   ) {
-    this.create_mode = this.route.snapshot.params['user_id'] === 'create';
-    if (!this.create_mode) this.load_user(this.route.snapshot.params['user_id']);
+    this.create_mode = this.route.snapshot.params.user_id === 'create';
+    if (!this.create_mode) {
+      this.load_user(this.route.snapshot.params.user_id);
+    }
   }
 
   async load_user(user_id) {
@@ -38,8 +39,8 @@ export class UserDetailsComponent {
         username: user.username,
         password: '',
         name: user.name,
-        admin_role: user.admin_role
-      })
+        admin_role: user.admin_role,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -53,24 +54,28 @@ export class UserDetailsComponent {
 
     try {
       if (this.create_mode) {
-        const response = await this.authService.createUser(this.user_form.value)
+        const response = await this.authService.createUser(
+          this.user_form.value,
+        );
         if (response) {
           this.snackbar.open('Usuario creado correctamente', null, {
-            duration: 3000
-          })
+            duration: 3000,
+          });
           this.router.navigate(['/', 'users']);
         }
       } else {
-        const response = await this.authService.updateUser({ ...this.user_form.value, _id: this.user_id });
+        const response = await this.authService.updateUser({
+          ...this.user_form.value,
+          _id: this.user_id,
+        });
         if (response) {
           this.snackbar.open('Usuario actualizado correctamente', null, {
-            duration: 3000
-          })
+            duration: 3000,
+          });
         }
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
-
 }

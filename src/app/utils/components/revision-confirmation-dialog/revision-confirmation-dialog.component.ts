@@ -5,13 +5,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-confirmation-dialog',
   templateUrl: './revision-confirmation-dialog.component.html',
-  styleUrls: ['./revision-confirmation-dialog.component.scss']
+  styleUrls: ['./revision-confirmation-dialog.component.scss'],
 })
 export class RevisionConfirmationDialogComponent {
-
   reasonForm = new FormControl('', Validators.required);
 
-  constructor(public dialogRef: MatDialogRef<RevisionConfirmationDialogComponent>) { }
+  constructor(
+    public dialogRef: MatDialogRef<RevisionConfirmationDialogComponent>,
+  ) {}
 
   cancel(): void {
     this.dialogRef.close();
@@ -20,9 +21,8 @@ export class RevisionConfirmationDialogComponent {
   confirm(): void {
     if (this.reasonForm.invalid) {
       this.reasonForm.markAllAsTouched();
-      return
+      return;
     }
-    this.dialogRef.close(this.reasonForm.value)
+    this.dialogRef.close(this.reasonForm.value);
   }
-
 }

@@ -8,16 +8,21 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent implements OnInit {
-
-  fileName = "";
-  displayedColumns: string[] = ['CODIGO', 'FASE', 'DENOMINACION', 'REFERENCIA', 'CANTIDAD'];
+export class UploadComponent {
+  fileName = '';
+  displayedColumns: string[] = [
+    'CODIGO',
+    'FASE',
+    'DENOMINACION',
+    'REFERENCIA',
+    'CANTIDAD',
+  ];
   dataSource = [];
 
-  fileFormControl = new FormControl(null, [Validators.required])
-  nameForm = new FormControl('', Validators.required)
+  fileFormControl = new FormControl(null, [Validators.required]);
+  nameForm = new FormControl('', Validators.required);
   descriptionFormGroup = new FormGroup({
     modulo: new FormControl('', [Validators.required]),
     codigo: new FormControl('', [Validators.required]),
@@ -54,20 +59,16 @@ export class UploadComponent implements OnInit {
   constructor(
     private inserDocumentsService: InserDocumentsService,
     private router: Router,
-    private snackbar: MatSnackBar
-  ) { }
-
-  ngOnInit(): void {
-  }
+    private snackbar: MatSnackBar,
+  ) {}
 
   fileSelectionChanged(event: any) {
     const file: File = event.target.files[0];
 
     if (file) {
-
       this.fileName = file.name;
 
-      const target: DataTransfer = <DataTransfer>(event.target);
+      const target: DataTransfer = event.target as DataTransfer;
 
       const reader: FileReader = new FileReader();
       reader.readAsBinaryString(target.files[0]);
@@ -86,15 +87,14 @@ export class UploadComponent implements OnInit {
         data.forEach((row: any) => {
           const row_cleaned: any = {};
           Object.keys(row).forEach((key: string) => {
-            const clave = key.replace(/\s/g, "");
-            row_cleaned[clave] = ("" + row[key]).replace(/\s/g, "");
-          })
+            const clave = key.replace(/\s/g, '');
+            row_cleaned[clave] = ('' + row[key]).replace(/\s/g, '');
+          });
           inser_json.push(row_cleaned);
         });
 
         this.dataSource = inser_json;
       };
-
     }
   }
 
@@ -103,19 +103,23 @@ export class UploadComponent implements OnInit {
       return;
     }
     try {
-      const content = this.dataSource.map(row => {
+      const content = this.dataSource.map((row) => {
         return {
           ...row,
           UNIDAD: this.descriptionFormGroup.get('unidad').value,
-          type: 'component'
-        }
-      })
-      const response = await this.inserDocumentsService.createInserDocument(this.descriptionFormGroup.value, this.nameForm.value, content);
+          type: 'component',
+        };
+      });
+      const response = await this.inserDocumentsService.createInserDocument(
+        this.descriptionFormGroup.value,
+        this.nameForm.value,
+        content,
+      );
       if (response) {
         this.snackbar.open('Documento creado correctamente', null, {
-          duration: 3000
-        })
-        this.router.navigate(['/', 'home'])
+          duration: 3000,
+        });
+        this.router.navigate(['/', 'home']);
       }
     } catch (error) {
       console.error(error);
