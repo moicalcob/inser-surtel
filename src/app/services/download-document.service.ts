@@ -44,11 +44,11 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '']],
         body: [
-          [`MODULO: ${document?.description?.modulo}`, ''],
-          [`CODIGO: ${document?.description?.codigo}`, ''],
+          [`MODULO: ${document?.description?.modulo || ''}`, ''],
+          [`CODIGO: ${document?.description?.codigo || ''}`, ''],
           [
-            `PRODUCTO: ${document?.description?.producto}`,
-            `CLIENTE: ${document?.description?.cliente}`,
+            `PRODUCTO: ${document?.description?.producto || ''}`,
+            `CLIENTE: ${document?.description?.cliente || ''}`,
           ],
         ],
         headStyles: {
@@ -89,16 +89,16 @@ export class DownloadDocumentService {
         head: [['', '']],
         body: [
           [
-            `LISTA DE PIEZAS: ${document?.description?.lista_piezas}`,
-            `EDICION: ${document?.description?.lista_piezas_edicion}`,
+            `LISTA DE PIEZAS: ${document?.description?.lista_piezas || ''}`,
+            `EDICION: ${document?.description?.lista_piezas_edicion || ''}`,
           ],
           [
-            `PLANO SITUACION: ${document?.description?.plano_situacion}`,
-            `EDICION: ${document?.description?.plano_situacion_edicion}`,
+            `PLANO SITUACION: ${document?.description?.plano_situacion || ''}`,
+            `EDICION: ${document?.description?.plano_situacion_edicion || ''}`,
           ],
           [
-            `PLANO ELECTRICO: ${document?.description?.plano_electrico}`,
-            `EDICION: ${document?.description?.plano_electrico_edicion}`,
+            `PLANO ELECTRICO: ${document?.description?.plano_electrico || ''}`,
+            `EDICION: ${document?.description?.plano_electrico_edicion || ''}`,
           ],
         ],
         showHead: false,
@@ -119,9 +119,9 @@ export class DownloadDocumentService {
         head: [['', '', '']],
         body: [
           [
-            `SMD COMP.: ${document?.description?.smd_comp}`,
-            `SMD SOLD.: ${document?.description?.smd_sold}`,
-            `TRADIC.: ${document?.description?.tradic}`,
+            `SMD COMP.: ${document?.description?.smd_comp || ''}`,
+            `SMD SOLD.: ${document?.description?.smd_sold || ''}`,
+            `TRADIC.: ${document?.description?.tradic || ''}`,
           ],
         ],
         showHead: false,
@@ -132,9 +132,11 @@ export class DownloadDocumentService {
         head: [['', '', '']],
         body: [
           [
-            `Nº DE COMPONENTES > TRAD: ${document?.description.num_componentes}`,
-            `SMD/S: ${document?.description?.smds}`,
-            `SMD/C: ${document?.description?.smdc}`,
+            `Nº DE COMPONENTES > TRAD: ${
+              document?.description.num_componentes || ''
+            }`,
+            `SMD/S: ${document?.description?.smds || ''}`,
+            `SMD/C: ${document?.description?.smdc || ''}`,
           ],
         ],
         showHead: false,
@@ -143,13 +145,15 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['']],
         body: [
-          [`DATOS DEL CIRC.IMPR.: ${document?.description?.datos_pcb}`],
-          [`SERIGRAFIA PASTA: ${document?.description.serigrafia}`],
-          [`SOLDADURA REFLUJO: ${document?.description.reflujo}`],
-          [`CURADO ADHESIVO: ${document?.description.adhesivo}`],
-          [`SOLDADURA OLA: ${document?.description.ola}`],
+          [`DATOS DEL CIRC.IMPR.: ${document?.description?.datos_pcb || ''}`],
+          [`SERIGRAFIA PASTA: ${document?.description.serigrafia || ''}`],
+          [`SOLDADURA REFLUJO: ${document?.description.reflujo || ''}`],
+          [`CURADO ADHESIVO: ${document?.description.adhesivo || ''}`],
+          [`SOLDADURA OLA: ${document?.description.ola || ''}`],
           [
-            `PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA: ${document?.description.preformado_max}`,
+            `PREFORMADO, MAX. LONGITUD DE TERMINALES CARA SOLDADURA: ${
+              document?.description.preformado_max || ''
+            }`,
           ],
         ],
         showHead: false,
@@ -168,8 +172,8 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['']],
         body: [
-          [`SURTEL:   ${document?.description?.norma_surtel}`],
-          [`CLIENTE:    ${document?.description?.norma_cliente}`],
+          [`SURTEL:   ${document?.description?.norma_surtel || ''}`],
+          [`CLIENTE:    ${document?.description?.norma_cliente || ''}`],
         ],
         showHead: false,
         startY: finalY,
@@ -178,14 +182,29 @@ export class DownloadDocumentService {
       autoTable(doc, {
         head: [['', '']],
         body: [
-          ['CODIGO DE ESTE DOCUMENTO:', document?.description?.id_documento],
-          ['TITULO DE ESTE DOCUMENTO:', document?.name],
+          [
+            'CODIGO DE ESTE DOCUMENTO:',
+            document?.description?.id_documento || '',
+          ],
+          ['TITULO DE ESTE DOCUMENTO:', document?.name || ''],
         ],
         showHead: false,
       });
+
+      autoTable(doc, {
+        head: [['CUADRO DE EDICIONES']],
+        body: [],
+        headStyles: {
+          halign: 'center',
+        },
+      });
+
+      finalY = doc.lastAutoTable.finalY;
+
       autoTable(doc, {
         head: [['EDICION', 'MODIFICACION', 'FECHA', 'NOMBRE']],
         body: this.getRevisionsBody(document.revisions),
+        startY: finalY,
       });
 
       finalY = doc.lastAutoTable.finalY;
@@ -250,11 +269,13 @@ export class DownloadDocumentService {
       const result: any = [];
       result.push(index);
       if (row.type === 'component') {
-        result.push(row.CANTIDAD + ' ' + row.UNIDAD);
-        result.push(row.CODIGO);
-        result.push(row.FASE);
-        result.push(row.REFERENCIA);
-        result.push(row.DENOMINACION);
+        result.push(
+          row.CANTIDAD && row.UNIDAD ? row.CANTIDAD + ' ' + row.UNIDAD : '',
+        );
+        result.push(row.CODIGO || '');
+        result.push(row.FASE || '');
+        result.push(row.REFERENCIA || '');
+        result.push(row.DENOMINACION || '');
         result.push(row.COMENTARIOS || '');
         result.push(row.MSD || '');
       } else {

@@ -10,6 +10,7 @@ import { MatTable } from '@angular/material/table';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddRowDialogComponent } from 'src/app/utils/components/add-row-dialog/add-row-dialog.component';
 import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
+import { RowCopyService } from 'src/app/services/row-copy.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -89,6 +90,7 @@ export class EditDocumentComponent {
 
   constructor(
     private inserDocumentsService: InserDocumentsService,
+    public copyRowService: RowCopyService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private _snackbar: MatSnackBar,
@@ -263,6 +265,36 @@ export class EditDocumentComponent {
   deleteRow(element) {
     this.dataSource = this.dataSource.filter((row) => row !== element);
     this.table.renderRows();
+  }
+
+  copyRow(element) {
+    const copiedRow = {
+      ...element,
+      COMENTARIOS: element?.COMENTARIOS?.value || '',
+      CONTENIDO: element?.CONTENIDO?.value || '',
+      MSD: element?.MSD?.value || '',
+      UNIDAD: element?.UNIDAD?.value || '',
+    };
+    this.copyRowService.storeCopiedRow(copiedRow);
+    this._snackbar.open('Fila copiada', null, {
+      duration: 3000,
+    });
+  }
+
+  pasteRow() {
+    const copiedRow = this.copyRowService.getCopiedRow();
+    const rowToPaste = {
+      ...copiedRow,
+      UNIDAD: new FormControl(copiedRow.UNIDAD),
+      COMENTARIOS: new FormControl(copiedRow.COMENTARIOS),
+      MSD: new FormControl(copiedRow.MSD),
+      CONTENIDO: new FormControl(copiedRow.CONTENIDO),
+    };
+    this.dataSource.push(rowToPaste);
+    this.table.renderRows();
+    this._snackbar.open('Fila pegada tras el último elemento', null, {
+      duration: 3000,
+    });
   }
 
   async addRow() {

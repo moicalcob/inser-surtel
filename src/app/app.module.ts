@@ -30,6 +30,7 @@ import { DocumentsComponent } from './components/documents/documents.component';
 import { HeaderComponent } from './widgets/header/header.component';
 import { DocumentDescriptionFormComponent } from './widgets/document-description-form/document-description-form.component';
 import { InserDocumentsService } from './services/inser-documents.service';
+import { RowCopyService } from './services/row-copy.service';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
@@ -93,6 +94,7 @@ import { ConfirmationDialogComponent } from './utils/components/confirmation-dia
   ],
   providers: [
     InserDocumentsService,
+    RowCopyService,
     { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl },
     {
       provide: HTTP_INTERCEPTORS,
