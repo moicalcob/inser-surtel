@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { InserDocumentsService } from './inser-documents.service';
 import * as moment from 'moment';
+import { addInserTableBody } from '../utils/generateTableBody';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class DownloadDocumentService {
 
   public async downloadAsPDF(document_id) {
     try {
+      console.error = () => {};
       const document: any = await this.documentsService.getInserDocumentById(
         document_id,
       );
@@ -218,31 +220,7 @@ export class DownloadDocumentService {
 
       doc.addPage();
 
-      autoTable(doc, {
-        head: [
-          [
-            '',
-            'C.TOTAL',
-            'CODIGO',
-            'FASE',
-            'REFERENCIA',
-            'DENOMINACION',
-            'COMENTARIOS',
-            'MSD',
-          ],
-        ],
-        body: this.getTableBody(document.content),
-        columnStyles: {
-          0: { cellWidth: 10 },
-          1: { cellWidth: 20 },
-          2: { cellWidth: 20 },
-          3: { cellWidth: 20 },
-          4: { cellWidth: 35 },
-          5: { cellWidth: 35 },
-          6: { cellWidth: 30 },
-          7: { cellWidth: 10 },
-        },
-      });
+      addInserTableBody(doc, document);
 
       const pages = doc.getNumberOfPages();
       const pageWidth = doc.internal.pageSize.width;
@@ -262,34 +240,6 @@ export class DownloadDocumentService {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  private getTableBody(content) {
-    return content.map((row, index) => {
-      const result: any = [];
-      result.push(index);
-      if (row.type === 'component') {
-        result.push(
-          row.CANTIDAD && row.UNIDAD ? row.CANTIDAD + ' ' + row.UNIDAD : '',
-        );
-        result.push(row.CODIGO || '');
-        result.push(row.FASE || '');
-        result.push(row.REFERENCIA || '');
-        result.push(row.DENOMINACION || '');
-        result.push(row.COMENTARIOS || '');
-        result.push(row.MSD || '');
-      } else {
-        result.push({
-          content: row.CONTENIDO,
-          colSpan: 6,
-          styles: {
-            halign: 'left',
-            textColor: [0, 0, 0],
-          },
-        });
-      }
-      return result;
-    });
   }
 
   private getRevisionsBody(revisions) {
