@@ -1,58 +1,80 @@
 <h1 mat-dialog-title class="text-center">Añadir línea</h1>
 <div mat-dialog-content>
-    <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Tipo de línea</mat-label>
-        <mat-select [formControl]="rowType">
-            <mat-option [value]="'component'">
-                Componente
-            </mat-option>
-            <mat-option [value]="'text'">
-                Texto
-            </mat-option>
-        </mat-select>
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Tipo de línea</mat-label>
+    <mat-select [formControl]="rowType">
+      <mat-option [value]="'component'"> Componente </mat-option>
+      <mat-option [value]="'text'"> Texto </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <form
+    *ngIf="rowType.value === 'component'"
+    [formGroup]="rowFormComponent"
+    class="flex flex-col items-center"
+  >
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Código</mat-label>
+      <input matInput formControlName="CODIGO" />
     </mat-form-field>
-    <form *ngIf="rowType.value === 'component'" [formGroup]="rowFormComponent" class="flex flex-col items-center">
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Código</mat-label>
-            <input matInput formControlName="CODIGO">
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Fase</mat-label>
-            <input matInput formControlName="FASE">
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Denominación</mat-label>
-            <input matInput formControlName="DENOMINACION">
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Referencia</mat-label>
-            <input class="focus:ring-0" matInput type="number" formControlName="REFERENCIA">
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Cantidad</mat-label>
-            <input class="focus:ring-0" matInput type="number" formControlName="CANTIDAD">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>UNIDAD</mat-label>
-            <mat-select formControlName="UNIDAD">
-                <mat-option *ngFor="let unit of units" [value]="unit.value">
-                    {{unit.text}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Comentarios</mat-label>
-            <textarea class="focus:ring-0" matInput formControlName="COMENTARIOS"></textarea>
-        </mat-form-field>
-    </form>
-    <form *ngIf="rowType.value === 'text'" [formGroup]="rowFormText" class="flex flex-col items-center">
-        <mat-form-field class="w-full" appearance="outline">
-            <mat-label>Contenido</mat-label>
-            <textarea class="focus:ring-0" matInput formControlName="CONTENIDO"></textarea>
-        </mat-form-field>
-    </form>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Fase</mat-label>
+      <input matInput formControlName="FASE" />
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Denominación</mat-label>
+      <input matInput formControlName="DENOMINACION" />
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Referencia</mat-label>
+      <input
+        class="focus:ring-0"
+        matInput
+        type="text"
+        formControlName="REFERENCIA"
+      />
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Cantidad</mat-label>
+      <input
+        class="focus:ring-0"
+        matInput
+        type="number"
+        formControlName="CANTIDAD"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>UNIDAD</mat-label>
+      <mat-select formControlName="UNIDAD">
+        <mat-option *ngFor="let unit of units" [value]="unit.value">
+          {{ unit.text }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Comentarios</mat-label>
+      <textarea
+        class="focus:ring-0"
+        matInput
+        formControlName="COMENTARIOS"
+      ></textarea>
+    </mat-form-field>
+  </form>
+  <form
+    *ngIf="rowType.value === 'text'"
+    [formGroup]="rowFormText"
+    class="flex flex-col items-center"
+  >
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Contenido</mat-label>
+      <textarea
+        class="focus:ring-0"
+        matInput
+        formControlName="CONTENIDO"
+      ></textarea>
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions class="flex flex-row justify-around">
-    <button mat-button (click)="cancel()">Cancelar</button>
-    <button mat-button (click)="confirm()">Confirmar</button>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button (click)="confirm()">Confirmar</button>
 </div>

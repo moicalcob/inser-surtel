@@ -51,6 +51,7 @@ export class UploadComponent {
     // NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP)
     norma_surtel: new FormControl('', [Validators.required]),
     norma_cliente: new FormControl('', [Validators.required]),
+    id_documento_externo: new FormControl('', [Validators.required]),
     // CAMPO PEDIDO
     unidad: new FormControl('uds'),
     trazabilidad: new FormControl('', [Validators.required]),
@@ -88,12 +89,21 @@ export class UploadComponent {
           const row_cleaned: any = {};
           Object.keys(row).forEach((key: string) => {
             const clave = key.replace(/\s/g, '');
-            row_cleaned[clave] = ('' + row[key]).replace(/\s/g, '');
+            row_cleaned[clave] = '' + row[key];
           });
           inser_json.push(row_cleaned);
         });
 
+        if (inser_json.filter((x) => x.COMENTARIOS).length > 0) {
+          this.displayedColumns.push('COMENTARIOS');
+          inser_json.forEach((x) => {
+            if (x.COMENTARIOS) return;
+            x.COMENTARIOS = '';
+          });
+        }
+
         this.dataSource = inser_json;
+        console.log(inser_json);
       };
     }
   }

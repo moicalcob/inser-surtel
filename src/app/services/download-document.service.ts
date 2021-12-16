@@ -186,7 +186,7 @@ export class DownloadDocumentService {
         body: [
           [
             'CODIGO DE ESTE DOCUMENTO:',
-            document?.description?.id_documento || '',
+            document?.description?.id_documento_externo || '',
           ],
           ['TITULO DE ESTE DOCUMENTO:', document?.name || ''],
         ],

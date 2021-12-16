@@ -84,6 +84,7 @@ export class EditDocumentComponent {
     norma_surtel: new FormControl('', [Validators.required]),
     norma_cliente: new FormControl('', [Validators.required]),
     id_documento: new FormControl('', [Validators.required]),
+    id_documento_externo: new FormControl('', [Validators.required]),
     // CAMPO PEDIDO
     trazabilidad: new FormControl('', [Validators.required]),
   });
@@ -226,6 +227,8 @@ export class EditDocumentComponent {
       norma_surtel: this.document.description.norma_surtel || '',
       norma_cliente: this.document.description.norma_cliente || '',
       id_documento: this.document.description.id_documento || '',
+      id_documento_externo:
+        this.document.description.id_documento_externo || '',
       trazabilidad: this.document.description.trazabilidad || '',
     });
     this.generateContentFormArray(this.document.content);
@@ -312,6 +315,26 @@ export class EditDocumentComponent {
         CONTENIDO: new FormControl(result.CONTENIDO),
       };
       this.dataSource.push(result);
+      this.table.renderRows();
+    }
+  }
+
+  async editRow(row, index) {
+    const dialogRef = this.dialog.open(AddRowDialogComponent, {
+      width: '450px',
+      data: row,
+    });
+
+    let result = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      row = {
+        ...result,
+        UNIDAD: new FormControl(result.UNIDAD),
+        COMENTARIOS: new FormControl(result.COMENTARIOS),
+        MSD: new FormControl(result.MSD),
+        CONTENIDO: new FormControl(result.CONTENIDO),
+      };
+      this.dataSource[index] = row;
       this.table.renderRows();
     }
   }

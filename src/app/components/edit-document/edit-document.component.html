@@ -145,8 +145,12 @@
           <input matInput formControlName="norma_cliente" />
         </mat-form-field>
         <mat-form-field appearance="standard" class="w-full">
-          <mat-label>CODIGO DOCUMENTO:</mat-label>
+          <mat-label>CODIGO INTERNO:</mat-label>
           <input matInput formControlName="id_documento" />
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-full">
+          <mat-label>CODIGO DOCUMENTO EXTERNO:</mat-label>
+          <input matInput formControlName="id_documento_externo" />
         </mat-form-field>
         <mat-form-field appearance="standard" class="w-full">
           <input matInput formControlName="trazabilidad" />
@@ -284,11 +288,19 @@
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element; let i = index">
             <div class="flex flex-row">
               <button
                 *ngIf="authService.isAdmin()"
-                class="p-0"
+                class="action-button"
+                mat-flat-button
+                (click)="editRow(element, i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                *ngIf="authService.isAdmin()"
+                class="action-button"
                 mat-flat-button
                 (click)="deleteRow(element)"
               >
@@ -296,7 +308,7 @@
               </button>
               <button
                 *ngIf="authService.isAdmin()"
-                class="p-0"
+                class="action-button"
                 mat-flat-button
                 (click)="copyRow(element)"
               >
