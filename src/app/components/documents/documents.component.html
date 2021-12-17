@@ -1,92 +1,139 @@
 <app-header></app-header>
 
 <div class="flex flex-col p-4">
-    <mat-form-field class="w-full" appearance="standard">
-        <mat-label>Buscar...</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
-    </mat-form-field>
+  <mat-form-field class="w-full" appearance="standard">
+    <mat-label>Buscar...</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Buscar..."
+      #input
+    />
+  </mat-form-field>
 
-    <div class="mat-elevation-z8">
-        <table class="w-full" mat-table [dataSource]="dataSource" matSort>
+  <div class="mat-elevation-z8">
+    <table class="w-full" mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                  <mat-checkbox (change)="$event ? masterToggle() : null"
-                                [checked]="selection.hasValue() && isAllSelected()"
-                                [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                [aria-label]="checkboxLabel()">
-                  </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let row">
-                  <mat-checkbox (click)="$event.stopPropagation()"
-                                (change)="$event ? selection.toggle(row) : null"
-                                [checked]="selection.isSelected(row)"
-                                [aria-label]="checkboxLabel(row)">
-                  </mat-checkbox>
-                </td>
-              </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+      </ng-container>
 
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-                <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
-            </ng-container>
+      <ng-container matColumnDef="codigo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.description.id_documento }}
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="codigo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo </th>
-                <td mat-cell *matCellDef="let element"> {{element?.description.id_documento}} </td>
-            </ng-container>
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Fecha de creación
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.created_at | date: 'HH:mm dd/MM/yyyy' }}
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="created_at">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de creación </th>
-                <td mat-cell *matCellDef="let element"> {{element?.created_at | date:'HH:mm dd/MM/yyyy'}} </td>
-            </ng-container>
+      <ng-container matColumnDef="last_modification">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Última modificación
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.last_modification | date: 'HH:mm dd/MM/yyyy' }}
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="last_modification">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Última modificación </th>
-                <td mat-cell *matCellDef="let element"> {{element?.last_modification | date:'HH:mm dd/MM/yyyy'}} </td>
-            </ng-container>
+      <ng-container matColumnDef="revisions">
+        <th mat-header-cell class="revisions" *matHeaderCellDef mat-sort-header>
+          Revisiones
+        </th>
+        <td mat-cell class="text-center" *matCellDef="let element">
+          {{ element?.revisions?.length + 49 }}
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="revisions">
-                <th mat-header-cell class="revisions" *matHeaderCellDef mat-sort-header> Revisiones </th>
-                <td mat-cell class="text-center" *matCellDef="let element"> {{element?.revisions?.length + 50}} </td>
-            </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-1"></th>
+        <td mat-cell *matCellDef="let element" class="w-1">
+          <div class="flex flex-row" *ngIf="selection.isEmpty()">
+            <button
+              matTooltip="Editar documento"
+              *ngIf="authService.isAdmin()"
+              class="p-0"
+              mat-flat-button
+              [routerLink]="'/document/' + element._id"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              matTooltip="Eliminar documento"
+              *ngIf="authService.isAdmin()"
+              class="p-0"
+              mat-flat-button
+              (click)="deleteDocument(element._id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button
+              matTooltip="Duplicar documento"
+              *ngIf="authService.isAdmin()"
+              class="p-0"
+              mat-flat-button
+              (click)="duplicateDocument(element._id)"
+            >
+              <mat-icon>file_copy</mat-icon>
+            </button>
+            <button
+              matTooltip="Descargar documento"
+              class="p-0"
+              mat-flat-button
+              (click)="downloadDocument(element)"
+            >
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-1"></th>
-                <td mat-cell *matCellDef="let element" class="w-1">
-                    <div class="flex flex-row" *ngIf="selection.isEmpty()">
-                        <button matTooltip="Editar documento" *ngIf="authService.isAdmin()" class="p-0" mat-flat-button
-                            [routerLink]="'/document/' + element._id">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button matTooltip="Eliminar documento" *ngIf="authService.isAdmin()" class="p-0"
-                            mat-flat-button (click)="deleteDocument(element._id)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <button matTooltip="Duplicar documento" *ngIf="authService.isAdmin()" class="p-0"
-                            mat-flat-button (click)="duplicateDocument(element._id)">
-                            <mat-icon>file_copy</mat-icon>
-                        </button>
-                        <button matTooltip="Descargar documento" class="p-0" mat-flat-button
-                            (click)="downloadDocument(element)">
-                            <mat-icon>download</mat-icon>
-                        </button>
-                    </div>
-                </td>
-            </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No existe ningún documento, cree uno o corrija su búsqueda
+        </td>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  </div>
 
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No existe ningún documento, cree uno o corrija su búsqueda
-                </td>
-            </tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
-    </div>
-    
-    <button mat-flat-button color="primary" *ngIf="!selection.isEmpty()" (click)="generateNeededPieces()">
-        Generar resumen de necesidades
-    </button>
+  <button
+    mat-flat-button
+    color="primary"
+    *ngIf="!selection.isEmpty()"
+    (click)="generateNeededPieces()"
+  >
+    Generar resumen de necesidades
+  </button>
 </div>

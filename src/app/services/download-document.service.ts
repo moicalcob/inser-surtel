@@ -246,7 +246,7 @@ export class DownloadDocumentService {
     return revisions.map((row, index) => {
       const formattedDate = moment(row.updated_at).format('HH:mm DD/MM/YYYY');
       const result = [];
-      result.push(revisions.length - index + 50);
+      result.push(revisions.length - index + 49);
       result.push(row.reason);
       result.push(formattedDate);
       result.push(row.user.name);
