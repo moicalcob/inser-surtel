@@ -18,9 +18,7 @@ export class DownloadDocumentService {
         document_id,
       );
       const doc: any = new jsPDF();
-      const formattedDate = moment(document.created_at).format(
-        'HH:mm DD/MM/YYYY',
-      );
+      const formattedDate = moment(new Date()).format('HH:mm DD/MM/YYYY');
 
       autoTable(doc, {
         head: [[`SURTEL - LISTADO DE INSERCION    -    ${formattedDate}`]],
@@ -28,7 +26,7 @@ export class DownloadDocumentService {
           halign: 'center',
         },
         margin: {
-          top: 5,
+          top: 15,
         },
         theme: 'plain',
       });
@@ -236,6 +234,22 @@ export class DownloadDocumentService {
         });
       }
 
+      for (let j = 1; j < pages + 1; j++) {
+        const horizontalPos = pageWidth / 2;
+        const verticalPos = 10;
+        doc.setPage(j);
+        doc.text(
+          `Código: ${
+            document?.description?.id_documento_externo
+          }  -  Edición: ${document?.revisions.length + 49}`,
+          horizontalPos,
+          verticalPos,
+          {
+            align: 'center',
+          },
+        );
+      }
+
       doc.save(`${document.name}.pdf`);
     } catch (error) {
       console.error(error);
@@ -246,7 +260,7 @@ export class DownloadDocumentService {
     return revisions.map((row, index) => {
       const formattedDate = moment(row.updated_at).format('HH:mm DD/MM/YYYY');
       const result = [];
-      result.push(revisions.length - index + 49);
+      result.push(index + 50);
       result.push(row.reason);
       result.push(formattedDate);
       result.push(row.user.name);

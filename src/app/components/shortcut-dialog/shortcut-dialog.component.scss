@@ -1,0 +1,13 @@
+.document-item:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,.04);
+    border: solid 1px #276092;
+
+    .go-to-button {
+        display: inline;
+    }
+}
+
+.go-to-button {
+    display: none;
+}

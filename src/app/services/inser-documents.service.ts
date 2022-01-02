@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DocumentDescription } from '../interfaces/document-description';
 
@@ -15,6 +17,15 @@ export class InserDocumentsService {
       .toPromise();
   }
 
+  public seachInserDocuments(query): Observable<any[]> {
+    return this.httpClient
+      .get<any[]>(environment.API_URL + '/inser-document', {
+        params: {
+          q: query,
+        },
+      })
+      .pipe(catchError((err) => of([])));
+  }
   public getResumeOfNeededPieces(documents: string[]): Promise<any> {
     const body = {
       documents,

@@ -50,6 +50,7 @@ import { HotKeyService } from './services/het-keys.service';
 import { RevisionConfirmationDialogComponent } from './components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { DuplicateDocumentDialogComponent } from './components/duplicate-document-dialog/duplicate-document-dialog.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { ShortcutDialogComponent } from './components/shortcut-dialog/shortcut-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     AddRowDialogComponent,
     DuplicateDocumentDialogComponent,
     ConfirmationDialogComponent,
+    ShortcutDialogComponent,
   ],
   imports: [
     BrowserModule,

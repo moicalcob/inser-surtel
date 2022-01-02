@@ -1,12 +1,20 @@
 import autoTable from 'jspdf-autotable';
 
 export function addInserTableBody(doc, document) {
+  let headerShown = 'pending';
   document.content.forEach((rowContent, index) => {
-    addContentRow(doc, rowContent, index);
+    if (rowContent.type === 'component') {
+      if (headerShown === 'pending') {
+        headerShown = 'show';
+      } else {
+        headerShown = 'hide';
+      }
+    }
+    addContentRow(doc, rowContent, index, headerShown);
   });
 }
 
-function addContentRow(doc, row, index) {
+function addContentRow(doc, row, index, headerShown) {
   let finalY = doc.lastAutoTable.finalY;
 
   const rowPdf: any = {
@@ -25,8 +33,9 @@ function addContentRow(doc, row, index) {
     body: [getRowBody(row, index)],
   };
 
+  rowPdf.showHead = headerShown === 'show' ? true : false;
+
   if (index !== 0) {
-    rowPdf.showHead = false;
     rowPdf.startY = finalY;
   }
 
@@ -49,6 +58,7 @@ function addContentRow(doc, row, index) {
         1: {
           cellWidth: 170,
           fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
+          fontStyle: 'bold',
         },
       },
       startY: finalY,

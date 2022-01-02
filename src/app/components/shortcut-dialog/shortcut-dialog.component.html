@@ -1,0 +1,28 @@
+<div class="w-full">
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Buscar documento</mat-label>
+    <input
+      matInput
+      placeholder="Texto a buscar..."
+      (input)="searchDocuments($event.target.value)"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+
+<ng-container *ngIf="documents$ | async as documents">
+  <mat-list *ngIf="documents.length > 0">
+    <mat-list-item
+      *ngFor="let document of documents"
+      class="document-item"
+      (click)="goToDocument(document._id)"
+    >
+      <mat-icon mat-list-icon>description</mat-icon>
+      <h4 mat-line>{{ document.name }}</h4>
+      <p mat-line>{{ document.description.id_documento }}</p>
+      <button class="go-to-button" mat-icon-button>
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</ng-container>
