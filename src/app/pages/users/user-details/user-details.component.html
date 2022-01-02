@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<div class="p-8">
+  <form class="p-4 mat-elevation-z8 flex flex-col" [formGroup]="user_form">
+    <mat-form-field appearance="outline">
+      <mat-label>Usuario</mat-label>
+      <input matInput formControlName="username" />
+      <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="password" type="password" />
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" />
+      <mat-icon matSuffix>details</mat-icon>
+    </mat-form-field>
+    <mat-slide-toggle formControlName="admin_role" class="self-center"
+      >Usuario administrador</mat-slide-toggle
+    >
+  </form>
+</div>
+
+<div class="p-4 flex flex-col items-center">
+  <button mat-flat-button color="primary" (click)="submit()">
+    {{ create_mode ? 'Crear usuario' : 'Actualizar usuario' }}
+  </button>
+</div>

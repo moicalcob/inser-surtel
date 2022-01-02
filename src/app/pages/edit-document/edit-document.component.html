@@ -338,7 +338,7 @@
           *ngFor="let revision of document?.revisions; let i = index"
         >
           <mat-icon mat-list-icon>folder</mat-icon>
-          <span mat-line>Nº Revisión: {{ i + 51 }}</span>
+          <span mat-line>Nº Revisión: {{ i + 50 }}</span>
           <div mat-line>{{ revision.reason }}</div>
           <div mat-line>
             Fecha: {{ revision.updated_at | date: 'YYYY-MM-dd HH:mm' }}
@@ -346,6 +346,10 @@
           <div>Guardada por: {{ revision.user.username }}</div>
           <div class="flex flex-row items-center">
             <mat-slide-toggle
+              *ngIf="
+                document?.revisions.length > 1 &&
+                i !== document?.revisions.length - 1
+              "
               class="pl-2"
               [checked]="revision.active_revision"
               [disabled]="revision.active_revision"

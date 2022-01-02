@@ -4,13 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InserDocumentsService } from 'src/app/services/inser-documents.service';
-import { RevisionConfirmationDialogComponent } from 'src/app/utils/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
 import { AuthService } from 'src/app/services/auth.service';
-import { AddRowDialogComponent } from 'src/app/utils/components/add-row-dialog/add-row-dialog.component';
-import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
+import { AddRowDialogComponent } from 'src/app/components/add-row-dialog/add-row-dialog.component';
 import { RowCopyService } from 'src/app/services/row-copy.service';
+import { RevisionConfirmationDialogComponent } from 'src/app/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-edit-document',

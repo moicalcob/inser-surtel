@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -12,11 +11,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DownloadDocumentService } from 'src/app/services/download-document.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DuplicateDocumentDialogComponent } from 'src/app/utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmationDialogComponent } from 'src/app/utils/components/confirmation-dialog/confirmation-dialog.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as XLSX from 'xlsx';
+import { DuplicateDocumentDialogComponent } from 'src/app/components/duplicate-document-dialog/duplicate-document-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-documents',
@@ -31,6 +30,7 @@ export class DocumentsComponent implements AfterViewInit {
     'select',
     'name',
     'codigo',
+    'codigo_externo',
     'created_at',
     'last_modification',
     'revisions',

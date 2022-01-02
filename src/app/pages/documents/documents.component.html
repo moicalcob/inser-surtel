@@ -40,9 +40,18 @@
       </ng-container>
 
       <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
         <td mat-cell *matCellDef="let element">
           {{ element?.description.id_documento }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="codigo_externo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Código externo
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.description.id_documento_externo }}
         </td>
       </ng-container>
 

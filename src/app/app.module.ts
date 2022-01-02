@@ -26,10 +26,10 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { UploadComponent } from './components/upload/upload.component';
-import { DocumentsComponent } from './components/documents/documents.component';
-import { HeaderComponent } from './widgets/header/header.component';
-import { DocumentDescriptionFormComponent } from './widgets/document-description-form/document-description-form.component';
+import { UploadComponent } from './pages/upload/upload.component';
+import { DocumentsComponent } from './pages/documents/documents.component';
+import { HeaderComponent } from './components/header/header.component';
+import { DocumentDescriptionFormComponent } from './components/document-description-form/document-description-form.component';
 import { InserDocumentsService } from './services/inser-documents.service';
 import { RowCopyService } from './services/row-copy.service';
 import {
@@ -37,18 +37,19 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { EditDocumentComponent } from './components/edit-document/edit-document.component';
+import { EditDocumentComponent } from './pages/edit-document/edit-document.component';
 import { SpanishPaginatorIntl } from './utils/SpanishPaginatorIntl';
 import { DownloadDocumentService } from './services/download-document.service';
-import { RevisionConfirmationDialogComponent } from './utils/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
-import { LoginComponent } from './components/login/login.component';
-import { UsersComponent } from './components/users/users.component';
-import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { LoginComponent } from './pages/login/login.component';
+import { UsersComponent } from './pages/users/users.component';
+import { UserDetailsComponent } from './pages/users/user-details/user-details.component';
 import { AuthInterceptorService } from './auth.interceptor';
-import { AddRowDialogComponent } from './utils/components/add-row-dialog/add-row-dialog.component';
+import { AddRowDialogComponent } from './components/add-row-dialog/add-row-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { DuplicateDocumentDialogComponent } from './utils/components/duplicate-document-dialog/duplicate-document-dialog.component';
-import { ConfirmationDialogComponent } from './utils/components/confirmation-dialog/confirmation-dialog.component';
+import { HotKeyService } from './services/het-keys.service';
+import { RevisionConfirmationDialogComponent } from './components/revision-confirmation-dialog/revision-confirmation-dialog.component';
+import { DuplicateDocumentDialogComponent } from './components/duplicate-document-dialog/duplicate-document-dialog.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { ConfirmationDialogComponent } from './utils/components/confirmation-dia
       multi: true,
     },
     DownloadDocumentService,
+    HotKeyService,
   ],
   bootstrap: [AppComponent],
 })
