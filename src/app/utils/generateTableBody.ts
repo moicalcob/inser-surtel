@@ -3,12 +3,11 @@ import autoTable from 'jspdf-autotable';
 export function addInserTableBody(doc, document) {
   let headerShown = 'pending';
   document.content.forEach((rowContent, index) => {
-    if (rowContent.type === 'component') {
-      if (headerShown === 'pending') {
-        headerShown = 'show';
-      } else {
-        headerShown = 'hide';
-      }
+    if (headerShown === 'pending' && rowContent.type === 'component') {
+      console.log('Mostrando header', rowContent);
+      headerShown = 'show';
+    } else if (headerShown === 'show') {
+      headerShown = 'hide';
     }
     addContentRow(doc, rowContent, index, headerShown);
   });
