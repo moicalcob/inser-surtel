@@ -4,7 +4,6 @@ export function addInserTableBody(doc, document) {
   let headerShown = 'pending';
   document.content.forEach((rowContent, index) => {
     if (headerShown === 'pending' && rowContent.type === 'component') {
-      console.log('Mostrando header', rowContent);
       headerShown = 'show';
     } else if (headerShown === 'show') {
       headerShown = 'hide';
