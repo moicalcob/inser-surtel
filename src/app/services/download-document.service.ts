@@ -191,6 +191,22 @@ export class DownloadDocumentService {
         showHead: false,
       });
 
+      finalY = doc.lastAutoTable.finalY;
+
+      autoTable(doc, {
+        head: [['', '', '', '']],
+        body: [
+          [
+            'TRAZABILIDAD:',
+            document?.description?.trazabilidad || '',
+            'DOCUMENTO:',
+            document?.description?.id_documento || '',
+          ],
+        ],
+        showHead: false,
+        startY: finalY,
+      });
+
       autoTable(doc, {
         head: [['CUADRO DE EDICIONES']],
         body: [],
