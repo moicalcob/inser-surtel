@@ -22,6 +22,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +52,7 @@ import { RevisionConfirmationDialogComponent } from './components/revision-confi
 import { DuplicateDocumentDialogComponent } from './components/duplicate-document-dialog/duplicate-document-dialog.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { ShortcutDialogComponent } from './components/shortcut-dialog/shortcut-dialog.component';
+import { FileUploadDialogComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,7 @@ import { ShortcutDialogComponent } from './components/shortcut-dialog/shortcut-d
     DuplicateDocumentDialogComponent,
     ConfirmationDialogComponent,
     ShortcutDialogComponent,
+    FileUploadDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +99,7 @@ import { ShortcutDialogComponent } from './components/shortcut-dialog/shortcut-d
     MatMenuModule,
     MatSlideToggleModule,
     DragDropModule,
+    MatProgressBarModule,
   ],
   providers: [
     InserDocumentsService,

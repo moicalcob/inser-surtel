@@ -103,7 +103,6 @@ export class UploadComponent {
         }
 
         this.dataSource = inser_json;
-        console.log(inser_json);
       };
     }
   }

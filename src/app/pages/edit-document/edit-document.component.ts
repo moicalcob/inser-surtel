@@ -11,6 +11,7 @@ import { AddRowDialogComponent } from 'src/app/components/add-row-dialog/add-row
 import { RowCopyService } from 'src/app/services/row-copy.service';
 import { RevisionConfirmationDialogComponent } from 'src/app/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dialog/confirmation-dialog.component';
+import { FileUploadDialogComponent } from 'src/app/components/file-upload/file-upload.component';
 
 @Component({
   selector: 'app-edit-document',
@@ -348,6 +349,16 @@ export class EditDocumentComponent {
     this.table.renderRows();
     this._snackbar.open('Revisión restaurada correctamente', null, {
       duration: 3000,
+    });
+  }
+
+  attachFiles() {
+    this.dialog.open(FileUploadDialogComponent, {
+      width: '450px',
+      data: {
+        documentId: this.document._id,
+        attachedFiles: this.document.attached_files || [],
+      },
     });
   }
 }

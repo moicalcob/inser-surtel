@@ -126,4 +126,27 @@ export class InserDocumentsService {
       )
       .toPromise();
   }
+
+  public attachFile(documentId: string, file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.post(
+      environment.API_URL + '/inser-document/' + documentId + '/attach-file',
+      formData,
+      {
+        reportProgress: true,
+        observe: 'events',
+      },
+    );
+  }
+
+  public checkFileName(fileName: string): Promise<boolean> {
+    return this.httpClient
+      .get<boolean>(environment.API_URL + '/files-management/check-name', {
+        params: {
+          fileName,
+        },
+      })
+      .toPromise();
+  }
 }
