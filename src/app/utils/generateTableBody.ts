@@ -29,6 +29,9 @@ function addContentRow(doc, row, index, headerShown) {
     ],
     columnStyles: getColumnStyles(index),
     body: [getRowBody(row, index)],
+    margin: {
+      top: 30,
+    },
   };
 
   rowPdf.showHead = headerShown === 'show' ? true : false;

@@ -134,7 +134,12 @@ export class DocumentsComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
-      const dataStr = (data.name + data.description.id_documento).toLowerCase();
+      const dataStr = (
+        data.name +
+        data.description.id_documento +
+        data.description.codigo +
+        data.description.cliente
+      ).toLowerCase();
 
       const transformedFilter = filter.trim().toLowerCase();
 
@@ -152,7 +157,10 @@ export class DocumentsComponent implements AfterViewInit {
   }
 
   downloadDocument(document) {
-    //this.downloadDocumentService.downloadAsPDF(document._id);
+    this.downloadDocumentService.downloadAsPDF(document._id);
+  }
+
+  downloadAttachedFiles(document) {
     this.downloadDocumentService.downloadDocumentFiles(
       document._id,
       document.name,

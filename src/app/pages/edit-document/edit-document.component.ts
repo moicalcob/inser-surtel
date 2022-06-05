@@ -11,7 +11,8 @@ import { AddRowDialogComponent } from 'src/app/components/add-row-dialog/add-row
 import { RowCopyService } from 'src/app/services/row-copy.service';
 import { RevisionConfirmationDialogComponent } from 'src/app/components/revision-confirmation-dialog/revision-confirmation-dialog.component';
 import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dialog/confirmation-dialog.component';
-import { FileUploadDialogComponent } from 'src/app/components/file-upload/file-upload.component';
+import { FileUploadDialogComponent } from 'src/app/components/file-upload-dialog/file-upload-dialog.component';
+import { EditRevisionDialogComponent } from 'src/app/components/edit-revision-dialog/edit-revision-dialog.component';
 
 @Component({
   selector: 'app-edit-document',
@@ -285,7 +286,7 @@ export class EditDocumentComponent {
     });
   }
 
-  pasteRow() {
+  pasteRow(position: string) {
     const copiedRow = this.copyRowService.getCopiedRow();
     const rowToPaste = {
       ...copiedRow,
@@ -294,7 +295,11 @@ export class EditDocumentComponent {
       MSD: new FormControl(copiedRow.MSD),
       CONTENIDO: new FormControl(copiedRow.CONTENIDO),
     };
-    this.dataSource.push(rowToPaste);
+    if (position === 'start') {
+      this.dataSource.unshift(rowToPaste);
+    } else if (position === 'end') {
+      this.dataSource.push(rowToPaste);
+    }
     this.table.renderRows();
     this._snackbar.open('Fila pegada tras el último elemento', null, {
       duration: 3000,
@@ -360,5 +365,57 @@ export class EditDocumentComponent {
         attachedFiles: this.document.attached_files || [],
       },
     });
+  }
+
+  async exchangeFases() {
+    const response = await this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          title: 'Intercambiar fases',
+          text: '¿Seguro que quieres intercambiar las fases? Las SS pasarán a ser SC y viceversa.',
+        },
+      })
+      .afterClosed()
+      .toPromise();
+
+    if (response) {
+      const updatedData = this.dataSource.map((row) => {
+        let newFase;
+        if (row.FASE === 'SC') {
+          newFase = 'SS';
+        } else if (row.FASE === 'SS') {
+          newFase = 'SC';
+        } else {
+          newFase = row.FASE;
+        }
+        const newRow = { ...row, FASE: newFase };
+        return newRow;
+      });
+      this.dataSource = updatedData;
+      this.table.renderRows();
+    }
+  }
+
+  async editRevision(revision) {
+    try {
+      const response = await this.dialog
+        .open(EditRevisionDialogComponent, {
+          data: {
+            revision: revision,
+          },
+        })
+        .afterClosed()
+        .toPromise();
+
+      if (response.revision) {
+        await this.inserDocumentsService.updateRevision(revision);
+      }
+
+      await this.getDocument();
+    } catch (error) {
+      this._snackbar.open('Error al actualizar la revisión', null, {
+        duration: 3000,
+      });
+    }
   }
 }

@@ -23,6 +23,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -52,7 +54,8 @@ import { RevisionConfirmationDialogComponent } from './components/revision-confi
 import { DuplicateDocumentDialogComponent } from './components/duplicate-document-dialog/duplicate-document-dialog.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { ShortcutDialogComponent } from './components/shortcut-dialog/shortcut-dialog.component';
-import { FileUploadDialogComponent } from './components/file-upload/file-upload.component';
+import { FileUploadDialogComponent } from './components/file-upload-dialog/file-upload-dialog.component';
+import { EditRevisionDialogComponent } from './components/edit-revision-dialog/edit-revision-dialog.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +74,7 @@ import { FileUploadDialogComponent } from './components/file-upload/file-upload.
     ConfirmationDialogComponent,
     ShortcutDialogComponent,
     FileUploadDialogComponent,
+    EditRevisionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,12 +98,14 @@ import { FileUploadDialogComponent } from './components/file-upload/file-upload.
     MatTabsModule,
     TextFieldModule,
     MatDialogModule,
+    MatDatepickerModule,
     MatSnackBarModule,
     MatListModule,
     MatMenuModule,
     MatSlideToggleModule,
     DragDropModule,
     MatProgressBarModule,
+    MatNativeDateModule,
   ],
   providers: [
     InserDocumentsService,
@@ -112,6 +118,7 @@ import { FileUploadDialogComponent } from './components/file-upload/file-upload.
     },
     DownloadDocumentService,
     HotKeyService,
+    MatNativeDateModule,
   ],
   bootstrap: [AppComponent],
 })

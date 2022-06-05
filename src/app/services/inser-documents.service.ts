@@ -161,4 +161,13 @@ export class InserDocumentsService {
       },
     );
   }
+
+  public updateRevision(revision): Promise<any> {
+    return this.httpClient
+      .post(
+        environment.API_URL + '/inser-document/edit-revision/' + revision._id,
+        { revision },
+      )
+      .toPromise();
+  }
 }

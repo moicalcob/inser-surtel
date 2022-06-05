@@ -34,6 +34,8 @@ export class DownloadDocumentService {
 
   public async downloadAsPDF(document_id) {
     try {
+      var img = new Image();
+      img.src = 'assets/logos/logo-surtel.png';
       console.error = () => {};
       const document: any = await this.documentsService.getInserDocumentById(
         document_id,
@@ -269,6 +271,7 @@ export class DownloadDocumentService {
         doc.text(`${j} de ${pages}`, horizontalPos, verticalPos, {
           align: 'center',
         });
+        doc.addImage(img, 'png', 4, 4, 20, 10);
       }
 
       for (let j = 1; j < pages + 1; j++) {
@@ -294,10 +297,10 @@ export class DownloadDocumentService {
   }
 
   private getRevisionsBody(revisions) {
-    return revisions.map((row, index) => {
+    return revisions.reverse().map((row, index) => {
       const formattedDate = moment(row.updated_at).format('HH:mm DD/MM/YYYY');
       const result = [];
-      result.push(index + 50);
+      result.push(revisions.length - index + 49);
       result.push(row.reason);
       result.push(formattedDate);
       result.push(row.user.name);

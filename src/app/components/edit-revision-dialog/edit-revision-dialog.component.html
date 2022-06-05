@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Editar revisión</h1>
+<div mat-dialog-content *ngIf="revisionForm">
+  <form [formGroup]="revisionForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre de la revisión</mat-label>
+      <input matInput formControlName="reason" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de la revisión</mat-label>
+      <input
+        matInput
+        [matDatepicker]="updated_at_picker"
+        formControlName="updated_at"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="updated_at_picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #updated_at_picker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</div>

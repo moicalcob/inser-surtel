@@ -85,7 +85,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-1"></th>
         <td mat-cell *matCellDef="let element" class="w-1">
-          <div class="flex flex-row" *ngIf="selection.isEmpty()">
+          <div class="flex flex-row action-buttons" *ngIf="selection.isEmpty()">
             <button
               matTooltip="Editar documento"
               *ngIf="authService.isAdmin()"
@@ -117,10 +117,18 @@
               matTooltip="Descargar documento"
               class="p-0"
               mat-flat-button
-              (click)="downloadDocument(element)"
+              [matMenuTriggerFor]="dowloadMenu"
             >
               <mat-icon>download</mat-icon>
             </button>
+            <mat-menu #dowloadMenu="matMenu">
+              <button mat-menu-item (click)="downloadDocument(element)">
+                <span>Descargar documento</span>
+              </button>
+              <button mat-menu-item (click)="downloadAttachedFiles(element)">
+                <span>Descargar ficheros adjuntos</span>
+              </button>
+            </mat-menu>
           </div>
         </td>
       </ng-container>

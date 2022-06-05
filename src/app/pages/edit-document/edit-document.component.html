@@ -169,10 +169,48 @@
         mat-flat-button
         color="primary"
         style="margin-left: 8px !important"
-        (click)="pasteRow()"
+        [matMenuTriggerFor]="pasteMenu"
       >
         Pegar fila
       </button>
+      <mat-menu #pasteMenu="matMenu">
+        <button mat-menu-item (click)="pasteRow('start')">
+          <span>Pegal al inicio</span>
+        </button>
+        <button mat-menu-item (click)="pasteRow('end')">
+          <span>Pegar al final</span>
+        </button>
+      </mat-menu>
+
+      <button
+        mat-mini-fab
+        [ngStyle]="{ transform: 'scale(0.8)' }"
+        color="warn"
+        style="margin-left: 8px !important"
+        [matMenuTriggerFor]="moreOptionsMenu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #moreOptionsMenu="matMenu">
+        <button
+          mat-menu-item
+          color="primary"
+          class="mt-4"
+          (click)="attachFiles()"
+        >
+          <mat-icon>cloud_upload</mat-icon>
+          Adjuntar ficheros
+        </button>
+        <button
+          mat-menu-item
+          color="primary"
+          class="mt-4"
+          (click)="exchangeFases()"
+        >
+          <mat-icon>cached</mat-icon>
+          Intercambiar fases
+        </button>
+      </mat-menu>
     </div>
     <div class="px-4 pb-4">
       <table
@@ -335,10 +373,12 @@
         *ngIf="document?.revisions?.length > 0"
       >
         <mat-list-item
-          *ngFor="let revision of document?.revisions; let i = index"
+          *ngFor="let revision of document?.revisions.reverse(); let i = index"
         >
           <mat-icon mat-list-icon>folder</mat-icon>
-          <span mat-line>Nº Revisión: {{ i + 50 }}</span>
+          <span mat-line
+            >Nº Revisión: {{ document?.revisions.length - i + 49 }}</span
+          >
           <div mat-line>{{ revision.reason }}</div>
           <div mat-line>
             Fecha: {{ revision.updated_at | date: 'YYYY-MM-dd HH:mm' }}
@@ -364,6 +404,14 @@
             >
               <mat-icon>restore</mat-icon>
             </button>
+            <button
+              *ngIf="authService.isAdmin()"
+              class="p-0"
+              mat-flat-button
+              (click)="editRevision(revision)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
           </div>
         </mat-list-item>
       </mat-list>
@@ -388,9 +436,6 @@
     (click)="updateDocument()"
   >
     Guardar
-  </button>
-  <button mat-flat-button color="primary" class="mt-4" (click)="attachFiles()">
-    Adjuntar ficheros
   </button>
   <button
     mat-flat-button

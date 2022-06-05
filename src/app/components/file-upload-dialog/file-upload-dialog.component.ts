@@ -13,9 +13,9 @@ import { finalize } from 'rxjs/operators';
 import { InserDocumentsService } from 'src/app/services/inser-documents.service';
 
 @Component({
-  selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss'],
+  selector: 'app-file-upload-dialog',
+  templateUrl: './file-upload-dialog.component.html',
+  styleUrls: ['./file-upload-dialog.component.scss'],
 })
 export class FileUploadDialogComponent {
   loading: boolean;
