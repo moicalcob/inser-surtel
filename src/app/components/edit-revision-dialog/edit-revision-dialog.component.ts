@@ -13,10 +13,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class EditRevisionDialogComponent {
   revision;
-  revisionForm = new UntypedFormGroup({
-    reason: new UntypedFormControl('', Validators.required),
-    updated_at: new UntypedFormControl('', Validators.required),
-  });
+  reason = new UntypedFormControl('', Validators.required);
+  date;
 
   constructor(
     public dialogRef: MatDialogRef<EditRevisionDialogComponent>,
@@ -26,13 +24,24 @@ export class EditRevisionDialogComponent {
       this.dialogRef.close();
     }
     this.revision = data.revision;
-    this.revisionForm.setValue({
-      reason: this.revision.reason,
-      updated_at: this.revision.updated_at,
-    });
+    this.reason.setValue(this.revision.reason);
+    this.date = this.revision.updated_at;
+  }
+
+  dateChanged(eventDate: string): Date | null {
+    return !!eventDate ? new Date(eventDate) : null;
   }
 
   save() {
-    this.dialogRef.close({ revision: this.revision });
+    const revision = {
+      ...this.revision,
+      updated_at: this.date,
+      reason: this.reason.value,
+    };
+    this.dialogRef.close({ revision });
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 }

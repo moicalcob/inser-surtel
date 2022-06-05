@@ -22,9 +22,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -98,14 +95,11 @@ import { EditRevisionDialogComponent } from './components/edit-revision-dialog/e
     MatTabsModule,
     TextFieldModule,
     MatDialogModule,
-    MatDatepickerModule,
     MatSnackBarModule,
     MatListModule,
     MatMenuModule,
     MatSlideToggleModule,
     DragDropModule,
-    MatProgressBarModule,
-    MatNativeDateModule,
   ],
   providers: [
     InserDocumentsService,
@@ -118,7 +112,6 @@ import { EditRevisionDialogComponent } from './components/edit-revision-dialog/e
     },
     DownloadDocumentService,
     HotKeyService,
-    MatNativeDateModule,
   ],
   bootstrap: [AppComponent],
 })

@@ -417,8 +417,8 @@ export class EditDocumentComponent {
         .afterClosed()
         .toPromise();
 
-      if (response.revision) {
-        await this.inserDocumentsService.updateRevision(revision);
+      if (response && response.revision) {
+        await this.inserDocumentsService.updateRevision(response.revision);
       }
 
       await this.getDocument();
