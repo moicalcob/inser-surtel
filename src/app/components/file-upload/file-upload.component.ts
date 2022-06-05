@@ -33,7 +33,7 @@ export class FileUploadDialogComponent {
   constructor(
     private inserDocumentsService: InserDocumentsService,
     private snackbar: MatSnackBar,
-    private dialogRef: MatDialogRef<FileUploadDialogComponent>,
+    public dialogRef: MatDialogRef<FileUploadDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     if (!data.documentId) {
@@ -48,6 +48,7 @@ export class FileUploadDialogComponent {
   async setNewFile(event) {
     try {
       const validFileName = await this.inserDocumentsService.checkFileName(
+        this.documentId,
         event.target.files[0].name,
       );
       if (validFileName) {
@@ -76,6 +77,7 @@ export class FileUploadDialogComponent {
         }
         if (event.type === HttpEventType.Response) {
           this.attachedFiles = event.body['attached_files'] || [];
+          this.reset();
         }
       });
     } catch (error) {
@@ -92,8 +94,7 @@ export class FileUploadDialogComponent {
   }
 
   reset() {
-    this.uploadProgress = null;
-    this.uploadSub = null;
+    this.file = null;
     this.fileUploadInput.nativeElement.value = '';
   }
 }

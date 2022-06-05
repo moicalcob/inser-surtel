@@ -4,12 +4,33 @@ import autoTable from 'jspdf-autotable';
 import { InserDocumentsService } from './inser-documents.service';
 import * as moment from 'moment';
 import { addInserTableBody } from '../utils/generateTableBody';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { saveAs } from 'file-saver';
+import b64ToBlob from 'b64-to-blob';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DownloadDocumentService {
-  constructor(private documentsService: InserDocumentsService) {}
+  constructor(
+    private documentsService: InserDocumentsService,
+    private snackbar: MatSnackBar,
+  ) {}
+
+  public async downloadDocumentFiles(documentId: string, documentName: string) {
+    try {
+      this.documentsService.downloadFiles(documentId).subscribe((blob) => {
+        saveAs(blob, `${documentName}.zip`);
+      });
+    } catch (error) {
+      console.error(error);
+      this.snackbar.open(
+        'Hubo un problema descargando los ficheros adjuntos',
+        null,
+        { duration: 3000 },
+      );
+    }
+  }
 
   public async downloadAsPDF(document_id) {
     try {

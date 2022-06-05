@@ -152,7 +152,11 @@ export class DocumentsComponent implements AfterViewInit {
   }
 
   downloadDocument(document) {
-    this.downloadDocumentService.downloadAsPDF(document._id);
+    //this.downloadDocumentService.downloadAsPDF(document._id);
+    this.downloadDocumentService.downloadDocumentFiles(
+      document._id,
+      document.name,
+    );
   }
 
   isAllSelected() {

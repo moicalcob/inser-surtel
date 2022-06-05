@@ -140,13 +140,25 @@ export class InserDocumentsService {
     );
   }
 
-  public checkFileName(fileName: string): Promise<boolean> {
+  public checkFileName(documentId: string, fileName: string): Promise<boolean> {
     return this.httpClient
-      .get<boolean>(environment.API_URL + '/files-management/check-name', {
-        params: {
-          fileName,
+      .get<boolean>(
+        environment.API_URL + `/inser-document/${documentId}/check-file-name`,
+        {
+          params: {
+            fileName,
+          },
         },
-      })
+      )
       .toPromise();
+  }
+
+  public downloadFiles(documentId: string): Observable<Blob> {
+    return this.httpClient.get(
+      environment.API_URL + '/inser-document/download/' + documentId,
+      {
+        responseType: 'blob',
+      },
+    );
   }
 }

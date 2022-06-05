@@ -1,9 +1,11 @@
 <h1 mat-dialog-title>Ficheros adjuntos</h1>
 <div mat-dialog-content>
-  <div>
-    <h2>Listado de ficheros</h2>
-    <p *ngFor="let file of attachedFiles">{{ file }}</p>
-  </div>
+  <mat-list>
+    <mat-list-item *ngFor="let file of attachedFiles">
+      <mat-icon mat-list-icon>folder</mat-icon>
+      <div mat-line>{{ file }}</div>
+    </mat-list-item>
+  </mat-list>
   <input
     type="file"
     class="file-input"
@@ -11,35 +13,33 @@
     (change)="setNewFile($event)"
   />
 
-  <div class="file-upload">
-    {{ file?.name || 'Ningún archivo seleccionado.' }}
+  <div class="flex flex-col items-center mt-2">
+    <div class="file-upload">
+      {{ file?.name || 'Ningún archivo seleccionado.' }}
 
-    <button
-      mat-mini-fab
-      color="primary"
-      class="upload-btn"
-      (click)="fileUpload.click()"
-    >
-      <mat-icon>attach_file</mat-icon>
-    </button>
-  </div>
+      <button
+        mat-mini-fab
+        color="primary"
+        class="upload-btn"
+        (click)="fileUpload.click()"
+      >
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </div>
 
-  <button (click)="uploadFile()">Subir fichero</button>
+    <div class="mt-4 flex justify-evenly w-full">
+      <button mat-flat-button color="warn" (click)="dialogRef.close()">
+        Cancelar
+      </button>
 
-  <div class="progress">
-    <mat-progress-bar
-      class="progress-bar"
-      mode="determinate"
-      [value]="uploadProgress"
-      *ngIf="uploadProgress"
-    >
-    </mat-progress-bar>
-
-    <mat-icon
-      class="cancel-upload"
-      (click)="cancelUpload()"
-      *ngIf="uploadProgress"
-      >delete_forever</mat-icon
-    >
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="uploadFile()"
+        [disabled]="file === null"
+      >
+        Subir fichero
+      </button>
+    </div>
   </div>
 </div>
