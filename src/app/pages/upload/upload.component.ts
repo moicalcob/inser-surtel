@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { InserDocumentsService } from 'src/app/services/inser-documents.service';
@@ -21,40 +25,46 @@ export class UploadComponent {
   ];
   dataSource = [];
 
-  fileFormControl = new FormControl(null, [Validators.required]);
-  nameForm = new FormControl('', Validators.required);
-  descriptionFormGroup = new FormGroup({
-    modulo: new FormControl('', [Validators.required]),
-    codigo: new FormControl('', [Validators.required]),
-    producto: new FormControl('', [Validators.required]),
-    cliente: new FormControl('', [Validators.required]),
+  fileFormControl = new UntypedFormControl(null, [Validators.required]);
+  nameForm = new UntypedFormControl('', Validators.required);
+  descriptionFormGroup = new UntypedFormGroup({
+    modulo: new UntypedFormControl('', [Validators.required]),
+    codigo: new UntypedFormControl('', [Validators.required]),
+    producto: new UntypedFormControl('', [Validators.required]),
+    cliente: new UntypedFormControl('', [Validators.required]),
     // DOCUMENTACIÓN APLICABLE
-    lista_piezas: new FormControl('', [Validators.required]),
-    plano_situacion: new FormControl('', [Validators.required]),
-    plano_electrico: new FormControl('', [Validators.required]),
-    lista_piezas_edicion: new FormControl('VER HL', [Validators.required]),
-    plano_situacion_edicion: new FormControl('VER HL', [Validators.required]),
-    plano_electrico_edicion: new FormControl('VER HL', [Validators.required]),
+    lista_piezas: new UntypedFormControl('', [Validators.required]),
+    plano_situacion: new UntypedFormControl('', [Validators.required]),
+    plano_electrico: new UntypedFormControl('', [Validators.required]),
+    lista_piezas_edicion: new UntypedFormControl('VER HL', [
+      Validators.required,
+    ]),
+    plano_situacion_edicion: new UntypedFormControl('VER HL', [
+      Validators.required,
+    ]),
+    plano_electrico_edicion: new UntypedFormControl('VER HL', [
+      Validators.required,
+    ]),
     // PROGRAMAS DE INSERTADO SMD Y TRADICIONAL
-    smd_comp: new FormControl('', [Validators.required]),
-    smd_sold: new FormControl('', [Validators.required]),
-    tradic: new FormControl('', [Validators.required]),
-    num_componentes: new FormControl(0, [Validators.required]),
-    smds: new FormControl(0, [Validators.required]),
-    smdc: new FormControl(0, [Validators.required]),
-    datos_pcb: new FormControl('', [Validators.required]),
-    serigrafia: new FormControl('', [Validators.required]),
-    reflujo: new FormControl('', [Validators.required]),
-    adhesivo: new FormControl('', [Validators.required]),
-    ola: new FormControl('', [Validators.required]),
-    preformado_max: new FormControl('', [Validators.required]),
+    smd_comp: new UntypedFormControl('', [Validators.required]),
+    smd_sold: new UntypedFormControl('', [Validators.required]),
+    tradic: new UntypedFormControl('', [Validators.required]),
+    num_componentes: new UntypedFormControl(0, [Validators.required]),
+    smds: new UntypedFormControl(0, [Validators.required]),
+    smdc: new UntypedFormControl(0, [Validators.required]),
+    datos_pcb: new UntypedFormControl('', [Validators.required]),
+    serigrafia: new UntypedFormControl('', [Validators.required]),
+    reflujo: new UntypedFormControl('', [Validators.required]),
+    adhesivo: new UntypedFormControl('', [Validators.required]),
+    ola: new UntypedFormControl('', [Validators.required]),
+    preformado_max: new UntypedFormControl('', [Validators.required]),
     // NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP)
-    norma_surtel: new FormControl('', [Validators.required]),
-    norma_cliente: new FormControl('', [Validators.required]),
-    id_documento_externo: new FormControl('', [Validators.required]),
+    norma_surtel: new UntypedFormControl('', [Validators.required]),
+    norma_cliente: new UntypedFormControl('', [Validators.required]),
+    id_documento_externo: new UntypedFormControl('', [Validators.required]),
     // CAMPO PEDIDO
-    unidad: new FormControl('uds'),
-    trazabilidad: new FormControl('', [Validators.required]),
+    unidad: new UntypedFormControl('uds'),
+    trazabilidad: new UntypedFormControl('', [Validators.required]),
   });
 
   constructor(

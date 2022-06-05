@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,11 +15,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class UserDetailsComponent {
   create_mode = false;
-  user_form = new FormGroup({
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    name: new FormControl('', Validators.required),
-    admin_role: new FormControl(false),
+  user_form = new UntypedFormGroup({
+    username: new UntypedFormControl('', Validators.required),
+    password: new UntypedFormControl('', Validators.required),
+    name: new UntypedFormControl('', Validators.required),
+    admin_role: new UntypedFormControl(false),
   });
   user_id: string;
 

@@ -1,5 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -56,39 +60,45 @@ export class EditDocumentComponent {
 
   msd_choices = [1, 2, 3, 4, 5, 6];
 
-  name = new FormControl('', Validators.required);
-  descriptionFormGroup = new FormGroup({
-    modulo: new FormControl('', [Validators.required]),
-    codigo: new FormControl('', [Validators.required]),
-    producto: new FormControl('', [Validators.required]),
-    cliente: new FormControl('', [Validators.required]),
+  name = new UntypedFormControl('', Validators.required);
+  descriptionFormGroup = new UntypedFormGroup({
+    modulo: new UntypedFormControl('', [Validators.required]),
+    codigo: new UntypedFormControl('', [Validators.required]),
+    producto: new UntypedFormControl('', [Validators.required]),
+    cliente: new UntypedFormControl('', [Validators.required]),
     // DOCUMENTACIÓN APLICABLE
-    lista_piezas: new FormControl('', [Validators.required]),
-    plano_situacion: new FormControl('', [Validators.required]),
-    plano_electrico: new FormControl('', [Validators.required]),
-    lista_piezas_edicion: new FormControl('VER HL', [Validators.required]),
-    plano_situacion_edicion: new FormControl('VER HL', [Validators.required]),
-    plano_electrico_edicion: new FormControl('VER HL', [Validators.required]),
+    lista_piezas: new UntypedFormControl('', [Validators.required]),
+    plano_situacion: new UntypedFormControl('', [Validators.required]),
+    plano_electrico: new UntypedFormControl('', [Validators.required]),
+    lista_piezas_edicion: new UntypedFormControl('VER HL', [
+      Validators.required,
+    ]),
+    plano_situacion_edicion: new UntypedFormControl('VER HL', [
+      Validators.required,
+    ]),
+    plano_electrico_edicion: new UntypedFormControl('VER HL', [
+      Validators.required,
+    ]),
     // PROGRAMAS DE INSERTADO SMD Y TRADICIONAL
-    smd_comp: new FormControl('', [Validators.required]),
-    smd_sold: new FormControl('', [Validators.required]),
-    tradic: new FormControl('', [Validators.required]),
-    num_componentes: new FormControl(0, [Validators.required]),
-    smds: new FormControl(0, [Validators.required]),
-    smdc: new FormControl(0, [Validators.required]),
-    datos_pcb: new FormControl('', [Validators.required]),
-    serigrafia: new FormControl('', [Validators.required]),
-    reflujo: new FormControl('', [Validators.required]),
-    adhesivo: new FormControl('', [Validators.required]),
-    ola: new FormControl('', [Validators.required]),
-    preformado_max: new FormControl('', [Validators.required]),
+    smd_comp: new UntypedFormControl('', [Validators.required]),
+    smd_sold: new UntypedFormControl('', [Validators.required]),
+    tradic: new UntypedFormControl('', [Validators.required]),
+    num_componentes: new UntypedFormControl(0, [Validators.required]),
+    smds: new UntypedFormControl(0, [Validators.required]),
+    smdc: new UntypedFormControl(0, [Validators.required]),
+    datos_pcb: new UntypedFormControl('', [Validators.required]),
+    serigrafia: new UntypedFormControl('', [Validators.required]),
+    reflujo: new UntypedFormControl('', [Validators.required]),
+    adhesivo: new UntypedFormControl('', [Validators.required]),
+    ola: new UntypedFormControl('', [Validators.required]),
+    preformado_max: new UntypedFormControl('', [Validators.required]),
     // NORMATIVA GENERAL APLICABLE AL PRODUCTO (WORKMANSHIP)
-    norma_surtel: new FormControl('', [Validators.required]),
-    norma_cliente: new FormControl('', [Validators.required]),
-    id_documento: new FormControl('', [Validators.required]),
-    id_documento_externo: new FormControl('', [Validators.required]),
+    norma_surtel: new UntypedFormControl('', [Validators.required]),
+    norma_cliente: new UntypedFormControl('', [Validators.required]),
+    id_documento: new UntypedFormControl('', [Validators.required]),
+    id_documento_externo: new UntypedFormControl('', [Validators.required]),
     // CAMPO PEDIDO
-    trazabilidad: new FormControl('', [Validators.required]),
+    trazabilidad: new UntypedFormControl('', [Validators.required]),
   });
 
   constructor(
@@ -241,10 +251,10 @@ export class EditDocumentComponent {
     this.dataSource = content.map((row) => {
       return {
         ...row,
-        UNIDAD: new FormControl(row.UNIDAD || null),
-        COMENTARIOS: new FormControl(row.COMENTARIOS || null),
-        MSD: new FormControl(row.MSD || null),
-        CONTENIDO: new FormControl(row.CONTENIDO || null),
+        UNIDAD: new UntypedFormControl(row.UNIDAD || null),
+        COMENTARIOS: new UntypedFormControl(row.COMENTARIOS || null),
+        MSD: new UntypedFormControl(row.MSD || null),
+        CONTENIDO: new UntypedFormControl(row.CONTENIDO || null),
       };
     });
   }
@@ -290,10 +300,10 @@ export class EditDocumentComponent {
     const copiedRow = this.copyRowService.getCopiedRow();
     const rowToPaste = {
       ...copiedRow,
-      UNIDAD: new FormControl(copiedRow.UNIDAD),
-      COMENTARIOS: new FormControl(copiedRow.COMENTARIOS),
-      MSD: new FormControl(copiedRow.MSD),
-      CONTENIDO: new FormControl(copiedRow.CONTENIDO),
+      UNIDAD: new UntypedFormControl(copiedRow.UNIDAD),
+      COMENTARIOS: new UntypedFormControl(copiedRow.COMENTARIOS),
+      MSD: new UntypedFormControl(copiedRow.MSD),
+      CONTENIDO: new UntypedFormControl(copiedRow.CONTENIDO),
     };
     if (position === 'start') {
       this.dataSource.unshift(rowToPaste);
@@ -315,10 +325,10 @@ export class EditDocumentComponent {
     if (result) {
       result = {
         ...result,
-        UNIDAD: new FormControl(result.UNIDAD),
-        COMENTARIOS: new FormControl(result.COMENTARIOS),
-        MSD: new FormControl(result.MSD),
-        CONTENIDO: new FormControl(result.CONTENIDO),
+        UNIDAD: new UntypedFormControl(result.UNIDAD),
+        COMENTARIOS: new UntypedFormControl(result.COMENTARIOS),
+        MSD: new UntypedFormControl(result.MSD),
+        CONTENIDO: new UntypedFormControl(result.CONTENIDO),
       };
       this.dataSource.push(result);
       this.table.renderRows();
@@ -335,10 +345,10 @@ export class EditDocumentComponent {
     if (result) {
       row = {
         ...result,
-        UNIDAD: new FormControl(result.UNIDAD),
-        COMENTARIOS: new FormControl(result.COMENTARIOS),
-        MSD: new FormControl(result.MSD),
-        CONTENIDO: new FormControl(result.CONTENIDO),
+        UNIDAD: new UntypedFormControl(result.UNIDAD),
+        COMENTARIOS: new UntypedFormControl(result.COMENTARIOS),
+        MSD: new UntypedFormControl(result.MSD),
+        CONTENIDO: new UntypedFormControl(result.CONTENIDO),
       };
       this.dataSource[index] = row;
       this.table.renderRows();

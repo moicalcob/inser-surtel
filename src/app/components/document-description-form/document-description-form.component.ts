@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-document-description-form',
@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./document-description-form.component.scss'],
 })
 export class DocumentDescriptionFormComponent {
-  @Input() descriptionFormGroup: FormGroup;
+  @Input() descriptionFormGroup: UntypedFormGroup;
 
   units = [
     {

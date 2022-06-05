@@ -1,5 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -9,9 +13,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class EditRevisionDialogComponent {
   revision;
-  revisionForm = new FormGroup({
-    reason: new FormControl('', Validators.required),
-    updated_at: new FormControl('', Validators.required),
+  revisionForm = new UntypedFormGroup({
+    reason: new UntypedFormControl('', Validators.required),
+    updated_at: new UntypedFormControl('', Validators.required),
   });
 
   constructor(

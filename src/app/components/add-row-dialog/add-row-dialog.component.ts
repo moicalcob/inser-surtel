@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -8,20 +12,20 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./add-row-dialog.component.scss'],
 })
 export class AddRowDialogComponent {
-  rowType = new FormControl('component');
+  rowType = new UntypedFormControl('component');
 
-  rowFormComponent = new FormGroup({
-    CODIGO: new FormControl('', Validators.required),
-    FASE: new FormControl('', Validators.required),
-    DENOMINACION: new FormControl('', Validators.required),
-    CANTIDAD: new FormControl(1, Validators.required),
-    REFERENCIA: new FormControl('', Validators.required),
-    UNIDAD: new FormControl('', Validators.required),
-    COMENTARIOS: new FormControl(''),
+  rowFormComponent = new UntypedFormGroup({
+    CODIGO: new UntypedFormControl('', Validators.required),
+    FASE: new UntypedFormControl('', Validators.required),
+    DENOMINACION: new UntypedFormControl('', Validators.required),
+    CANTIDAD: new UntypedFormControl(1, Validators.required),
+    REFERENCIA: new UntypedFormControl('', Validators.required),
+    UNIDAD: new UntypedFormControl('', Validators.required),
+    COMENTARIOS: new UntypedFormControl(''),
   });
 
-  rowFormText = new FormGroup({
-    CONTENIDO: new FormControl('', Validators.required),
+  rowFormText = new UntypedFormGroup({
+    CONTENIDO: new UntypedFormControl('', Validators.required),
   });
 
   units = [
