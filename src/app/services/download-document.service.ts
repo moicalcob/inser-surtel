@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { addInserTableBody } from '../utils/generateTableBody';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
-import b64ToBlob from 'b64-to-blob';
+import * as XLSX from 'xlsx';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,53 @@ export class DownloadDocumentService {
     private documentsService: InserDocumentsService,
     private snackbar: MatSnackBar,
   ) {}
+
+  public async downloadComponentsResume(documentId) {
+    try {
+      const document = await this.documentsService.getInserDocumentById(
+        documentId,
+      );
+      let index = 1;
+      document.content = document.content.map((row) => {
+        if (row.type === 'component') {
+          const component = {
+            'Nº línea': index,
+            Código: row.CODIGO,
+            Fase: row.FASE,
+            Denominación: row.DENOMINACION,
+            Referencia: row.REFERENCIA,
+            Cantidad: row.CANTIDAD,
+            Unidad: row.UNIDAD,
+            Comentarios: row.COMENTARIOS,
+            MSD: row.MSD,
+          };
+          index += 1;
+          return component;
+        } else {
+          const text = {
+            'Nº línea': index,
+            Código: row.CONTENIDO,
+            Fase: '',
+            Denominación: '',
+            Referencia: '',
+            Cantidad: '',
+            Unidad: '',
+            Comentarios: '',
+            MSD: '',
+          };
+          index += 1;
+          return text;
+        }
+      });
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(document.content);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Resumen de componentes');
+      const name = `${document.name}.xlsx`;
+      XLSX.writeFile(wb, name);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   public async downloadDocumentFiles(documentId: string, documentName: string) {
     try {

@@ -30,7 +30,7 @@ export class DocumentsComponent implements AfterViewInit {
     'select',
     'name',
     'codigo',
-    'codigo_externo',
+    'id_documento_externo',
     'created_at',
     'last_modification',
     'revisions',
@@ -127,6 +127,10 @@ export class DocumentsComponent implements AfterViewInit {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async downloadComponentsResume(documentId: string) {
+    await this.downloadDocumentService.downloadComponentsResume(documentId);
   }
 
   reloadTableData() {
