@@ -1,0 +1,30 @@
+<input
+  class="file-input"
+  #fileUpload
+  type="file"
+  (change)="fileChangeEvent($event)"
+/>
+
+<div class="file-upload">
+  {{ file?.name || 'Ningún archivo seleccionado.' }}
+
+  <button
+    mat-mini-fab
+    color="primary"
+    class="upload-btn"
+    (click)="fileUpload.click()"
+  >
+    <mat-icon>attach_file</mat-icon>
+  </button>
+</div>
+
+<image-cropper
+  [imageChangedEvent]="imageChangedEvent"
+  [maintainAspectRatio]="true"
+  [aspectRatio]="4 / 3"
+  format="jpeg"
+  (imageCropped)="imageCropped($event)"
+  (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+<img [src]="croppedImage" />

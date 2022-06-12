@@ -54,6 +54,9 @@ import { ShortcutDialogComponent } from './components/shortcut-dialog/shortcut-d
 import { FileUploadDialogComponent } from './components/file-upload-dialog/file-upload-dialog.component';
 import { EditRevisionDialogComponent } from './components/edit-revision-dialog/edit-revision-dialog.component';
 
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageEditorComponent } from './components/image-editor/image-editor.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +75,7 @@ import { EditRevisionDialogComponent } from './components/edit-revision-dialog/e
     ShortcutDialogComponent,
     FileUploadDialogComponent,
     EditRevisionDialogComponent,
+    ImageEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +104,7 @@ import { EditRevisionDialogComponent } from './components/edit-revision-dialog/e
     MatMenuModule,
     MatSlideToggleModule,
     DragDropModule,
+    ImageCropperModule,
   ],
   providers: [
     InserDocumentsService,
