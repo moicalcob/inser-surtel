@@ -140,3 +140,15 @@ $altTheme: mat.define-dark-theme($theme-primary, $theme-accent, $theme-warn);
         font-family: "Roboto";
     }
 }
+
+td.mat-cell {
+    border: none !important;
+}
+
+tr.mat-row {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+td.mat-cell:last-of-type {
+    padding-right: 0 !important;
+}
