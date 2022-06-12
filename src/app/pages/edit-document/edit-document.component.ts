@@ -23,7 +23,6 @@ import { MatTabGroup } from '@angular/material/tabs';
   selector: 'app-edit-document',
   templateUrl: './edit-document.component.html',
   styleUrls: ['./edit-document.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDocumentComponent {
   loaded = false;
@@ -44,7 +43,6 @@ export class EditDocumentComponent {
   ];
   dataSource = [];
   @ViewChild('table') table: MatTable<any>;
-  @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
 
   units = [
     {
@@ -249,7 +247,6 @@ export class EditDocumentComponent {
     this.generateContentFormArray(this.document.content);
     this.loadContentImages(this.dataSource);
     this.loaded = true;
-    this.matTabGroup.selectedIndex = 0;
   }
 
   private generateContentFormArray(content) {
@@ -316,9 +313,21 @@ export class EditDocumentComponent {
     this.table.renderRows();
   }
 
-  deleteRow(element) {
-    this.dataSource = this.dataSource.filter((row) => row !== element);
-    this.table.renderRows();
+  async deleteRow(element) {
+    const response = await this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          title: 'Borrar elemento',
+          text: '¿Seguro que quieres borrar esta línea del documento?',
+        },
+      })
+      .afterClosed()
+      .toPromise();
+
+    if (response) {
+      this.dataSource = this.dataSource.filter((row) => row !== element);
+      this.table.renderRows();
+    }
   }
 
   copyRow(element) {
