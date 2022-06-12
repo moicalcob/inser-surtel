@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -9,7 +10,10 @@ import { DocumentDescription } from '../interfaces/document-description';
   providedIn: 'root',
 })
 export class InserDocumentsService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private domSanitizer: DomSanitizer,
+  ) {}
 
   public getAllInserDocuments(): Promise<any> {
     return this.httpClient
@@ -168,5 +172,35 @@ export class InserDocumentsService {
         revision,
       })
       .toPromise();
+  }
+
+  public async getImage(documentId: string, imageId: string): Promise<SafeUrl> {
+    const blob = await this.httpClient
+      .get(
+        environment.API_URL +
+          '/inser-document/' +
+          documentId +
+          '/images/' +
+          imageId,
+        {
+          responseType: 'blob',
+        },
+      )
+      .toPromise();
+
+    return new Promise<SafeUrl>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        resolve(
+          this.domSanitizer.bypassSecurityTrustUrl(reader.result as string),
+        );
+      });
+
+      if (blob) {
+        reader.readAsDataURL(blob);
+      } else {
+        reject();
+      }
+    });
   }
 }

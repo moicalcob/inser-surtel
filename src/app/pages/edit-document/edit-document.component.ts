@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -17,11 +17,13 @@ import { RevisionConfirmationDialogComponent } from 'src/app/components/revision
 import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dialog/confirmation-dialog.component';
 import { FileUploadDialogComponent } from 'src/app/components/file-upload-dialog/file-upload-dialog.component';
 import { EditRevisionDialogComponent } from 'src/app/components/edit-revision-dialog/edit-revision-dialog.component';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-edit-document',
   templateUrl: './edit-document.component.html',
   styleUrls: ['./edit-document.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDocumentComponent {
   loaded = false;
@@ -42,6 +44,7 @@ export class EditDocumentComponent {
   ];
   dataSource = [];
   @ViewChild('table') table: MatTable<any>;
+  @ViewChild('matTabGroup') matTabGroup: MatTabGroup;
 
   units = [
     {
@@ -244,11 +247,19 @@ export class EditDocumentComponent {
       trazabilidad: this.document.description.trazabilidad || '',
     });
     this.generateContentFormArray(this.document.content);
+    this.loadContentImages(this.dataSource);
     this.loaded = true;
+    this.matTabGroup.selectedIndex = 0;
   }
 
   private generateContentFormArray(content) {
     this.dataSource = content.map((row) => {
+      if (row.type === 'image') {
+        return {
+          type: row.type,
+          imageId: row.imageId,
+        };
+      }
       return {
         ...row,
         UNIDAD: new UntypedFormControl(row.UNIDAD || null),
@@ -259,8 +270,36 @@ export class EditDocumentComponent {
     });
   }
 
+  private async loadContentImages(dataSource) {
+    this.dataSource = await Promise.all(
+      dataSource.map(async (row) => {
+        if (row.type === 'image') {
+          try {
+            const base64content = await this.inserDocumentsService.getImage(
+              this.documentId,
+              row.imageId,
+            );
+            return {
+              ...row,
+              imageBase64: base64content,
+            };
+          } catch (error) {
+            // Fail silently
+            return row;
+          }
+        }
+        return row;
+      }),
+    );
+  }
+
   private getNewContent() {
     return this.dataSource.map((row) => {
+      if (row.type === 'image') {
+        return {
+          ...row,
+        };
+      }
       return {
         ...row,
         UNIDAD: row.UNIDAD.value,
@@ -322,7 +361,7 @@ export class EditDocumentComponent {
     });
 
     let result = await dialogRef.afterClosed().toPromise();
-    if (result) {
+    if (result && result.type !== 'image') {
       result = {
         ...result,
         UNIDAD: new UntypedFormControl(result.UNIDAD),
@@ -330,6 +369,9 @@ export class EditDocumentComponent {
         MSD: new UntypedFormControl(result.MSD),
         CONTENIDO: new UntypedFormControl(result.CONTENIDO),
       };
+      this.dataSource.push(result);
+      this.table.renderRows();
+    } else if (result && result.type === 'image') {
       this.dataSource.push(result);
       this.table.renderRows();
     }

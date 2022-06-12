@@ -1,4 +1,4 @@
-import autoTable from 'jspdf-autotable';
+import autoTable, { UserOptions } from 'jspdf-autotable';
 
 export function addInserTableBody(doc, document) {
   let headerShown = 'pending';
@@ -15,7 +15,7 @@ export function addInserTableBody(doc, document) {
 function addContentRow(doc, row, index, headerShown) {
   let finalY = doc.lastAutoTable.finalY;
 
-  const rowPdf: any = {
+  const rowPdf: UserOptions = {
     head: [
       [
         '',
@@ -40,7 +40,31 @@ function addContentRow(doc, row, index, headerShown) {
     rowPdf.startY = finalY;
   }
 
-  autoTable(doc, rowPdf);
+  if (row.type === 'image') {
+    rowPdf.didDrawCell = (data) => {
+      if (data.section === 'body' && data.column.index === 1) {
+        const safeUrl = row.imageBase64.changingThisBreaksApplicationSecurity;
+        var base64Img = safeUrl.replace(
+          'data:application/octet-stream;base64',
+          'data:image/jpeg;base64',
+        );
+        doc.addImage(
+          base64Img,
+          'JPEG',
+          data.cell.x + 2,
+          data.cell.y + 2,
+          120,
+          90,
+        );
+      }
+    };
+    rowPdf.styles = {
+      minCellHeight: 94,
+    };
+    autoTable(doc, rowPdf);
+  } else {
+    autoTable(doc, rowPdf);
+  }
 
   finalY = doc.lastAutoTable.finalY;
 

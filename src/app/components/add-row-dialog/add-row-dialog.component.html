@@ -5,6 +5,7 @@
     <mat-select [formControl]="rowType">
       <mat-option [value]="'component'"> Componente </mat-option>
       <mat-option [value]="'text'"> Texto </mat-option>
+      <mat-option [value]="'image'"> Imagen </mat-option>
     </mat-select>
   </mat-form-field>
   <form
@@ -73,8 +74,18 @@
       ></textarea>
     </mat-form-field>
   </form>
+  <app-image-editor
+    *ngIf="rowType.value === 'image'"
+    (imageCroppedEvent)="rowFormImage.setValue($event)"
+  ></app-image-editor>
 </div>
 <div mat-dialog-actions class="flex flex-row justify-around">
   <button mat-button (click)="cancel()">Cancelar</button>
-  <button mat-button (click)="confirm()">Confirmar</button>
+  <button
+    mat-button
+    (click)="confirm()"
+    [disabled]="rowType.value === 'image' && rowFormImage.invalid"
+  >
+    Confirmar
+  </button>
 </div>

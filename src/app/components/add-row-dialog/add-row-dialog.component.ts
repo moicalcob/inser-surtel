@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import {
+  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -12,7 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./add-row-dialog.component.scss'],
 })
 export class AddRowDialogComponent {
-  rowType = new UntypedFormControl('component');
+  rowType = new FormControl('component');
 
   rowFormComponent = new UntypedFormGroup({
     CODIGO: new UntypedFormControl('', Validators.required),
@@ -27,6 +28,8 @@ export class AddRowDialogComponent {
   rowFormText = new UntypedFormGroup({
     CONTENIDO: new UntypedFormControl('', Validators.required),
   });
+
+  rowFormImage = new FormControl<string>(null, Validators.required);
 
   units = [
     {
@@ -73,6 +76,13 @@ export class AddRowDialogComponent {
   }
 
   confirm(): void {
+    if (this.rowType.value === 'image' && this.rowFormImage.valid) {
+      this.dialogRef.close({
+        type: 'image',
+        imageBase64: this.rowFormImage.value,
+        newImage: true,
+      });
+    }
     const form =
       this.rowType.value === 'component'
         ? this.rowFormComponent

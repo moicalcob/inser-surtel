@@ -87,6 +87,21 @@ export class DownloadDocumentService {
       const document: any = await this.documentsService.getInserDocumentById(
         document_id,
       );
+      document.content = await Promise.all(
+        document.content.map(async (row) => {
+          if (row.type !== 'image') {
+            return { ...row };
+          }
+          const base64content = await this.documentsService.getImage(
+            document_id,
+            row.imageId,
+          );
+          return {
+            ...row,
+            imageBase64: base64content,
+          };
+        }),
+      );
       const doc: any = new jsPDF();
       const formattedDate = moment(new Date()).format('HH:mm DD/MM/YYYY');
 

@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group #matTabGroup mat-align-tabs="center">
   <mat-tab label="Descripción">
     <div class="px-4 pt-4 w-full">
       <mat-form-field appearance="outline" class="w-full">
@@ -185,7 +185,7 @@
       <button
         mat-mini-fab
         [ngStyle]="{ transform: 'scale(0.8)' }"
-        color="warn"
+        color="accent"
         style="margin-left: 8px !important"
         [matMenuTriggerFor]="moreOptionsMenu"
       >
@@ -292,8 +292,17 @@
           <td
             mat-cell
             *matCellDef="let element"
-            [ngClass]="{ 'comments-row': element.type === 'text' }"
+            [ngClass]="{
+              'comments-row':
+                element.type === 'text' || element.type === 'image',
+              'uploaded-image-td': element.type === 'image'
+            }"
           >
+            <img
+              class="uploaded-image"
+              [src]="element.imageBase64"
+              *ngIf="element.type === 'image' && element.imageBase64"
+            />
             <textarea
               *ngIf="element.type === 'component'"
               class="mt-2"
@@ -327,9 +336,9 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element; let i = index">
-            <div class="flex flex-row">
+            <div class="flex flex-row justify-center">
               <button
-                *ngIf="authService.isAdmin()"
+                *ngIf="authService.isAdmin() && element.type !== 'image'"
                 class="action-button"
                 mat-flat-button
                 (click)="editRow(element, i)"
@@ -345,7 +354,7 @@
                 <mat-icon>delete</mat-icon>
               </button>
               <button
-                *ngIf="authService.isAdmin()"
+                *ngIf="authService.isAdmin() && element.type !== 'image'"
                 class="action-button"
                 mat-flat-button
                 (click)="copyRow(element)"
@@ -362,6 +371,9 @@
           *matRowDef="let row; columns: displayedColumns; let i = index"
           cdkDrag
           [cdkDragData]="row"
+          [ngClass]="{
+            'image-tr': row.type === 'image'
+          }"
         ></tr>
       </table>
     </div>
