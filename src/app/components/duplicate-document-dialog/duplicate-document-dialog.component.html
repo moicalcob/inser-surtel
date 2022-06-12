@@ -4,6 +4,10 @@
     <mat-label>Nombre</mat-label>
     <input matInput [formControl]="nameForm" />
   </mat-form-field>
+  <p>
+    Al duplicar el documento, se omitirán todas las imágenes que el documento
+    contenga.
+  </p>
 </div>
 <div mat-dialog-actions class="flex flex-row justify-around">
   <button mat-button (click)="cancel()">Cancelar</button>

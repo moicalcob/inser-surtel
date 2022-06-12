@@ -187,7 +187,7 @@ export class EditDocumentComponent {
         width: '250px',
         data: {
           title: 'Activar revisión',
-          text: '¿Seguro que quieres marcar esta revisión como activa?',
+          text: '¿Seguro que quieres marcar esta revisión como activa? Se omitirán las imágenes de la revisión anterior.',
         },
       });
 

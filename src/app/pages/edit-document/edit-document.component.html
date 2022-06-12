@@ -385,7 +385,7 @@
         *ngIf="document?.revisions?.length > 0"
       >
         <mat-list-item
-          *ngFor="let revision of document?.revisions.reverse(); let i = index"
+          *ngFor="let revision of document?.revisions; let i = index"
         >
           <mat-icon mat-list-icon>folder</mat-icon>
           <span mat-line
