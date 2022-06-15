@@ -359,7 +359,7 @@ export class DownloadDocumentService {
   }
 
   private getRevisionsBody(revisions) {
-    return revisions.reverse().map((row, index) => {
+    return revisions.map((row, index) => {
       const formattedDate = moment(row.updated_at).format('HH:mm DD/MM/YYYY');
       const result = [];
       result.push(revisions.length - index + 49);
