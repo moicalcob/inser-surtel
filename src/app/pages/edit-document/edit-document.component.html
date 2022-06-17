@@ -167,20 +167,21 @@
       <button
         *ngIf="copyRowService.rowAvailableToPaste()"
         mat-flat-button
-        color="primary"
+        (click)="pasteRow('start')"
         style="margin-left: 8px !important"
-        [matMenuTriggerFor]="pasteMenu"
+        color="accent"
       >
-        Pegar fila
+        <span>Pegal al inicio</span>
       </button>
-      <mat-menu #pasteMenu="matMenu">
-        <button mat-menu-item (click)="pasteRow('start')">
-          <span>Pegal al inicio</span>
-        </button>
-        <button mat-menu-item (click)="pasteRow('end')">
-          <span>Pegar al final</span>
-        </button>
-      </mat-menu>
+      <button
+        *ngIf="copyRowService.rowAvailableToPaste()"
+        mat-flat-button
+        (click)="pasteRow('end')"
+        style="margin-left: 8px !important"
+        color="accent"
+      >
+        <span>Pegar al final</span>
+      </button>
 
       <button
         mat-mini-fab
