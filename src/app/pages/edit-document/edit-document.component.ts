@@ -17,7 +17,7 @@ import { RevisionConfirmationDialogComponent } from 'src/app/components/revision
 import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dialog/confirmation-dialog.component';
 import { FileUploadDialogComponent } from 'src/app/components/file-upload-dialog/file-upload-dialog.component';
 import { EditRevisionDialogComponent } from 'src/app/components/edit-revision-dialog/edit-revision-dialog.component';
-import { MatTabGroup } from '@angular/material/tabs';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-edit-document',
@@ -30,6 +30,7 @@ export class EditDocumentComponent {
   document;
   documentId;
   displayedColumns: string[] = [
+    'select',
     'position',
     'CODIGO',
     'FASE',
@@ -101,6 +102,8 @@ export class EditDocumentComponent {
     // CAMPO PEDIDO
     trazabilidad: new UntypedFormControl('', [Validators.required]),
   });
+
+  selection = new SelectionModel<any>(true, []);
 
   constructor(
     private inserDocumentsService: InserDocumentsService,
@@ -331,6 +334,24 @@ export class EditDocumentComponent {
   }
 
   copyRow(element) {
+    if (this.selection.selected.length > 0) {
+      const copiedRows = this.selection.selected.map((row) => {
+        return {
+          ...row,
+          COMENTARIOS: row?.COMENTARIOS?.value || '',
+          CONTENIDO: row?.CONTENIDO?.value || '',
+          MSD: row?.MSD?.value || '',
+          UNIDAD: row?.UNIDAD?.value || '',
+        };
+      });
+      this.copyRowService.storeCopiedRow(copiedRows);
+      this._snackbar.open('Múltiples filas copiadas', null, {
+        duration: 3000,
+      });
+      this.selection.clear();
+      return;
+    }
+
     const copiedRow = {
       ...element,
       COMENTARIOS: element?.COMENTARIOS?.value || '',
@@ -345,7 +366,32 @@ export class EditDocumentComponent {
   }
 
   pasteRow(position: string) {
+    let messageToShow = '';
     const copiedRow = this.copyRowService.getCopiedRow();
+    if (Array.isArray(copiedRow)) {
+      const newRows = copiedRow.map((row) => {
+        return {
+          ...row,
+          UNIDAD: new UntypedFormControl(row.UNIDAD),
+          COMENTARIOS: new UntypedFormControl(row.COMENTARIOS),
+          MSD: new UntypedFormControl(row.MSD),
+          CONTENIDO: new UntypedFormControl(row.CONTENIDO),
+        };
+      });
+      if (position === 'start') {
+        this.dataSource = [...newRows, ...this.dataSource];
+        messageToShow = 'Fila pegada al principio';
+      } else if (position === 'end') {
+        this.dataSource = [...this.dataSource, ...newRows];
+        messageToShow = 'Fila pegada al final';
+      }
+      this.table.renderRows();
+      this._snackbar.open('Fila pegada tras el último elemento', null, {
+        duration: 3000,
+      });
+      return;
+    }
+
     const rowToPaste = {
       ...copiedRow,
       UNIDAD: new UntypedFormControl(copiedRow.UNIDAD),
@@ -355,11 +401,13 @@ export class EditDocumentComponent {
     };
     if (position === 'start') {
       this.dataSource.unshift(rowToPaste);
+      messageToShow = 'Fila pegada al principio';
     } else if (position === 'end') {
       this.dataSource.push(rowToPaste);
+      messageToShow = 'Fila pegada al final';
     }
     this.table.renderRows();
-    this._snackbar.open('Fila pegada tras el último elemento', null, {
+    this._snackbar.open(messageToShow, null, {
       duration: 3000,
     });
   }
@@ -452,7 +500,13 @@ export class EditDocumentComponent {
         const newRow = { ...row, FASE: newFase };
         return newRow;
       });
-      this.dataSource = updatedData;
+      const componentsWithSCFase = updatedData.filter(
+        (row) => row.FASE === 'SC',
+      );
+      this.dataSource = [
+        ...componentsWithSCFase,
+        ...updatedData.filter((row) => row.FASE !== 'SC'),
+      ];
       this.table.renderRows();
     }
   }
@@ -478,5 +532,11 @@ export class EditDocumentComponent {
         duration: 3000,
       });
     }
+  }
+
+  checkboxLabel(row?: any): string {
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
   }
 }

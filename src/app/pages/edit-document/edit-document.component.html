@@ -219,11 +219,24 @@
         *ngIf="dataSource?.length > 0"
         mat-table
         [dataSource]="dataSource"
-        class="mat-elevation-z8 w-full mt-4"
+        class="document-content-table mat-elevation-z8 w-full mt-4"
         cdkDropList
         [cdkDropListData]="dataSource"
         (cdkDropListDropped)="dropTable($event)"
       >
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>Nº línea</th>
           <td mat-cell *matCellDef="let element; let i = index">

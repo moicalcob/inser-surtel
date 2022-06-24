@@ -16,17 +16,7 @@ function addContentRow(doc, row, index, headerShown) {
   let finalY = doc.lastAutoTable.finalY;
 
   const rowPdf: UserOptions = {
-    head: [
-      [
-        '',
-        'C.TOTAL',
-        'FASE',
-        'REFERENCIA',
-        'DENOMINACION',
-        'COMENTARIOS',
-        'MSD',
-      ],
-    ],
+    head: [['', 'C.TOTAL', 'FASE', 'REFERENCIA', 'DENOMINACION', 'MSD']],
     columnStyles: getColumnStyles(index),
     body: [getRowBody(row, index)],
     margin: {
@@ -88,6 +78,25 @@ function addContentRow(doc, row, index, headerShown) {
       },
       startY: finalY,
     });
+    finalY = doc.lastAutoTable.finalY;
+    autoTable(doc, {
+      showHead: false,
+      head: [['', '']],
+      body: [[' ', row.COMENTARIOS ? 'Comentarios: ' + row.COMENTARIOS : '']],
+      columnStyles: {
+        0: {
+          cellWidth: 12,
+          fillColor: [41, 128, 185],
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        1: {
+          cellWidth: 170,
+          fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
+        },
+      },
+      startY: finalY,
+    });
   }
 }
 
@@ -101,7 +110,6 @@ function getRowBody(row, index) {
     result.push(row.FASE || '');
     result.push(row.REFERENCIA || '');
     result.push(row.DENOMINACION || '');
-    result.push(row.COMENTARIOS || '');
     result.push(row.MSD || '');
     result.push(row.CODIGO || '');
   } else {
@@ -111,6 +119,7 @@ function getRowBody(row, index) {
       styles: {
         halign: 'left',
         textColor: [0, 0, 0],
+        fontStyle: 'bold',
       },
     });
   }
@@ -127,26 +136,22 @@ function getColumnStyles(index?): any {
       fontStyle: 'bold',
     },
     1: {
-      cellWidth: 20,
+      cellWidth: 30,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
     2: {
-      cellWidth: 20,
-      fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
-    },
-    3: {
-      cellWidth: 40,
-      fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
-    },
-    4: {
-      cellWidth: 40,
-      fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
-    },
-    5: {
       cellWidth: 35,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
-    6: {
+    3: {
+      cellWidth: 45,
+      fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
+    },
+    4: {
+      cellWidth: 45,
+      fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
+    },
+    5: {
       cellWidth: 15,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
