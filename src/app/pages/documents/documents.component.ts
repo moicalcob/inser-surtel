@@ -142,7 +142,8 @@ export class DocumentsComponent implements AfterViewInit {
         data.name +
         data.description.id_documento +
         data.description.codigo +
-        data.description.cliente
+        data.description.cliente +
+        data.content.map((component) => component?.CODIGO).join('')
       ).toLowerCase();
 
       const transformedFilter = filter.trim().toLowerCase();
@@ -193,5 +194,22 @@ export class DocumentsComponent implements AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.position + 1
     }`;
+  }
+
+  generateDocumentsResume() {
+    const documentsResume = this.documents.map((document) => {
+      return {
+        Cliente: document.description.cliente,
+        'Código placa': document.description.modulo,
+        'Código documento': document.description.id_documento_externo,
+        'SMD Comp': document.description.smd_comp,
+        'SMD Sold': document.description.smd_sold,
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(documentsResume);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Listado de documentos');
+    const name = `Listado_documentos_${new Date().toLocaleDateString()}.xlsx`;
+    XLSX.writeFile(wb, name);
   }
 }

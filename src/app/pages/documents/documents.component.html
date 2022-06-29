@@ -159,4 +159,13 @@
   >
     Generar resumen de necesidades
   </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    *ngIf="selection.isEmpty()"
+    (click)="generateDocumentsResume()"
+  >
+    Generar resumen de documentos
+  </button>
 </div>

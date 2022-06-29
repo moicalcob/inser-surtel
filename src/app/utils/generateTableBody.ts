@@ -16,12 +16,13 @@ function addContentRow(doc, row, index, headerShown) {
   let finalY = doc.lastAutoTable.finalY;
 
   const rowPdf: UserOptions = {
-    head: [['', 'C.TOTAL', 'FASE', 'REFERENCIA', 'DENOMINACION', 'MSD']],
+    head: [['', 'C.TOTAL', 'FASE', 'DENOMINACION', 'REFERENCIA', 'MSD']],
     columnStyles: getColumnStyles(index),
     body: [getRowBody(row, index)],
     margin: {
       top: 30,
     },
+    pageBreak: 'avoid',
   };
 
   rowPdf.showHead = headerShown === 'show' ? true : false;
@@ -108,8 +109,8 @@ function getRowBody(row, index) {
       row.CANTIDAD && row.UNIDAD ? row.CANTIDAD + ' ' + row.UNIDAD : '',
     );
     result.push(row.FASE || '');
-    result.push(row.REFERENCIA || '');
     result.push(row.DENOMINACION || '');
+    result.push(row.REFERENCIA || '');
     result.push(row.MSD || '');
     result.push(row.CODIGO || '');
   } else {
@@ -136,19 +137,19 @@ function getColumnStyles(index?): any {
       fontStyle: 'bold',
     },
     1: {
-      cellWidth: 30,
+      cellWidth: 20,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
     2: {
-      cellWidth: 35,
+      cellWidth: 15,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
     3: {
-      cellWidth: 45,
+      cellWidth: 60,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
     4: {
-      cellWidth: 45,
+      cellWidth: 60,
       fillColor: index % 2 === 0 ? [255, 255, 255] : [242, 242, 242],
     },
     5: {
