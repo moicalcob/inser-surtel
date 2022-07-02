@@ -1,12 +1,23 @@
 import autoTable, { UserOptions } from 'jspdf-autotable';
 
 export function addInserTableBody(doc, document) {
-  let headerShown = 'pending';
+  let headerShown = {
+    SC: 'pending',
+    SS: 'pending',
+    IN: 'pending',
+    PM: 'pending',
+  };
   document.content.forEach((rowContent, index) => {
-    if (headerShown === 'pending' && rowContent.type === 'component') {
-      headerShown = 'show';
-    } else if (headerShown === 'show') {
-      headerShown = 'hide';
+    if (
+      rowContent.type === 'component' &&
+      headerShown[rowContent?.FASE] === 'pending'
+    ) {
+      headerShown[rowContent?.FASE] = 'show';
+    } else if (
+      rowContent.type === 'component' &&
+      headerShown[rowContent?.FASE] === 'show'
+    ) {
+      headerShown[rowContent?.FASE] = 'hide';
     }
     addContentRow(doc, rowContent, index, headerShown);
   });
@@ -25,7 +36,8 @@ function addContentRow(doc, row, index, headerShown) {
     pageBreak: 'avoid',
   };
 
-  rowPdf.showHead = headerShown === 'show' ? true : false;
+  rowPdf.showHead =
+    row.type === 'component' && headerShown[row.FASE] === 'show' ? true : false;
 
   if (index !== 0) {
     rowPdf.startY = finalY;
@@ -99,6 +111,15 @@ function addContentRow(doc, row, index, headerShown) {
       startY: finalY,
     });
   }
+
+  doc.setLineWidth(1);
+  doc.setDrawColor(0, 0, 0);
+  doc.line(
+    14,
+    doc.lastAutoTable.finalY,
+    doc.internal.pageSize.getWidth() - 14,
+    doc.lastAutoTable.finalY,
+  );
 }
 
 function getRowBody(row, index) {
