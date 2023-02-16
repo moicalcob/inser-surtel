@@ -425,10 +425,15 @@ export class EditDocumentComponent {
         COMENTARIOS: new UntypedFormControl(result.COMENTARIOS),
         MSD: new UntypedFormControl(result.MSD),
         CONTENIDO: new UntypedFormControl(result.CONTENIDO),
+        created_at: new Date(),
       };
       this.dataSource.push(result);
       this.table.renderRows();
     } else if (result && result.type === 'image') {
+      result = {
+        ...result,
+        created_at: new Date(),
+      };
       this.dataSource.push(result);
       this.table.renderRows();
     }
@@ -448,6 +453,7 @@ export class EditDocumentComponent {
         COMENTARIOS: new UntypedFormControl(result.COMENTARIOS),
         MSD: new UntypedFormControl(result.MSD),
         CONTENIDO: new UntypedFormControl(result.CONTENIDO),
+        updated_at: new Date(),
       };
       this.dataSource[index] = row;
       this.table.renderRows();
@@ -466,14 +472,18 @@ export class EditDocumentComponent {
     });
   }
 
-  attachFiles() {
-    this.dialog.open(FileUploadDialogComponent, {
-      width: '450px',
-      data: {
-        documentId: this.document._id,
-        attachedFiles: this.document.attached_files || [],
-      },
-    });
+  async attachFiles() {
+    const dialog = await this.dialog
+      .open(FileUploadDialogComponent, {
+        width: '450px',
+        data: {
+          documentId: this.document._id,
+          attachedFiles: this.document.attached_files || [],
+        },
+      })
+      .afterClosed()
+      .toPromise();
+    await this.getDocument();
   }
 
   async exchangeFases() {
@@ -538,5 +548,20 @@ export class EditDocumentComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.position + 1
     }`;
+  }
+
+  async deleteAttachedFile(attachedFileName) {
+    try {
+      await this.inserDocumentsService.deleteAttachedFile(
+        this.documentId,
+        attachedFileName,
+      );
+
+      await this.getDocument();
+    } catch (error) {
+      this._snackbar.open('Error al eliminar el fichero adjunto', null, {
+        duration: 3000,
+      });
+    }
   }
 }

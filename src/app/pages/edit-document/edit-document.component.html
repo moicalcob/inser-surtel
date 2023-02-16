@@ -452,6 +452,54 @@
       </mat-list>
     </div>
   </mat-tab>
+  <mat-tab label="Ficheros adjuntos">
+    <div class="p-4">
+      <mat-list
+        class="mat-elevation-z4 w-full mt-4"
+        *ngIf="document?.attached_files?.length > 0"
+      >
+        <mat-list-item
+          *ngFor="let attached_file of document?.attached_files; let i = index"
+        >
+          <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+          <span mat-line>{{ attached_file }}</span>
+          <div class="flex flex-row items-center">
+            <button
+              *ngIf="authService.isAdmin()"
+              class="p-0"
+              mat-flat-button
+              (click)="deleteAttachedFile(attached_file)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-list
+        class="mat-elevation-z8 w-full mt-4"
+        *ngIf="
+          document?.attached_files?.length === 0 || !document?.attached_files
+        "
+      >
+        <mat-list-item>
+          <div mat-line>Este documento no tiene ficheros adjuntos</div>
+        </mat-list-item>
+      </mat-list>
+
+      <div class="pb-4 pt-4 w-full flex flex-row items-center justify-around">
+        <button
+          mat-flat-button
+          color="warn"
+          class="mt-4"
+          (click)="attachFiles()"
+        >
+          <mat-icon>cloud_upload</mat-icon>
+          Adjuntar ficheros
+        </button>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>
 
 <div class="pb-4 w-full flex flex-row items-center justify-around">

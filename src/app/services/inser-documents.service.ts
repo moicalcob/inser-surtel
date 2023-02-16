@@ -203,4 +203,23 @@ export class InserDocumentsService {
       }
     });
   }
+
+  public async deleteAttachedFile(
+    documentId: string,
+    attachedFileName: string,
+  ): Promise<any> {
+    return this.httpClient
+      .delete(
+        environment.API_URL +
+          '/inser-document/' +
+          documentId +
+          '/attached-file',
+        {
+          params: {
+            filename: attachedFileName,
+          },
+        },
+      )
+      .toPromise();
+  }
 }
