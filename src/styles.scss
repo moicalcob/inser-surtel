@@ -84,7 +84,7 @@ $mat-accent: (
 $theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
 
 body {
-    --warn-color: #d46822;
+    --warn-color: #F1D302;
     --warn-lighter-color: #f2d2bd;
     --warn-darker-color: #c34b14;
     --text-warn-color: #{rgba(black, 0.87)};
@@ -92,14 +92,14 @@ body {
     --text-warn-darker-color: #{white};
 }
 $mat-warn: (
-    main: #d46822,
+    main: #F1D302,
     lighter: #f2d2bd,
     darker: #c34b14,
-    200: #d46822,
+    200: #F1D302,
     // For slide toggle,
     contrast:
         (
-            main: rgba(black, 0.87),
+            main: white,
             lighter: rgba(black, 0.87),
             darker: white,
         ),
